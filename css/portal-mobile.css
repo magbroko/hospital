@@ -1,0 +1,321 @@
+/* ============================================
+   PORTAL MOBILE - Healthcare UI Standards
+   Slide-out menu, overlay, bottom nav, card-based
+   ============================================ */
+
+:root {
+  --soft-white: #F3FDFC;
+  --primary-teal: #0ABAB5;
+  --status-red: #EF4444;
+}
+
+/* Apply to all portal pages */
+.portal-body {
+  --portal-card-radius: 16px;
+  --portal-touch-min: 44px;
+}
+
+/* ========== MOBILE (< 768px) - Slide-out Sidebar ========== */
+@media (max-width: 767px) {
+  .portal-body .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 280px;
+    z-index: 1050;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .portal-body .sidebar.portal-menu-open {
+    transform: translateX(0);
+  }
+
+  .portal-body .main-content {
+    margin-left: 0 !important;
+  }
+
+  .portal-body .header-search {
+    display: none;
+  }
+
+  /* Overlay - semi-transparent backdrop when menu open */
+  .portal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    z-index: 1040;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .portal-overlay.portal-overlay-active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Hamburger - teal floating button */
+  .portal-hamburger {
+    display: flex !important;
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    z-index: 1001;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--primary-teal), #026873);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 20px rgba(10, 186, 181, 0.4);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .portal-hamburger:hover {
+    transform: scale(1.05);
+  }
+
+  /* Page background - layered depth */
+  .portal-body {
+    background: var(--soft-white);
+  }
+
+  .portal-body .main-content > .p-4,
+  .portal-body .main-content > div:last-child {
+    background: var(--soft-white);
+  }
+
+  .portal-card {
+    border-radius: var(--portal-card-radius);
+    background: white;
+  }
+
+  /* Touch targets - min 44px */
+  .portal-body button,
+  .portal-body .btn,
+  .portal-body a.btn {
+    min-height: var(--portal-touch-min);
+    padding: 12px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Tables -> Cards on mobile */
+  .portal-body .portal-table-wrap {
+    display: none !important;
+  }
+
+  .portal-body .portal-cards-mobile {
+    display: block !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .portal-overlay,
+  .portal-hamburger {
+    display: none !important;
+  }
+
+  .portal-cards-mobile {
+    display: none;
+  }
+
+  .portal-table-wrap {
+    display: block;
+  }
+
+  .portal-accordion-mobile {
+    display: none !important;
+  }
+
+  .portal-desktop-only {
+    display: block !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .portal-accordion-mobile {
+    display: block !important;
+  }
+
+  .portal-desktop-only {
+    display: none !important;
+  }
+}
+
+/* ========== Record Card - Mobile ========== */
+.portal-record-card {
+  background: white;
+  border-radius: var(--portal-card-radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.portal-record-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.portal-record-card-status {
+  flex-shrink: 0;
+}
+
+.portal-record-card-date {
+  font-size: 0.8125rem;
+  color: #64748B;
+}
+
+.portal-record-card-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #0F172A;
+  margin-bottom: 4px;
+}
+
+.portal-record-card-meta {
+  font-size: 0.8125rem;
+  color: #64748B;
+}
+
+/* Accordion */
+.portal-accordion-item {
+  background: white;
+  border-radius: var(--portal-card-radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.portal-accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  min-height: var(--portal-touch-min);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.portal-accordion-header:hover {
+  background: rgba(10, 186, 181, 0.05);
+}
+
+.portal-accordion-header i.fa-chevron-down {
+  transition: transform 0.3s ease;
+}
+
+.portal-accordion-item.open .portal-accordion-header i.fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+.portal-accordion-body {
+  display: none;
+  padding: 0 20px 20px;
+}
+
+.portal-accordion-item.open .portal-accordion-body {
+  display: block;
+}
+
+/* Billing action card */
+.portal-billing-card {
+  background: white;
+  border-radius: var(--portal-card-radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.portal-billing-card .portal-action-btn {
+  width: 100%;
+  min-height: var(--portal-touch-min);
+  margin-top: 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Accessibility: 4.5:1 contrast (WCAG AA), 44px min touch targets */
+.portal-body .portal-record-card-title {
+  color: #0F172A;
+}
+
+.portal-body .portal-record-card-meta {
+  color: #475569;
+}
+
+@media (max-width: 767px) {
+  .portal-body .portal-accordion-header {
+    min-height: var(--portal-touch-min);
+  }
+
+  .portal-body .portal-action-btn,
+  .portal-body .btn-portal-primary,
+  .portal-body .btn-portal-outline {
+    min-height: var(--portal-touch-min);
+  }
+}
+
+/* Appointments timeline */
+.portal-appt-timeline {
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+}
+
+.portal-appt-timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary-teal), transparent);
+}
+
+.portal-appt-timeline-item {
+  position: relative;
+  padding-left: 40px;
+  margin-bottom: 24px;
+}
+
+.portal-appt-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--primary-teal);
+  box-shadow: 0 0 0 2px rgba(10, 186, 181, 0.2);
+}
+
+.portal-appt-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.portal-appt-actions .btn {
+  flex: 1;
+  min-width: 140px;
+  min-height: var(--portal-touch-min);
+}

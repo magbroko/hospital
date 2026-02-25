@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Premium hospital with world-class medical care, cutting-edge technology, and compassionate staff. Book appointments, find doctors, access EMR.">
+  <title>MediCare Hospital | Excellence in Healthcare, Delivered Daily</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar: Glassmorphic, sticky, shrinks on scroll -->
+  <nav class="navbar navbar-expand-lg" id="mainNavbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand" href="index.html" aria-label="MediCare Hospital - Home">
+        <i class="fas fa-hospital" aria-hidden="true"></i>
+        MediCare
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" role="menubar">
+          <li class="nav-item" role="none">
+            <a class="nav-link active" href="index.html" role="menuitem">Home</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="about.html" role="menuitem">About</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="services.html" role="menuitem">Services</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="emr-patient-dashboard.html" role="menuitem">Patient Portal</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="admin-dashboard.html" role="menuitem">Staff Login</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="btn btn-primary ms-2" href="#appointment-widget" role="menuitem">
+              <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section: Split-screen layout -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-bg-elements" aria-hidden="true">
+      <div class="floating-shape floating-shape--1 rounded-circle"></div>
+      <div class="floating-shape floating-shape--2 rounded-circle"></div>
+      <div class="floating-shape floating-shape--3 rounded-circle"></div>
+    </div>
+
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h1 id="hero-heading" class="display-hero text-white mb-4">
+            Excellence in Healthcare, Delivered Daily
+          </h1>
+          <p class="text-white hero-subtitle mb-4">
+            World-class medical care with cutting-edge technology, compassionate staff, and patient-centered solutions.
+          </p>
+
+          <div class="hero-cta-group mb-4">
+            <a href="#appointment-widget" class="btn btn-primary">
+              <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
+            </a>
+            <a href="services.html" class="btn btn-secondary btn-white">
+              <i class="fas fa-search" aria-hidden="true"></i> Find a Doctor
+            </a>
+          </div>
+
+          <div class="d-flex gap-4 flex-wrap">
+            <div class="trust-badge">
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <span>4.9/5 Patient Rating</span>
+            </div>
+            <div class="trust-badge">
+              <i class="fas fa-award" aria-hidden="true"></i>
+              <span>ISO 9001:2015 Certified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 mt-5 mt-lg-0">
+          <div class="hero-image-container position-relative">
+            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&h=400&fit=crop" alt="Professional medical team in modern hospital setting" class="img-fluid">
+            <div class="hero-floating-badge">
+              <p class="mb-0 small text-secondary">
+                <i class="fas fa-check text-success me-2" aria-hidden="true"></i>24/7 Emergency Services
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Widget: Card-based, validation states -->
+  <section id="appointment-widget" class="appointment-section" aria-labelledby="appointment-heading">
+    <div class="container">
+      <h2 id="appointment-heading" class="text-center mb-5 section-heading">
+        Schedule Your Appointment Today
+      </h2>
+
+      <div class="appointment-card" id="appointmentCard">
+        <form id="appointmentForm" novalidate aria-label="Appointment booking form">
+          <div class="form-group">
+            <label for="deptSelect" class="form-label">Select Department</label>
+            <select id="deptSelect" class="form-select" required aria-required="true" aria-describedby="deptFeedback">
+              <option value="">Choose a department...</option>
+              <option value="cardiology">Cardiology</option>
+              <option value="pediatrics">Pediatrics</option>
+              <option value="oncology">Oncology</option>
+              <option value="orthopedics">Orthopedics</option>
+              <option value="radiology">Radiology</option>
+            </select>
+            <span id="deptFeedback" class="form-feedback" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="doctorSelect" class="form-label">Select Doctor</label>
+            <select id="doctorSelect" class="form-select" required aria-required="true" aria-describedby="doctorFeedback">
+              <option value="">Choose a doctor...</option>
+              <option value="dr-smith">Dr. James Smith (Cardiology)</option>
+              <option value="dr-johnson">Dr. Sarah Johnson (Pediatrics)</option>
+              <option value="dr-williams">Dr. Michael Williams (Oncology)</option>
+            </select>
+            <span id="doctorFeedback" class="form-feedback" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="apptDate" class="form-label">Preferred Date</label>
+                <input type="date" id="apptDate" class="form-input" required aria-required="true">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="apptTime" class="form-label">Preferred Time</label>
+                <select id="apptTime" class="form-select" required aria-required="true">
+                  <option value="">Select time...</option>
+                  <option value="09:00">09:00 AM</option>
+                  <option value="10:30">10:30 AM</option>
+                  <option value="14:00">02:00 PM</option>
+                  <option value="15:30">03:30 PM</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reasonVisit" class="form-label">Reason for Visit</label>
+            <textarea id="reasonVisit" class="form-textarea" rows="3" placeholder="Brief description..." required aria-required="true"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100" id="submitAppointment">
+            <i class="fas fa-check" aria-hidden="true"></i> Confirm Appointment
+          </button>
+        </form>
+
+        <div id="appointmentSuccess" class="text-center py-5 d-none" role="status" aria-live="polite">
+          <div class="appointment-success-animation">
+            <i class="fas fa-check-circle fa-4x text-success mb-3" aria-hidden="true"></i>
+            <h3 class="h4 text-success mb-2">Appointment Request Submitted</h3>
+            <p class="text-muted mb-0">Our team will contact you shortly to confirm your appointment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Departments -->
+  <section class="section-padding bg-white" aria-labelledby="departments-heading">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge badge--primary mb-3 d-inline-block">OUR SPECIALTIES</span>
+        <h2 id="departments-heading" class="section-heading mb-3">World-Class Medical Departments</h2>
+        <p class="text-secondary section-subtitle mx-auto">
+          Leading specialists across multiple disciplines delivering exceptional care
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4" data-aos="fade-up">
+          <div class="dept-card">
+            <div class="dept-card-icon">
+              <i class="fas fa-heart fa-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="h5 text-secondary-teal mb-2">Cardiology</h3>
+            <p class="text-secondary mb-3 flex-grow-1">Advanced cardiac care with world-renowned cardiologists specializing in interventional and preventive cardiology.</p>
+            <a href="services/cardiology.html" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="dept-card">
+            <div class="dept-card-icon">
+              <i class="fas fa-baby fa-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="h5 text-secondary-teal mb-2">Pediatrics</h3>
+            <p class="text-secondary mb-3 flex-grow-1">Compassionate care for infants, children, and adolescents with state-of-the-art pediatric facilities.</p>
+            <a href="services.html#pediatrics" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="dept-card">
+            <div class="dept-card-icon">
+              <i class="fas fa-shield-alt fa-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="h5 text-secondary-teal mb-2">Oncology</h3>
+            <p class="text-secondary mb-3 flex-grow-1">Comprehensive cancer care with multidisciplinary approach using latest immunotherapy and precision medicine.</p>
+            <a href="services.html#oncology" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="dept-card">
+            <div class="dept-card-icon">
+              <i class="fas fa-bone fa-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="h5 text-secondary-teal mb-2">Orthopedics</h3>
+            <p class="text-secondary mb-3 flex-grow-1">Expert care for bones, joints, and muscles with advanced surgical and rehabilitation services.</p>
+            <a href="services.html#orthopedics" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="dept-card">
+            <div class="dept-card-icon">
+              <i class="fas fa-x-ray fa-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="h5 text-secondary-teal mb-2">Radiology</h3>
+            <p class="text-secondary mb-3 flex-grow-1">State-of-the-art imaging and diagnostic services including MRI, CT, and ultrasound.</p>
+            <a href="services.html#radiology" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="dept-card">
+            <div class="dept-card-icon">
+              <i class="fas fa-brain fa-xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="h5 text-secondary-teal mb-2">Neurology</h3>
+            <p class="text-secondary mb-3 flex-grow-1">Specialized care for brain and nervous system disorders with cutting-edge diagnostics.</p>
+            <a href="services.html#neurology" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials: Bento Grid + Carousel -->
+  <section class="section-padding testimonials-section" aria-labelledby="testimonials-heading" style="background: linear-gradient(135deg, var(--color-soft-white) 0%, white 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge badge--primary mb-3 d-inline-block">PATIENT STORIES</span>
+        <h2 id="testimonials-heading" class="section-heading mb-3">What Our Patients Say</h2>
+      </div>
+
+      <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Patient testimonials carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="testimonials-bento">
+              <div class="testimonial-bento-card testimonial-bento-card--featured">
+                <div class="d-flex align-items-center mb-3">
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Margaret Johnson" class="testimonial-avatar me-3">
+                  <div>
+                    <h4 class="mb-0 fw-semibold">Margaret Johnson</h4>
+                    <p class="mb-0 small text-secondary">Cardiology Patient</p>
+                  </div>
+                </div>
+                <div class="mb-3 testimonial-stars" aria-hidden="true">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-secondary fst-italic mb-0">"The care I received at this hospital was exceptional. The entire team was professional, compassionate, and made me feel at ease during a challenging time. Highly recommended!"</p>
+              </div>
+              <div class="testimonial-bento-card">
+                <div class="d-flex align-items-center mb-3">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="David Chen" class="testimonial-avatar me-3">
+                  <div>
+                    <h4 class="mb-0 fw-semibold">David Chen</h4>
+                    <p class="mb-0 small text-secondary">Orthopedics Patient</p>
+                  </div>
+                </div>
+                <div class="mb-3 testimonial-stars" aria-hidden="true">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-secondary fst-italic mb-0">"From diagnosis to recovery, the orthopedic team was outstanding."</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="testimonials-bento">
+              <div class="testimonial-bento-card">
+                <div class="d-flex align-items-center mb-3">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="David Chen" class="testimonial-avatar me-3">
+                  <div>
+                    <h4 class="mb-0 fw-semibold">David Chen</h4>
+                    <p class="mb-0 small text-secondary">Orthopedics Patient</p>
+                  </div>
+                </div>
+                <div class="mb-3 testimonial-stars" aria-hidden="true">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-secondary fst-italic mb-0">"From diagnosis to recovery, the orthopedic team was outstanding. The rehabilitation program helped me get back to my active lifestyle in record time."</p>
+              </div>
+              <div class="testimonial-bento-card testimonial-bento-card--featured">
+                <div class="d-flex align-items-center mb-3">
+                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" alt="Emily Rodriguez" class="testimonial-avatar me-3">
+                  <div>
+                    <h4 class="mb-0 fw-semibold">Emily Rodriguez</h4>
+                    <p class="mb-0 small text-secondary">Pediatrics Parent</p>
+                  </div>
+                </div>
+                <div class="mb-3 testimonial-stars" aria-hidden="true">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-secondary fst-italic mb-0">"As a parent, finding a hospital that treats children with such care and expertise was a relief. My daughter actually looks forward to her checkups!"</p>
+              </div>
+              <div class="testimonial-bento-card">
+                <div class="d-flex align-items-center mb-3">
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Margaret Johnson" class="testimonial-avatar me-3">
+                  <div>
+                    <h4 class="mb-0 fw-semibold">Margaret Johnson</h4>
+                    <p class="mb-0 small text-secondary">Cardiology Patient</p>
+                  </div>
+                </div>
+                <div class="mb-3 testimonial-stars" aria-hidden="true">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="text-secondary fst-italic mb-0">"Exceptional care. Highly recommended!"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-carousel-controls">
+          <button class="btn btn-icon" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev" aria-label="Previous testimonial">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-icon" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next" aria-label="Next testimonial">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Emergency Banner -->
+  <section class="emergency-banner mt-5" aria-label="Emergency contact information">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <i class="fas fa-exclamation-circle fa-2x" aria-hidden="true"></i>
+          <div>
+            <h3 class="mb-1 fw-semibold">Medical Emergency?</h3>
+            <p class="mb-0 opacity-90">24/7 Emergency Department Available</p>
+          </div>
+        </div>
+        <a href="tel:+15551234567" class="btn btn-accent" aria-label="Call emergency line">
+          <i class="fas fa-phone" aria-hidden="true"></i> Call +1 (555) 123-4567
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fat Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4>MediCare Hospital</h4>
+          <p>Excellence in healthcare, delivered daily. World-class medical care with cutting-edge technology and compassionate staff.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="emr-patient-dashboard.html">Patient Portal</a></li>
+            <li><a href="admin-dashboard.html">Staff Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Contact</h5>
+          <ul>
+            <li><i class="fas fa-phone me-2" aria-hidden="true"></i><a href="tel:+15551234567">+1 (555) 123-4567</a></li>
+            <li><i class="fas fa-envelope me-2" aria-hidden="true"></i><a href="mailto:info@medicare.com">info@medicare.com</a></li>
+          </ul>
+        </div>
+        <div class="footer-column footer-newsletter">
+          <h5>Stay Updated</h5>
+          <p class="small text-white-50 mb-2">Subscribe for health tips and hospital news.</p>
+          <form class="footer-newsletter-form" aria-label="Newsletter signup">
+            <input type="email" placeholder="Your email address" aria-label="Email address">
+            <button type="submit" class="btn btn-primary w-100 btn-sm">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; 2024 MediCare Hospital. All rights reserved. HIPAA Compliant.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    AOS.init({ duration: 600, offset: 50, easing: 'ease-out-cubic' });
+
+    (function() {
+      var navbar = document.getElementById('mainNavbar');
+      var lastScroll = 0;
+      function onScroll() {
+        var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScroll > 50) navbar.classList.add('navbar--scrolled');
+        else navbar.classList.remove('navbar--scrolled');
+        lastScroll = currentScroll;
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    document.getElementById('appointmentForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      var card = document.getElementById('appointmentCard');
+      var successEl = document.getElementById('appointmentSuccess');
+      if (!card || !successEl) return;
+      form.classList.add('d-none');
+      successEl.classList.remove('d-none');
+      card.classList.add('appointment-card--success');
+      successEl.querySelector('.appointment-success-animation').classList.add('appointment-success-animation');
+      form.reset();
+    });
+
+    document.querySelector('.footer-newsletter-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.querySelector('input').value = '';
+    });
+  </script>
+</body>
+</html>

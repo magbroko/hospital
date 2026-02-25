@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Prescriptions | MediCare Patient Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/patient-portal.css" rel="stylesheet">
+  <link href="../css/portal-mobile.css" rel="stylesheet">
+</head>
+<body class="portal-body">
+  <div class="portal-overlay" id="portalOverlay" aria-hidden="true"></div>
+  <button class="portal-hamburger" id="portalHamburger" aria-label="Toggle menu" style="display:none;"><i class="fas fa-bars"></i></button>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <h2>MediCare</h2>
+    </div>
+    <nav>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="../emr-patient-dashboard.html" class="sidebar-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+        <li class="sidebar-nav-item"><a href="medical-history.html" class="sidebar-nav-link"><i class="fas fa-history"></i> Medical History</a></li>
+        <li class="sidebar-nav-item"><a href="lab-results.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Results</a></li>
+        <li class="sidebar-nav-item"><a href="imaging.html" class="sidebar-nav-link"><i class="fas fa-image"></i> Imaging & Scans</a></li>
+        <li class="sidebar-nav-item"><a href="prescriptions.html" class="sidebar-nav-link active"><i class="fas fa-prescription-bottle"></i> E-Prescriptions</a></li>
+        <li class="sidebar-nav-item"><a href="appointments.html" class="sidebar-nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+        <li class="sidebar-nav-item"><a href="messages.html" class="sidebar-nav-link"><i class="fas fa-envelope"></i> Messages <span class="badge bg-danger ms-auto">3</span></a></li>
+        <li class="sidebar-nav-item"><a href="billing.html" class="sidebar-nav-link"><i class="fas fa-receipt"></i> Billing</a></li>
+        <li class="sidebar-nav-item"><a href="settings.html" class="sidebar-nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="main-content" style="margin-left: 280px; min-height: 100vh; background: var(--soft-white, #F3FDFC);">
+    <div class="top-header" style="background: white; padding: 16px 32px; border-bottom: 1px solid #E0E0E0;">
+      <div class="header-search"><i class="fas fa-search"></i><input type="text" placeholder="Search records, tests, doctors..."></div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="user-avatar">RJ</div>
+        <div><h4 class="mb-0 small fw-semibold">Robert Johnson</h4><p class="mb-0 small text-secondary">Patient ID: RJ-20240524</p></div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <div class="page-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+          <h1>E-Prescriptions</h1>
+          <p class="breadcrumb">Patient Portal / Prescriptions</p>
+        </div>
+        <button class="btn-portal-primary"><i class="fas fa-redo me-2"></i>Request Refill</button>
+      </div>
+      <div class="portal-card">
+        <div class="portal-tabs">
+          <button class="portal-tab active">Active</button>
+          <button class="portal-tab">Past</button>
+        </div>
+        <div class="portal-table-wrap table-responsive">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>Medication</th>
+                <th>Dosage</th>
+                <th>Frequency</th>
+                <th>Prescribing Doctor</th>
+                <th>Date Issued</th>
+                <th>Refill Date</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Lisinopril</strong></td>
+                <td>10mg</td>
+                <td>Once daily</td>
+                <td>Dr. James Smith</td>
+                <td>Dec 10, 2024</td>
+                <td>Mar 10, 2025</td>
+                <td><span class="status-badge badge-teal">Active</span></td>
+                <td><button class="btn-portal-outline btn-sm">Details</button></td>
+              </tr>
+              <tr>
+                <td><strong>Atorvastatin</strong></td>
+                <td>20mg</td>
+                <td>Once daily (PM)</td>
+                <td>Dr. James Smith</td>
+                <td>Dec 10, 2024</td>
+                <td>Feb 28, 2025</td>
+                <td><span class="status-badge badge-yellow">Refill Due</span></td>
+                <td><button class="btn-portal-outline btn-sm">Details</button></td>
+              </tr>
+              <tr>
+                <td><strong>Metformin</strong></td>
+                <td>500mg</td>
+                <td>Twice daily</td>
+                <td>Dr. James Smith</td>
+                <td>Mar 5, 2023</td>
+                <td>Jun 5, 2025</td>
+                <td><span class="status-badge badge-teal">Active</span></td>
+                <td><button class="btn-portal-outline btn-sm">Details</button></td>
+              </tr>
+              <tr>
+                <td><strong>Omeprazole</strong></td>
+                <td>20mg</td>
+                <td>As needed</td>
+                <td>Dr. Sarah Chen</td>
+                <td>Jan 5, 2023</td>
+                <td>—</td>
+                <td><span class="status-badge badge-grey">Expired</span></td>
+                <td><button class="btn-portal-outline btn-sm">Details</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Mobile: Accordion -->
+        <div class="portal-accordion-mobile">
+          <div class="portal-accordion-item">
+            <div class="portal-accordion-header">
+              <div>
+                <span class="status-badge badge-teal me-2">Active</span>
+                <strong>Lisinopril</strong> 10mg
+              </div>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="portal-accordion-body">
+              <p class="portal-record-card-meta mb-2">Dr. James Smith • Dec 10, 2024</p>
+              <p class="small text-secondary mb-2"><strong>Instructions:</strong> Take once daily in the morning with food. Do not stop without consulting your doctor.</p>
+              <p class="small text-secondary mb-0">Refill due: Mar 10, 2025</p>
+            </div>
+          </div>
+          <div class="portal-accordion-item">
+            <div class="portal-accordion-header">
+              <div>
+                <span class="status-badge badge-yellow me-2">Refill Due</span>
+                <strong>Atorvastatin</strong> 20mg
+              </div>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="portal-accordion-body">
+              <p class="portal-record-card-meta mb-2">Dr. James Smith • Dec 10, 2024</p>
+              <p class="small text-secondary mb-2"><strong>Instructions:</strong> Take once daily in the evening with or without food.</p>
+              <p class="small text-secondary mb-0">Refill due: Feb 28, 2025</p>
+            </div>
+          </div>
+          <div class="portal-accordion-item">
+            <div class="portal-accordion-header">
+              <div>
+                <span class="status-badge badge-teal me-2">Active</span>
+                <strong>Metformin</strong> 500mg
+              </div>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="portal-accordion-body">
+              <p class="portal-record-card-meta mb-2">Dr. James Smith • Mar 5, 2023</p>
+              <p class="small text-secondary mb-2"><strong>Instructions:</strong> Take twice daily with meals.</p>
+              <p class="small text-secondary mb-0">Refill due: Jun 5, 2025</p>
+            </div>
+          </div>
+          <div class="portal-accordion-item">
+            <div class="portal-accordion-header">
+              <div>
+                <span class="status-badge badge-grey me-2">Expired</span>
+                <strong>Omeprazole</strong> 20mg
+              </div>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="portal-accordion-body">
+              <p class="portal-record-card-meta mb-2">Dr. Sarah Chen • Jan 5, 2023</p>
+              <p class="small text-secondary mb-0">Prescription expired. Contact your doctor for a new prescription if needed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="portal-mobile-init.js"></script>
+  <script>
+    document.querySelectorAll('.portal-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var parent = this.closest('.portal-card');
+        if (parent) parent.querySelectorAll('.portal-tab').forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

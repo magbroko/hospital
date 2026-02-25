@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Management | MediCare Hospital EMR</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <span>MediCare EMR</span>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="../admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
+      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
+      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
+      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
+      <li><a href="shift-management.html" class="sidebar-nav-link active"><i class="fas fa-clock"></i> Shift Management</a></li>
+      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
+      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-secondary w-100 btn-sm"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 class="h4 fw-bold mb-0">Shift Management</h1>
+        <p class="small text-secondary mb-0">Staff schedules and coverage</p>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="position-relative">
+          <i class="fas fa-bell fa-lg text-secondary"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+          <div>
+            <div class="small fw-semibold">Dr. Sarah Johnson</div>
+            <div class="small text-secondary">Staff ID: SJ-2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <div class="stat-card">
+        <h2 class="h5 fw-bold mb-4">Today's Shifts</h2>
+        <div class="admin-table-wrap">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Staff</th>
+                <th>Role</th>
+                <th>Shift</th>
+                <th>Department</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Dr. James Smith</strong></td>
+                <td>Physician</td>
+                <td>07:00 – 15:00</td>
+                <td>Cardiology</td>
+                <td><span class="badge-status available">On Duty</span></td>
+              </tr>
+              <tr>
+                <td><strong>Dr. Sarah Johnson</strong></td>
+                <td>Physician</td>
+                <td>08:00 – 16:00</td>
+                <td>General</td>
+                <td><span class="badge-status available">On Duty</span></td>
+              </tr>
+              <tr>
+                <td><strong>Nurse Maria Lopez</strong></td>
+                <td>RN</td>
+                <td>06:00 – 14:00</td>
+                <td>ICU</td>
+                <td><span class="badge-status available">On Duty</span></td>
+              </tr>
+              <tr>
+                <td><strong>Nurse John Davis</strong></td>
+                <td>RN</td>
+                <td>14:00 – 22:00</td>
+                <td>Ward A</td>
+                <td><span class="badge-status pending">Upcoming</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+        <div class="admin-card-mobile">
+          <div class="admin-action-card">
+            <div class="card-meta">07:00 – 15:00 • Cardiology</div>
+            <div class="card-title">Dr. James Smith — Physician</div>
+            <span class="badge-status available mb-2">On Duty</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card">
+            <div class="card-meta">08:00 – 16:00 • General</div>
+            <div class="card-title">Dr. Sarah Johnson — Physician</div>
+            <span class="badge-status available mb-2">On Duty</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card">
+            <div class="card-meta">06:00 – 14:00 • ICU</div>
+            <div class="card-title">Nurse Maria Lopez — RN</div>
+            <span class="badge-status available mb-2">On Duty</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card">
+            <div class="card-meta">14:00 – 22:00 • Ward A</div>
+            <div class="card-title">Nurse John Davis — RN</div>
+            <span class="badge-status pending mb-2">Upcoming</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button class="btn btn-primary"><i class="fas fa-calendar-alt me-2"></i>View Full Schedule</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function() {
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.getElementById('adminOverlay');
+      var toggle = document.getElementById('adminSidebarToggle');
+      function openDrawer() { sidebar?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+      function closeDrawer() { sidebar?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+      toggle?.addEventListener('click', function() { sidebar?.classList.contains('active') ? closeDrawer() : openDrawer(); });
+      overlay?.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer(); });
+    })();
+  </script>
+</body>
+</html>

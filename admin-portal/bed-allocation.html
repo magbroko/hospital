@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bed Allocation | MediCare Hospital EMR</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <span>MediCare EMR</span>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="../admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
+      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
+      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
+      <li><a href="bed-allocation.html" class="sidebar-nav-link active"><i class="fas fa-bed"></i> Bed Allocation</a></li>
+      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
+      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
+      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-secondary w-100 btn-sm"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 class="h4 fw-bold mb-0">Bed Allocation</h1>
+        <p class="small text-secondary mb-0">Ward grid view — 42/50 beds occupied</p>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="position-relative">
+          <i class="fas fa-bell fa-lg text-secondary"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+          <div>
+            <div class="small fw-semibold">Dr. Sarah Johnson</div>
+            <div class="small text-secondary">Staff ID: SJ-2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div class="d-flex align-items-center gap-2">
+          <span class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill" style="background: rgba(16, 185, 129, 0.15); color: #059669;">
+            <span class="rounded-circle" style="width: 10px; height: 10px; background: #10B981;"></span> Available
+          </span>
+          <span class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill" style="background: rgba(239, 68, 68, 0.15); color: #DC2626;">
+            <span class="rounded-circle" style="width: 10px; height: 10px; background: #EF4444;"></span> Occupied
+          </span>
+        </div>
+        <button class="btn btn-primary"><i class="fas fa-plus me-2"></i>Quick Assign Patient</button>
+      </div>
+
+      <div class="ward-grid">
+        <!-- ICU -->
+        <div class="ward-section">
+          <h3>
+            ICU
+            <span class="badge-status occupied">10/10 Full</span>
+          </h3>
+          <div class="ward-beds">
+            <div class="bed-card occupied" data-bed="ICU-01" data-patient="Robert Johnson" data-id="RJ-20240524">
+              <span class="bed-id">ICU-01</span>
+              <span class="bed-patient">R. Johnson</span>
+              <span class="bed-tooltip">Robert Johnson (RJ-20240524)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-02" data-patient="Margaret Lee" data-id="ML-20240122">
+              <span class="bed-id">ICU-02</span>
+              <span class="bed-patient">M. Lee</span>
+              <span class="bed-tooltip">Margaret Lee (ML-20240122)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-03" data-patient="James Wilson" data-id="JW-20240215">
+              <span class="bed-id">ICU-03</span>
+              <span class="bed-patient">J. Wilson</span>
+              <span class="bed-tooltip">James Wilson (JW-20240215)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-04" data-patient="Anna Chen" data-id="AC-20240301">
+              <span class="bed-id">ICU-04</span>
+              <span class="bed-patient">A. Chen</span>
+              <span class="bed-tooltip">Anna Chen (AC-20240301)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-05" data-patient="David Brown" data-id="DB-20240310">
+              <span class="bed-id">ICU-05</span>
+              <span class="bed-patient">D. Brown</span>
+              <span class="bed-tooltip">David Brown (DB-20240310)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-06" data-patient="Sarah Davis" data-id="SD-20240320">
+              <span class="bed-id">ICU-06</span>
+              <span class="bed-patient">S. Davis</span>
+              <span class="bed-tooltip">Sarah Davis (SD-20240320)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-07" data-patient="Michael Taylor" data-id="MT-20240401">
+              <span class="bed-id">ICU-07</span>
+              <span class="bed-patient">M. Taylor</span>
+              <span class="bed-tooltip">Michael Taylor (MT-20240401)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-08" data-patient="Emily Martinez" data-id="EM-20240415">
+              <span class="bed-id">ICU-08</span>
+              <span class="bed-patient">E. Martinez</span>
+              <span class="bed-tooltip">Emily Martinez (EM-20240415)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-09" data-patient="Chris Anderson" data-id="CA-20240501">
+              <span class="bed-id">ICU-09</span>
+              <span class="bed-patient">C. Anderson</span>
+              <span class="bed-tooltip">Chris Anderson (CA-20240501)</span>
+            </div>
+            <div class="bed-card occupied" data-bed="ICU-10" data-patient="Lisa Thompson" data-id="LT-20240510">
+              <span class="bed-id">ICU-10</span>
+              <span class="bed-patient">L. Thompson</span>
+              <span class="bed-tooltip">Lisa Thompson (LT-20240510)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ward A -->
+        <div class="ward-section">
+          <h3>
+            Ward A
+            <span class="badge-status available">8 Available</span>
+          </h3>
+          <div class="ward-beds">
+            <div class="bed-card occupied"><span class="bed-id">A-01</span><span class="bed-patient">J. Smith</span><span class="bed-tooltip">John Smith (JS-20240105)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-02</span><span class="bed-patient">M. Jones</span><span class="bed-tooltip">Mary Jones (MJ-20240115)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-03</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-04</span><span class="bed-patient">D. Chen</span><span class="bed-tooltip">David Chen (DC-20240201)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-05</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-06</span><span class="bed-patient">E. Rodriguez</span><span class="bed-tooltip">Emily Rodriguez (ER-20240210)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-07</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-08</span><span class="bed-patient">P. Williams</span><span class="bed-tooltip">Paul Williams (PW-20240305)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-09</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-10</span><span class="bed-patient">K. Garcia</span><span class="bed-tooltip">Karen Garcia (KG-20240318)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-11</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card available"><span class="bed-id">A-12</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-13</span><span class="bed-patient">T. Moore</span><span class="bed-tooltip">Thomas Moore (TM-20240422)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-14</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-15</span><span class="bed-patient">N. Clark</span><span class="bed-tooltip">Nancy Clark (NC-20240512)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-16</span><span class="bed-patient">R. Lewis</span><span class="bed-tooltip">Robert Lewis (RL-20240518)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-17</span><span class="bed-patient">S. Walker</span><span class="bed-tooltip">Susan Walker (SW-20240520)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-18</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">A-19</span><span class="bed-patient">J. Hall</span><span class="bed-tooltip">James Hall (JH-20240522)</span></div>
+            <div class="bed-card available"><span class="bed-id">A-20</span><span class="bed-quick-assign">Quick Assign</span></div>
+          </div>
+        </div>
+
+        <!-- Ward B -->
+        <div class="ward-section">
+          <h3>
+            Ward B
+            <span class="badge-status pending">2 Available</span>
+          </h3>
+          <div class="ward-beds">
+            <div class="bed-card occupied"><span class="bed-id">B-01</span><span class="bed-patient">A. Young</span><span class="bed-tooltip">Andrew Young (AY-20240108)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-02</span><span class="bed-patient">B. King</span><span class="bed-tooltip">Betty King (BK-20240125)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-03</span><span class="bed-patient">C. Wright</span><span class="bed-tooltip">Charles Wright (CW-20240212)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-04</span><span class="bed-patient">D. Scott</span><span class="bed-tooltip">Diana Scott (DS-20240228)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-05</span><span class="bed-patient">E. Green</span><span class="bed-tooltip">Edward Green (EG-20240312)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-06</span><span class="bed-patient">F. Adams</span><span class="bed-tooltip">Frank Adams (FA-20240325)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-07</span><span class="bed-patient">G. Nelson</span><span class="bed-tooltip">Grace Nelson (GN-20240405)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-08</span><span class="bed-patient">H. Hill</span><span class="bed-tooltip">Henry Hill (HH-20240418)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-09</span><span class="bed-patient">I. Baker</span><span class="bed-tooltip">Irene Baker (IB-20240428)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-10</span><span class="bed-patient">J. Carter</span><span class="bed-tooltip">Jack Carter (JC-20240502)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-11</span><span class="bed-patient">K. Mitchell</span><span class="bed-tooltip">Kevin Mitchell (KM-20240508)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-12</span><span class="bed-patient">L. Perez</span><span class="bed-tooltip">Laura Perez (LP-20240514)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-13</span><span class="bed-patient">M. Roberts</span><span class="bed-tooltip">Mark Roberts (MR-20240516)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-14</span><span class="bed-patient">N. Turner</span><span class="bed-tooltip">Nicole Turner (NT-20240519)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-15</span><span class="bed-patient">O. Phillips</span><span class="bed-tooltip">Oliver Phillips (OP-20240521)</span></div>
+            <div class="bed-card available"><span class="bed-id">B-16</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-17</span><span class="bed-patient">P. Campbell</span><span class="bed-tooltip">Patricia Campbell (PC-20240523)</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-18</span><span class="bed-patient">Q. Parker</span><span class="bed-tooltip">Quinn Parker (QP-20240524)</span></div>
+            <div class="bed-card available"><span class="bed-id">B-19</span><span class="bed-quick-assign">Quick Assign</span></div>
+            <div class="bed-card occupied"><span class="bed-id">B-20</span><span class="bed-patient">R. Evans</span><span class="bed-tooltip">Rachel Evans (RE-20240525)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function() {
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.getElementById('adminOverlay');
+      var toggle = document.getElementById('adminSidebarToggle');
+      function openDrawer() { sidebar?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+      function closeDrawer() { sidebar?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+      toggle?.addEventListener('click', function() { sidebar?.classList.contains('active') ? closeDrawer() : openDrawer(); });
+      overlay?.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer(); });
+
+      document.querySelectorAll('.bed-card.available .bed-quick-assign').forEach(function(btn) {
+        btn.addEventListener('click', function(e) { e.stopPropagation(); alert('Quick Assign: Select a patient to assign to this bed.'); });
+      });
+    })();
+  </script>
+</body>
+</html>

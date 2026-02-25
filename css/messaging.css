@@ -1,0 +1,634 @@
+/* ============================================
+   MESSAGING MODULE - SaaS Aesthetic
+   Dual-pane desktop | Master-detail mobile
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* Design Tokens */
+.msg-module {
+  --msg-font: 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --msg-transition: 0.3s ease-in-out;
+  --msg-primary: #0ABAB5;
+  --msg-primary-dark: #089b96;
+  --msg-primary-gradient: linear-gradient(135deg, #0ABAB5 0%, #026873 100%);
+  --msg-ghost-white: #F8FAFC;
+  --msg-slate-gray: #64748B;
+  --msg-slate-bubble: #F1F5F9;
+  --msg-slate-border: #E2E8F0;
+  --msg-text: #0F172A;
+  --msg-text-muted: #64748B;
+  --msg-text-preview: #94A3B8;
+  --msg-border: #E2E8F0;
+  --msg-unread-badge: #EF4444;
+  --msg-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --msg-glass: rgba(255, 255, 255, 0.85);
+}
+
+.msg-module {
+  font-family: var(--msg-font);
+}
+
+/* Restore FontAwesome font for icons (was overridden by font-family above) */
+.msg-module i[class^="fa-"],
+.msg-module i[class*=" fa-"],
+.msg-module .fas,
+.msg-module .far,
+.msg-module .fab {
+  font-family: "Font Awesome 6 Free" !important;
+}
+
+/* ========== WRAPPER & LAYOUT ========== */
+.msg-wrapper {
+  padding: 24px;
+}
+
+.msg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.msg-header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--msg-text);
+  margin: 0;
+}
+
+.msg-header-compose {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--msg-border);
+  background: white;
+  color: var(--msg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--msg-transition);
+}
+
+.msg-header-compose:hover {
+  background: rgba(10, 186, 181, 0.08);
+}
+
+/* ========== DUAL-PANE LAYOUT (Desktop) ========== */
+.msg-module .msg-panel {
+  display: flex;
+  min-height: 560px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--msg-shadow);
+  border: 1px solid var(--msg-border);
+}
+
+/* Left Pane - Chat List (350px) */
+.msg-module .msg-list {
+  width: 350px;
+  min-width: 350px;
+  background: white;
+  border-right: 1px solid var(--msg-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Search Bar - magnifying glass */
+.msg-module .msg-search-wrap {
+  padding: 16px;
+  border-bottom: 1px solid var(--msg-border);
+  flex-shrink: 0;
+}
+
+.msg-module .msg-search-container {
+  position: relative;
+}
+
+.msg-module .msg-search-container i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--msg-text-preview);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.msg-module .msg-search {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 1px solid var(--msg-border);
+  border-radius: 12px;
+  font-size: 14px;
+  background: var(--msg-ghost-white);
+  color: var(--msg-text);
+  transition: var(--msg-transition);
+}
+
+.msg-module .msg-search::placeholder {
+  color: var(--msg-text-preview);
+}
+
+.msg-module .msg-search:focus {
+  outline: none;
+  border-color: var(--msg-primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(10, 186, 181, 0.12);
+}
+
+.msg-module .msg-contacts {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+/* Contact Item - bold doctor names, muted preview */
+.msg-module .msg-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  min-height: 72px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: var(--msg-transition);
+}
+
+.msg-module .msg-item:hover {
+  background: rgba(10, 186, 181, 0.06);
+}
+
+.msg-module .msg-item.active {
+  background: rgba(10, 186, 181, 0.1);
+  border-left-color: var(--msg-primary);
+}
+
+.msg-module .msg-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.msg-module .msg-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+  gap: 12px;
+}
+
+.msg-module .msg-item-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--msg-text);
+  flex: 1;
+}
+
+.msg-module .msg-item-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.msg-module .msg-item-time {
+  font-size: 12px;
+  color: var(--msg-text-preview);
+  font-weight: 400;
+}
+
+.msg-module .msg-item-preview {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--msg-text-preview);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.msg-module .msg-item.unread .msg-item-preview {
+  font-weight: 500;
+  color: var(--msg-text-muted);
+}
+
+.msg-module .msg-unread-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  background: var(--msg-unread-badge);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.msg-module .msg-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--msg-primary-gradient);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ========== RIGHT PANE - Active Chat (ghost-white) ========== */
+.msg-module .msg-thread {
+  flex: 1;
+  background: var(--msg-ghost-white);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Chat Header - Glassmorphism */
+.msg-module .msg-chat-header {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--msg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--msg-border);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.msg-module .msg-back-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: var(--msg-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--msg-transition);
+  box-shadow: var(--msg-shadow);
+}
+
+.msg-module .msg-back-btn:hover {
+  background: rgba(10, 186, 181, 0.1);
+  color: var(--msg-primary);
+}
+
+.msg-module .msg-chat-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--msg-text);
+}
+
+.msg-module .msg-thread-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.msg-module .msg-thread-content.msg-transitioning {
+  animation: msgFadeIn 0.3s ease-in-out;
+}
+
+@keyframes msgFadeIn {
+  from { opacity: 0.6; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== MESSAGE BUBBLES - Asymmetric radius, gradients ========== */
+.msg-module .msg-bubble {
+  max-width: 75%;
+  padding: 14px 18px;
+  font-size: 14px;
+  line-height: 1.55;
+  transition: var(--msg-transition);
+}
+
+/* Doctor: Slate-gray, tail bottom-left */
+.msg-module .msg-bubble.doctor {
+  background: var(--msg-slate-bubble);
+  color: var(--msg-text);
+  border: 1px solid var(--msg-slate-border);
+  border-radius: 16px 16px 16px 4px;
+  margin-right: auto;
+  box-shadow: var(--msg-shadow);
+}
+
+/* Patient: Teal gradient, tail bottom-right */
+.msg-module .msg-bubble.patient {
+  background: var(--msg-primary-gradient);
+  color: white;
+  margin-left: auto;
+  border-radius: 16px 16px 4px 16px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(10, 186, 181, 0.25);
+}
+
+.msg-module .msg-bubble-meta {
+  font-size: 11px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.msg-module .msg-bubble.doctor .msg-bubble-meta {
+  color: var(--msg-text-muted);
+}
+
+.msg-module .msg-bubble.patient .msg-bubble-meta {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.msg-module .msg-status-receipt {
+  font-size: 11px;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
+.msg-module .msg-bubble.patient .msg-status-receipt {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Typing indicator */
+.msg-module .msg-typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background: var(--msg-slate-bubble);
+  border: 1px solid var(--msg-slate-border);
+  border-radius: 16px 16px 16px 4px;
+  margin-right: auto;
+  max-width: 120px;
+}
+
+.msg-module .msg-typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--msg-slate-gray);
+  animation: msgTypingBounce 1.4s ease-in-out infinite;
+}
+
+.msg-module .msg-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.msg-module .msg-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes msgTypingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+/* ========== INPUT AREA - Icon-only send inside field ========== */
+.msg-module .msg-input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 16px;
+  margin: 0 24px 24px;
+  flex-shrink: 0;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--msg-border);
+}
+
+.msg-module .msg-input-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  background: var(--msg-ghost-white);
+  border: 1px solid var(--msg-border);
+  border-radius: 12px;
+  padding: 4px 4px 4px 16px;
+  transition: var(--msg-transition);
+}
+
+.msg-module .msg-input-wrap:focus-within {
+  border-color: var(--msg-primary);
+  background: white;
+  box-shadow: 0 0 0 2px rgba(10, 186, 181, 0.15);
+}
+
+.msg-module .msg-input-area input {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--msg-text);
+  min-width: 0;
+}
+
+.msg-module .msg-input-area input:focus {
+  outline: none;
+}
+
+.msg-module .msg-input-area input::placeholder {
+  color: var(--msg-text-preview);
+}
+
+.msg-module .msg-input-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: var(--msg-transition);
+  flex-shrink: 0;
+}
+
+.msg-module .msg-input-btn.msg-btn-attach,
+.msg-module .msg-input-btn.msg-btn-emoji {
+  background: transparent;
+  color: var(--msg-text-muted);
+}
+
+.msg-module .msg-input-btn.msg-btn-attach:hover,
+.msg-module .msg-input-btn.msg-btn-emoji:hover {
+  background: rgba(10, 186, 181, 0.1);
+  color: var(--msg-primary);
+}
+
+.msg-module .msg-input-btn.msg-btn-send {
+  background: var(--msg-primary);
+  color: white;
+}
+
+.msg-module .msg-input-btn.msg-btn-send:hover {
+  background: var(--msg-primary-dark);
+  transform: scale(1.05);
+}
+
+
+/* ========== MOBILE (< 768px) - Master-Detail, 100vh ========== */
+@media (max-width: 767px) {
+  .msg-page .msg-top-header {
+    display: none !important;
+  }
+
+  .msg-page .msg-main {
+    margin-left: 0 !important;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .msg-page .msg-wrapper {
+    padding: 0;
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .msg-page .msg-header {
+    padding: 16px 20px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    background: white;
+    border-bottom: 1px solid var(--msg-border);
+  }
+
+  /* Hamburger: ensure it doesn't overlap - msg-header has space */
+  .msg-page .portal-hamburger {
+    bottom: 24px;
+    right: 20px;
+    z-index: 1001;
+  }
+
+  .msg-page .portal-card.msg-module {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .msg-page .msg-module .msg-panel {
+    flex-direction: column;
+    min-height: 100%;
+    flex: 1;
+  }
+
+  .msg-page .msg-module .msg-list {
+    width: 100%;
+    flex: 1;
+    min-width: 0;
+    border-right: none;
+  }
+
+  .msg-page .msg-module .msg-search-wrap {
+    padding: 12px 16px;
+  }
+
+  .msg-page .msg-module .msg-item {
+    min-height: 72px;
+    padding: 16px 20px;
+    border-left: none;
+    border-bottom: 1px solid var(--msg-border);
+  }
+
+  /* Thread: full-screen overlay, slide in */
+  .msg-page .msg-module .msg-thread {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: var(--msg-ghost-white);
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .msg-page.msg-chat-open .msg-module .msg-thread {
+    display: flex;
+    animation: msgSlideIn 0.3s ease-in-out;
+  }
+
+  @keyframes msgSlideIn {
+    from { transform: translateX(100%); opacity: 0.95; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .msg-page.msg-chat-open .msg-module .msg-list {
+    display: none;
+  }
+
+  /* Chat header - prominent Back, glassmorphism */
+  .msg-page .msg-module .msg-chat-header {
+    display: flex;
+    padding: 16px 20px;
+    background: var(--msg-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--msg-border);
+  }
+
+  .msg-page .msg-module .msg-thread-content {
+    padding: 16px 20px 100px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .msg-page .msg-module .msg-bubble {
+    max-width: 90%;
+  }
+
+  /* Input: fixed bottom, high z-index */
+  .msg-page .msg-module .msg-input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    border-radius: 0;
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+    border-top: 1px solid var(--msg-border);
+    background: white;
+    z-index: 1060;
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .msg-page.msg-chat-open {
+    overflow: hidden;
+  }
+}
+
+/* Desktop: hide mobile chat header */
+@media (min-width: 768px) {
+  .msg-module .msg-chat-header {
+    display: none;
+  }
+
+  .msg-module .msg-thread {
+    padding: 0;
+  }
+
+  .msg-module .msg-thread-content {
+    padding: 24px;
+  }
+}

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Portal - EMR Dashboard | MediCare Hospital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="css/patient-portal.css" rel="stylesheet">
+  <link href="css/dashboard-patient.css" rel="stylesheet">
+</head>
+<body class="portal-body dashboard-patient">
+
+  <!-- Overlay for mobile drawer -->
+  <div class="dash-overlay" id="dashOverlay" aria-hidden="true"></div>
+
+  <!-- Sidebar - Collapsible rail (desktop) / Off-canvas (mobile) -->
+  <aside class="dash-sidebar" id="dashSidebar" aria-label="Main navigation">
+    <div class="dash-sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <h2>MediCare</h2>
+    </div>
+    <nav>
+      <ul class="dash-sidebar-nav">
+        <li>
+          <a href="#dashboard" class="dash-sidebar-nav-link active">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/medical-history.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-history"></i>
+            <span>Medical History</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/lab-results.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-flask"></i>
+            <span>Lab Results</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/imaging.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-image"></i>
+            <span>Imaging & Scans</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/prescriptions.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-prescription-bottle"></i>
+            <span>E-Prescriptions</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/appointments.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-calendar-check"></i>
+            <span>Appointments</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/messages.html" class="dash-sidebar-nav-link">
+            <span class="dash-nav-icon-wrap">
+              <i class="fas fa-envelope"></i>
+              <span class="dash-nav-badge">3</span>
+            </span>
+            <span>Messages</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/billing.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-receipt"></i>
+            <span>Billing</span>
+          </a>
+        </li>
+        <li>
+          <a href="emr-portal/settings.html" class="dash-sidebar-nav-link">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="dash-sidebar-footer">
+      <a href="index.html" class="btn-logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <button class="dash-sidebar-toggle" id="dashSidebarToggle" aria-label="Toggle menu">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+    <header class="dash-header">
+      <div class="dash-header-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search records, tests, doctors..." aria-label="Search">
+      </div>
+      <div class="dash-header-actions">
+        <div class="dash-notification has-badge" id="dashNotification" aria-label="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="dash-notification-badge">5</span>
+        </div>
+        <div class="dash-user">
+          <div class="dash-avatar">RJ</div>
+          <div class="dash-user-info">
+            <h4>Robert Johnson</h4>
+            <p>Patient ID: RJ-20240524</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dash-content">
+      <div class="dash-page-header">
+        <h1>Welcome Back, Robert!</h1>
+        <p class="dash-breadcrumb">Dashboard / Health Overview</p>
+      </div>
+
+      <!-- Stat Cards Grid: 1 col mobile, 2 tablet, 4 desktop -->
+      <div class="dash-stats-grid">
+        <div class="dash-card dash-stat-card">
+          <div class="dash-stat-icon primary"><i class="fas fa-heart-pulse"></i></div>
+          <div class="dash-stat-value">72</div>
+          <div class="dash-stat-label">Heart Rate (bpm)</div>
+          <div class="dash-stat-meta">Last measured: 2 hours ago</div>
+        </div>
+        <div class="dash-card dash-stat-card">
+          <div class="dash-stat-icon success"><i class="fas fa-tint"></i></div>
+          <div class="dash-stat-value">120/80</div>
+          <div class="dash-stat-label">Blood Pressure</div>
+          <div class="dash-stat-meta">Status: Normal</div>
+        </div>
+        <div class="dash-card dash-stat-card">
+          <div class="dash-stat-icon warning"><i class="fas fa-weight"></i></div>
+          <div class="dash-stat-value">72</div>
+          <div class="dash-stat-label">Weight (kg)</div>
+          <div class="dash-stat-meta">↓ 2kg this month</div>
+        </div>
+        <div class="dash-card dash-stat-card">
+          <div class="dash-stat-icon primary"><i class="fas fa-calendar-check"></i></div>
+          <div class="dash-stat-value">1</div>
+          <div class="dash-stat-label">Upcoming Appointment</div>
+          <div class="dash-stat-meta">Dr. Smith - Tomorrow</div>
+        </div>
+      </div>
+
+      <!-- Medical History & Lab Results -->
+      <div class="dash-sections-grid">
+        <div class="dash-card dash-card-full">
+          <h2 class="dash-title-2 mb-4">Medical History</h2>
+          <ul class="dash-timeline">
+            <li class="dash-timeline-item">
+              <div class="dash-timeline-dot"></div>
+              <div class="dash-timeline-content">
+                <div class="dash-meta mb-2">2 weeks ago</div>
+                <div class="dash-title-3 mb-2">Cardiology Checkup</div>
+                <p class="dash-caption mb-3">Annual heart health screening with Dr. James Smith. All vitals normal. Continue current medication regimen.</p>
+                <a href="emr-portal/medical-history.html" class="btn btn-secondary btn-sm">View Details</a>
+              </div>
+            </li>
+            <li class="dash-timeline-item">
+              <div class="dash-timeline-dot"></div>
+              <div class="dash-timeline-content">
+                <div class="dash-meta mb-2">1 month ago</div>
+                <div class="dash-title-3 mb-2">Blood Work Analysis</div>
+                <p class="dash-caption mb-3">Complete blood count and metabolic panel. Results: All values within normal ranges.</p>
+                <a href="emr-portal/lab-results.html" class="btn btn-secondary btn-sm">View Lab Results</a>
+              </div>
+            </li>
+            <li class="dash-timeline-item">
+              <div class="dash-timeline-dot"></div>
+              <div class="dash-timeline-content">
+                <div class="dash-meta mb-2">3 months ago</div>
+                <div class="dash-title-3 mb-2">Chest X-Ray Imaging</div>
+                <p class="dash-caption mb-3">Routine chest imaging for annual physical. No abnormalities detected.</p>
+                <a href="emr-portal/imaging.html" class="btn btn-secondary btn-sm">View Imaging</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Lab Results -->
+        <div class="dash-card dash-card-full">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+            <h2 class="dash-title-2 mb-0">Recent Lab Results</h2>
+            <a href="emr-portal/lab-results.html" class="btn btn-secondary btn-sm">View All Results</a>
+          </div>
+
+          <!-- Desktop: Table -->
+          <div class="dash-lab-table-wrap">
+            <table class="dash-lab-table">
+              <thead>
+                <tr>
+                  <th>Test Name</th>
+                  <th>Result</th>
+                  <th>Normal Range</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Blood Glucose</strong><br><span class="dash-caption">Fasting</span></td>
+                  <td>95 mg/dL</td>
+                  <td>70-100 mg/dL</td>
+                  <td><span class="dash-badge normal">Normal</span></td>
+                  <td>Jan 15, 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>Cholesterol (Total)</strong><br><span class="dash-caption">Lipid Panel</span></td>
+                  <td>185 mg/dL</td>
+                  <td>&lt;200 mg/dL</td>
+                  <td><span class="dash-badge normal">Normal</span></td>
+                  <td>Jan 15, 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>HDL Cholesterol</strong><br><span class="dash-caption">Good Cholesterol</span></td>
+                  <td>52 mg/dL</td>
+                  <td>&gt;40 mg/dL</td>
+                  <td><span class="dash-badge normal">Normal</span></td>
+                  <td>Jan 15, 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>Hemoglobin A1C</strong><br><span class="dash-caption">Diabetes Screening</span></td>
+                  <td>5.8%</td>
+                  <td>&lt;5.7%</td>
+                  <td><span class="dash-badge elevated">Elevated</span></td>
+                  <td>Jan 10, 2024</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Mobile: Card List -->
+          <div class="dash-lab-cards">
+            <div class="dash-lab-card">
+              <div class="dash-lab-card-header">
+                <span class="dash-lab-card-title">Blood Glucose (Fasting)</span>
+                <span class="dash-badge normal">Normal</span>
+              </div>
+              <div class="dash-lab-card-meta">
+                <span>95 mg/dL</span>
+                <span>70-100 mg/dL</span>
+                <span>Jan 15, 2024</span>
+              </div>
+            </div>
+            <div class="dash-lab-card">
+              <div class="dash-lab-card-header">
+                <span class="dash-lab-card-title">Cholesterol (Total)</span>
+                <span class="dash-badge normal">Normal</span>
+              </div>
+              <div class="dash-lab-card-meta">
+                <span>185 mg/dL</span>
+                <span>&lt;200 mg/dL</span>
+                <span>Jan 15, 2024</span>
+              </div>
+            </div>
+            <div class="dash-lab-card">
+              <div class="dash-lab-card-header">
+                <span class="dash-lab-card-title">HDL Cholesterol</span>
+                <span class="dash-badge normal">Normal</span>
+              </div>
+              <div class="dash-lab-card-meta">
+                <span>52 mg/dL</span>
+                <span>&gt;40 mg/dL</span>
+                <span>Jan 15, 2024</span>
+              </div>
+            </div>
+            <div class="dash-lab-card">
+              <div class="dash-lab-card-header">
+                <span class="dash-lab-card-title">Hemoglobin A1C</span>
+                <span class="dash-badge elevated">Elevated</span>
+              </div>
+              <div class="dash-lab-card-meta">
+                <span>5.8%</span>
+                <span>&lt;5.7%</span>
+                <span>Jan 10, 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appointments & Medications Grid -->
+      <div class="dash-sections-grid mt-4">
+        <div class="dash-card">
+          <h2 class="dash-title-2 mb-4">Upcoming Appointments</h2>
+          <div class="dash-appt-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <h4 class="dash-title-3 mb-1">Dr. James Smith</h4>
+                <p class="dash-meta mb-0">Cardiology - Follow-up Consultation</p>
+              </div>
+              <span class="dash-badge normal">Confirmed</span>
+            </div>
+            <div class="dash-meta mb-2">
+              <i class="fas fa-calendar me-2 dash-icon-primary"></i>Tomorrow, 2:30 PM<br>
+              <i class="fas fa-map-marker-alt me-2 dash-icon-primary"></i>Room 204, Cardiology
+            </div>
+            <a href="emr-portal/appointments.html" class="btn btn-secondary btn-sm w-100">Reschedule</a>
+          </div>
+          <a href="index.html#appointment-widget" class="btn btn-primary w-100 mt-2">+ Book New Appointment</a>
+        </div>
+
+        <div class="dash-card">
+          <h2 class="dash-title-2 mb-4">Current Medications</h2>
+          <div class="dash-med-card">
+            <div class="dash-med-icon primary">Rx</div>
+            <div class="flex-grow-1">
+              <h4 class="dash-title-3 mb-1">Lisinopril</h4>
+              <p class="dash-meta mb-0">10mg - Once daily (Morning)</p>
+              <p class="dash-caption mb-0">Prescribed: Dr. James Smith</p>
+            </div>
+            <button class="dash-btn-icon" aria-label="More options"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+          <div class="dash-med-card">
+            <div class="dash-med-icon accent">Rx</div>
+            <div class="flex-grow-1">
+              <h4 class="dash-title-3 mb-1">Atorvastatin</h4>
+              <p class="dash-meta mb-0">20mg - Once daily (Evening)</p>
+              <p class="dash-caption mb-0">Prescribed: Dr. James Smith</p>
+            </div>
+            <button class="dash-btn-icon" aria-label="More options"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+          <a href="emr-portal/prescriptions.html" class="btn btn-primary w-100">View Full Medication History</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    (function() {
+      AOS.init();
+
+      var sidebar = document.getElementById('dashSidebar');
+      var overlay = document.getElementById('dashOverlay');
+      var toggle = document.getElementById('dashSidebarToggle');
+      var notification = document.getElementById('dashNotification');
+
+      // Desktop: sidebar is collapsed (icons only) by default, expands on hover via CSS
+
+      // Mobile: toggle drawer
+      function openDrawer() {
+        sidebar.classList.add('dash-mobile-open');
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        sidebar.classList.remove('dash-mobile-open');
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      toggle?.addEventListener('click', function() {
+        if (sidebar.classList.contains('dash-mobile-open')) {
+          closeDrawer();
+        } else {
+          openDrawer();
+        }
+      });
+
+      overlay?.addEventListener('click', closeDrawer);
+
+      // Close on escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar?.classList.contains('dash-mobile-open')) {
+          closeDrawer();
+        }
+      });
+
+      // Pulse notification bell only when badge > 0
+      var badge = notification?.querySelector('.dash-notification-badge');
+      if (badge && parseInt(badge.textContent, 10) > 0) {
+        notification.classList.add('has-badge');
+      } else if (notification) {
+        notification.classList.remove('has-badge');
+      }
+
+      // Prevent layout jitter: use will-change on overlay
+      overlay?.style.setProperty('will-change', 'opacity');
+    })();
+  </script>
+</body>
+</html>

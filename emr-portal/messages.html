@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages | MediCare Patient Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/patient-portal.css" rel="stylesheet">
+  <link href="../css/portal-mobile.css" rel="stylesheet">
+  <link href="../css/messaging.css" rel="stylesheet">
+</head>
+<body class="portal-body msg-page">
+  <div class="portal-overlay" id="portalOverlay" aria-hidden="true"></div>
+  <button class="portal-hamburger" id="portalHamburger" aria-label="Toggle menu" style="display:none;"><i class="fas fa-bars"></i></button>
+  <aside class="sidebar msg-sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <h2>MediCare</h2>
+    </div>
+    <nav>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="../emr-patient-dashboard.html" class="sidebar-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+        <li class="sidebar-nav-item"><a href="medical-history.html" class="sidebar-nav-link"><i class="fas fa-history"></i> Medical History</a></li>
+        <li class="sidebar-nav-item"><a href="lab-results.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Results</a></li>
+        <li class="sidebar-nav-item"><a href="imaging.html" class="sidebar-nav-link"><i class="fas fa-image"></i> Imaging & Scans</a></li>
+        <li class="sidebar-nav-item"><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> E-Prescriptions</a></li>
+        <li class="sidebar-nav-item"><a href="appointments.html" class="sidebar-nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+        <li class="sidebar-nav-item"><a href="messages.html" class="sidebar-nav-link active"><i class="fas fa-envelope"></i> Messages <span class="badge bg-danger ms-auto">3</span></a></li>
+        <li class="sidebar-nav-item"><a href="billing.html" class="sidebar-nav-link"><i class="fas fa-receipt"></i> Billing</a></li>
+        <li class="sidebar-nav-item"><a href="settings.html" class="sidebar-nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="main-content msg-main">
+    <div class="top-header msg-top-header">
+      <div class="header-search"><i class="fas fa-search"></i><input type="text" placeholder="Search records, tests, doctors..."></div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="user-avatar">RJ</div>
+        <div><h4 class="mb-0 small fw-semibold">Robert Johnson</h4><p class="mb-0 small text-secondary">Patient ID: RJ-20240524</p></div>
+      </div>
+    </div>
+
+    <div class="msg-wrapper">
+      <!-- Single clean header for messaging (replaces page-header on mobile) -->
+      <div class="msg-header">
+        <h1 class="msg-header-title">Messages</h1>
+        <button class="msg-header-compose" aria-label="New message">
+          <i class="fas fa-pen-to-square"></i>
+        </button>
+      </div>
+
+      <div class="portal-card p-0 msg-module">
+        <div class="msg-panel">
+          <!-- Inbox List -->
+          <div class="msg-list msg-inbox">
+            <div class="msg-search-wrap">
+              <div class="msg-search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" class="msg-search" placeholder="Search messages..." aria-label="Search messages">
+              </div>
+            </div>
+            <div class="msg-contacts">
+              <div class="msg-item active unread" data-conversation="smith">
+                <div class="msg-avatar">JS</div>
+                <div class="msg-item-content">
+                  <div class="msg-item-header">
+                    <span class="msg-item-name">Dr. James Smith</span>
+                    <span class="msg-item-right">
+                      <span class="msg-item-time">10 min ago</span>
+                      <span class="msg-unread-badge">2</span>
+                    </span>
+                  </div>
+                  <p class="msg-item-preview">Your lab results are ready. Please review...</p>
+                </div>
+              </div>
+              <div class="msg-item" data-conversation="chen">
+                <div class="msg-avatar">SC</div>
+                <div class="msg-item-content">
+                  <div class="msg-item-header">
+                    <span class="msg-item-name">Dr. Sarah Chen</span>
+                    <span class="msg-item-right">
+                      <span class="msg-item-time">2 days ago</span>
+                    </span>
+                  </div>
+                  <p class="msg-item-preview">Reminder: Allergy follow-up next week</p>
+                </div>
+              </div>
+              <div class="msg-item" data-conversation="williams">
+                <div class="msg-avatar">MW</div>
+                <div class="msg-item-content">
+                  <div class="msg-item-header">
+                    <span class="msg-item-name">Dr. Michael Williams</span>
+                    <span class="msg-item-right">
+                      <span class="msg-item-time">1 week ago</span>
+                    </span>
+                  </div>
+                  <p class="msg-item-preview">Knee recovery looking good. Continue PT.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message Thread (desktop: inline, mobile: overlay) -->
+          <div class="msg-thread" id="msgThread">
+            <div class="msg-chat-header">
+              <button class="msg-back-btn" id="msgBackBtn" aria-label="Back to inbox">
+                <i class="fas fa-arrow-left"></i>
+              </button>
+              <div class="msg-chat-title" id="msgChatTitle">Dr. James Smith</div>
+            </div>
+            <div class="msg-thread-content" id="msgThreadContent">
+              <div class="msg-bubble doctor mb-3">
+                <div class="msg-bubble-meta">Dr. James Smith • Cardiology • Jan 15, 2:30 PM</div>
+                Your lab results from last week are ready. Please log in to view them. The A1C result needs a follow-up discussion—let's schedule a call.
+              </div>
+              <div class="msg-bubble patient mb-3">
+                <div class="msg-bubble-meta">You • 2:45 PM <span class="msg-status-receipt">Read</span></div>
+                Thank you, Dr. Smith. I've reviewed them. When would work for a call?
+              </div>
+              <div class="msg-bubble doctor mb-3">
+                <div class="msg-bubble-meta">Dr. James Smith • 2:50 PM</div>
+                How about tomorrow at 3 PM? I can send a calendar invite.
+              </div>
+              <div class="msg-bubble patient">
+                <div class="msg-bubble-meta">You • 2:52 PM <span class="msg-status-receipt">Delivered</span></div>
+                That works. Please send the invite.
+              </div>
+              <div class="msg-typing-indicator" id="msgTypingIndicator">
+                <span class="msg-typing-dot"></span>
+                <span class="msg-typing-dot"></span>
+                <span class="msg-typing-dot"></span>
+              </div>
+            </div>
+            <div class="msg-input-area">
+              <button class="msg-input-btn msg-btn-attach" title="Attach file" aria-label="Attach file">
+                <i class="fas fa-paperclip"></i>
+              </button>
+              <div class="msg-input-wrap">
+                <input type="text" placeholder="Type your message..." aria-label="Message input" id="msgInput">
+                <button class="msg-input-btn msg-btn-send" title="Send message" aria-label="Send message">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+              <button class="msg-input-btn msg-btn-emoji" title="Add emoji" aria-label="Add emoji">
+                <i class="far fa-face-smile"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function() {
+      const msgItems = document.querySelectorAll('.msg-item');
+      const threadContent = document.getElementById('msgThreadContent');
+      const msgThread = document.getElementById('msgThread');
+      const msgBackBtn = document.getElementById('msgBackBtn');
+      const msgChatTitle = document.getElementById('msgChatTitle');
+
+      const conversations = {
+        smith: {
+          name: 'Dr. James Smith',
+          specialty: 'Cardiology',
+          typing: true,
+          messages: [
+            { from: 'doctor', meta: 'Dr. James Smith • Cardiology • Jan 15, 2:30 PM', text: 'Your lab results from last week are ready. Please log in to view them. The A1C result needs a follow-up discussion—let\'s schedule a call.' },
+            { from: 'patient', meta: 'You • 2:45 PM', receipt: 'Read', text: 'Thank you, Dr. Smith. I\'ve reviewed them. When would work for a call?' },
+            { from: 'doctor', meta: 'Dr. James Smith • 2:50 PM', text: 'How about tomorrow at 3 PM? I can send a calendar invite.' },
+            { from: 'patient', meta: 'You • 2:52 PM', receipt: 'Delivered', text: 'That works. Please send the invite.' }
+          ]
+        },
+        chen: {
+          name: 'Dr. Sarah Chen',
+          specialty: 'Allergy & Immunology',
+          typing: false,
+          messages: [
+            { from: 'doctor', meta: 'Dr. Sarah Chen • Allergy • Jan 10, 9:00 AM', text: 'Reminder: Your allergy follow-up is scheduled for next week. Please bring your symptom diary.' },
+            { from: 'patient', meta: 'You • Jan 10, 2:15 PM', receipt: 'Read', text: 'Will do. Thanks for the reminder!' }
+          ]
+        },
+        williams: {
+          name: 'Dr. Michael Williams',
+          specialty: 'Orthopedics',
+          typing: false,
+          messages: [
+            { from: 'doctor', meta: 'Dr. Michael Williams • Orthopedics • Jan 5, 11:00 AM', text: 'Knee recovery is looking good. Continue with the physical therapy exercises we discussed.' }
+          ]
+        }
+      };
+
+      function renderThread(conversationId) {
+        const conv = conversations[conversationId];
+        if (!conv) return;
+
+        msgChatTitle.textContent = conv.name;
+        threadContent.classList.add('msg-transitioning');
+        threadContent.innerHTML = conv.messages.map(function(m, i) {
+          const cls = m.from === 'patient' ? 'msg-bubble patient' : 'msg-bubble doctor';
+          const mb = i < conv.messages.length - 1 ? ' mb-3' : '';
+          const receipt = m.receipt ? ' <span class="msg-status-receipt">' + m.receipt + '</span>' : '';
+          return '<div class="' + cls + mb + '"><div class="msg-bubble-meta">' + m.meta + receipt + '</div>' + m.text + '</div>';
+        }).join('') + (conv.typing ? '<div class="msg-typing-indicator" id="msgTypingIndicator"><span class="msg-typing-dot"></span><span class="msg-typing-dot"></span><span class="msg-typing-dot"></span></div>' : '');
+
+        setTimeout(function() {
+          threadContent.classList.remove('msg-transitioning');
+        }, 300);
+      }
+
+      function showChatOverlay() {
+        document.body.classList.add('msg-chat-open');
+      }
+
+      function hideChatOverlay() {
+        document.body.classList.remove('msg-chat-open');
+      }
+
+      msgItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          msgItems.forEach(function(i) { i.classList.remove('active'); });
+          this.classList.add('active');
+          const convId = this.getAttribute('data-conversation');
+          renderThread(convId);
+
+          if (window.innerWidth < 768) {
+            showChatOverlay();
+          }
+        });
+      });
+
+      msgBackBtn?.addEventListener('click', function() {
+        if (window.innerWidth < 768) {
+          hideChatOverlay();
+        }
+      });
+
+      document.querySelector('.msg-search')?.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase();
+        msgItems.forEach(function(item) {
+          const name = item.querySelector('.msg-item-name')?.textContent?.toLowerCase() || '';
+          const preview = item.querySelector('.msg-item-preview')?.textContent?.toLowerCase() || '';
+          item.style.display = (name.includes(query) || preview.includes(query) || !query) ? '' : 'none';
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+          hideChatOverlay();
+        }
+      });
+
+      document.getElementById('msgInput')?.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          this.closest('.msg-input-area')?.querySelector('.msg-btn-send')?.click();
+        }
+      });
+
+      document.querySelector('.msg-btn-send')?.addEventListener('click', function() {
+        var input = document.getElementById('msgInput');
+        if (input && input.value.trim()) {
+          input.value = '';
+        }
+      });
+    })();
+  </script>
+  <script src="portal-mobile-init.js"></script>
+</body>
+</html>

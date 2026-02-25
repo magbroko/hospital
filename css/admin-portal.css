@@ -1,0 +1,265 @@
+/* ============================================
+   ADMIN PORTAL - Shared styles for sub-pages
+   Bed Allocation, Patient Management, etc.
+   ============================================ */
+
+/* Overlay for mobile sidebar */
+.admin-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.admin-overlay.active {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Bed Allocation - Ward Grid / Heat Map */
+.ward-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.ward-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(10, 186, 181, 0.1);
+}
+
+.ward-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ward-beds {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.bed-card {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  min-height: 56px;
+  border: 2px solid transparent;
+}
+
+.bed-card.available {
+  background: #10B981;
+  color: white;
+}
+
+.bed-card.occupied {
+  background: #EF4444;
+  color: white;
+}
+
+.bed-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bed-card.available:hover {
+  border-color: #059669;
+}
+
+.bed-card.occupied:hover {
+  border-color: #DC2626;
+}
+
+.bed-card .bed-id {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.bed-card .bed-patient {
+  font-size: 0.65rem;
+  opacity: 0.9;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 4px;
+}
+
+.bed-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: #1a1a1a;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.bed-card:hover .bed-tooltip {
+  opacity: 1;
+}
+
+.bed-quick-assign {
+  display: none;
+  margin-top: 4px;
+  padding: 4px 8px;
+  font-size: 0.65rem;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+}
+
+.bed-card.available:hover .bed-quick-assign {
+  display: block;
+}
+
+/* Inventory - Progress bars */
+.inventory-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 12px;
+  transition: all 0.2s;
+  flex-wrap: wrap;
+}
+
+.inventory-item:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.inventory-item.low-stock {
+  border-left: 4px solid var(--error-red);
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.inventory-item.critical {
+  border-left: 4px solid var(--error-red);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.inventory-progress {
+  flex: 1;
+  min-width: 80px;
+  height: 10px;
+  background: #E5E7EB;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.inventory-progress-bar {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.inventory-progress-bar.healthy { background: var(--success-green); }
+.inventory-progress-bar.warning { background: var(--warning-orange); }
+.inventory-progress-bar.critical { background: var(--error-red); }
+
+/* Workflow cards for Lab Orders & Prescriptions */
+.workflow-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+
+.workflow-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.workflow-card.pending {
+  border-left: 4px solid var(--warning-orange);
+}
+
+.workflow-card.approved {
+  border-left: 4px solid var(--success-green);
+}
+
+/* Mobile: Tables to stacked cards */
+.admin-card-mobile {
+  display: none;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .ward-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ward-beds {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-table-wrap {
+    display: none;
+  }
+
+  .admin-card-mobile {
+    display: block;
+  }
+
+  .admin-action-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .admin-action-card .card-meta {
+    font-size: 0.8125rem;
+    color: #6B7280;
+    margin-bottom: 8px;
+  }
+
+  .admin-action-card .card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .admin-action-card .card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+}

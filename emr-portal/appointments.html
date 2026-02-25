@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments | MediCare Patient Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/patient-portal.css" rel="stylesheet">
+  <link href="../css/portal-mobile.css" rel="stylesheet">
+</head>
+<body class="portal-body">
+  <div class="portal-overlay" id="portalOverlay" aria-hidden="true"></div>
+  <button class="portal-hamburger" id="portalHamburger" aria-label="Toggle menu" style="display:none;"><i class="fas fa-bars"></i></button>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <h2>MediCare</h2>
+    </div>
+    <nav>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item"><a href="../emr-patient-dashboard.html" class="sidebar-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+        <li class="sidebar-nav-item"><a href="medical-history.html" class="sidebar-nav-link"><i class="fas fa-history"></i> Medical History</a></li>
+        <li class="sidebar-nav-item"><a href="lab-results.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Results</a></li>
+        <li class="sidebar-nav-item"><a href="imaging.html" class="sidebar-nav-link"><i class="fas fa-image"></i> Imaging & Scans</a></li>
+        <li class="sidebar-nav-item"><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> E-Prescriptions</a></li>
+        <li class="sidebar-nav-item"><a href="appointments.html" class="sidebar-nav-link active"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+        <li class="sidebar-nav-item"><a href="messages.html" class="sidebar-nav-link"><i class="fas fa-envelope"></i> Messages <span class="badge bg-danger ms-auto">3</span></a></li>
+        <li class="sidebar-nav-item"><a href="billing.html" class="sidebar-nav-link"><i class="fas fa-receipt"></i> Billing</a></li>
+        <li class="sidebar-nav-item"><a href="settings.html" class="sidebar-nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="main-content" style="margin-left: 280px; min-height: 100vh; background: var(--soft-white, #F3FDFC);">
+    <div class="top-header" style="background: white; padding: 16px 32px; border-bottom: 1px solid #E0E0E0;">
+      <div class="header-search"><i class="fas fa-search"></i><input type="text" placeholder="Search records, tests, doctors..."></div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="user-avatar">RJ</div>
+        <div><h4 class="mb-0 small fw-semibold">Robert Johnson</h4><p class="mb-0 small text-secondary">Patient ID: RJ-20240524</p></div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <div class="page-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+          <h1>Appointments</h1>
+          <p class="breadcrumb">Patient Portal / Appointments</p>
+        </div>
+        <button class="btn-portal-primary"><i class="fas fa-calendar-plus me-2"></i>Book New Appointment</button>
+      </div>
+      <div class="portal-card">
+        <div class="portal-tabs">
+          <button class="portal-tab active">Upcoming</button>
+          <button class="portal-tab">Past</button>
+        </div>
+        <!-- Vertical Timeline - Upcoming -->
+        <ul class="portal-appt-timeline list-unstyled mb-0">
+          <li class="portal-appt-timeline-item">
+            <div class="portal-appt-timeline-dot"></div>
+            <div class="portal-record-card">
+              <div class="portal-record-card-header">
+                <span class="portal-record-card-status"><span class="status-badge badge-teal">Confirmed</span></span>
+                <span class="portal-record-card-date">Tomorrow, 2:30 PM</span>
+              </div>
+              <div class="portal-record-card-title">Dr. James Smith</div>
+              <p class="portal-record-card-meta mb-2">Cardiology • Follow-up Consultation</p>
+              <p class="small mb-2"><i class="fas fa-map-marker-alt me-2" style="color: var(--primary);"></i>Room 204, Cardiology</p>
+              <div class="portal-appt-actions">
+                <a href="#" class="btn btn-portal-primary"><i class="fas fa-calendar-plus me-2"></i>Add to Calendar</a>
+                <a href="#" class="btn btn-portal-outline"><i class="fas fa-directions me-2"></i>Directions</a>
+                <button class="btn btn-portal-outline">Reschedule</button>
+                <button class="btn btn-sm" style="color: var(--status-red); border: 1px solid var(--status-red);">Cancel</button>
+              </div>
+            </div>
+          </li>
+          <li class="portal-appt-timeline-item">
+            <div class="portal-appt-timeline-dot"></div>
+            <div class="portal-record-card">
+              <div class="portal-record-card-header">
+                <span class="portal-record-card-status"><span class="status-badge badge-yellow">Pending</span></span>
+                <span class="portal-record-card-date">Feb 28, 2025 • 10:00 AM</span>
+              </div>
+              <div class="portal-record-card-title">Dr. Sarah Chen</div>
+              <p class="portal-record-card-meta mb-2">Allergy & Immunology • Virtual Visit</p>
+              <p class="small mb-2"><i class="fas fa-video me-2" style="color: var(--primary);"></i>Video consultation</p>
+              <div class="portal-appt-actions">
+                <a href="#" class="btn btn-portal-primary"><i class="fas fa-calendar-plus me-2"></i>Add to Calendar</a>
+                <a href="#" class="btn btn-portal-outline"><i class="fas fa-video me-2"></i>Join Meeting</a>
+                <button class="btn btn-portal-outline">Reschedule</button>
+                <button class="btn btn-sm" style="color: var(--status-red); border: 1px solid var(--status-red);">Cancel</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="portal-card">
+        <h4 class="h6 fw-bold mb-3">Past Appointments</h4>
+        <div class="table-responsive">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Doctor</th>
+                <th>Specialty</th>
+                <th>Summary</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jan 15, 2025</td>
+                <td>Dr. James Smith</td>
+                <td>Cardiology</td>
+                <td>Annual checkup</td>
+                <td><button class="btn-portal-outline btn-sm">View Summary</button></td>
+              </tr>
+              <tr>
+                <td>Dec 10, 2024</td>
+                <td>Dr. Sarah Chen</td>
+                <td>Allergy</td>
+                <td>Follow-up allergy test</td>
+                <td><button class="btn-portal-outline btn-sm">View Summary</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="portal-mobile-init.js"></script>
+  <script>
+    document.querySelectorAll('.portal-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var parent = this.closest('.portal-card');
+        if (parent) parent.querySelectorAll('.portal-tab').forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

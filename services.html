@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore MediCare Hospital services - Cardiology, Pediatrics, Oncology, Orthopedics, Radiology, and more.">
+  <title>Services & Specialties | MediCare Hospital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-hospital"></i>
+        MediCare
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="emr-patient-dashboard.html">Patient Portal</a></li>
+          <li class="nav-item"><a class="nav-link" href="admin-dashboard.html">Staff Login</a></li>
+          <li class="nav-item">
+            <a class="btn btn-primary ms-2" href="index.html#appointment-widget">
+              <i class="fas fa-calendar-check"></i> Book Appointment
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Services Hero -->
+  <section class="py-5 text-white" style="background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-4">Our Services & Specialties</h1>
+      <p class="fs-5 opacity-95" style="max-width: 600px;">
+        Comprehensive medical care across all major specialties. Our expert teams deliver personalized treatment with cutting-edge technology.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" id="cardiology">
+          <a href="services/cardiology.html" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-teal), #08a9a4);">
+                <i class="fas fa-heart fa-2x text-white"></i>
+              </div>
+              <h3 class="h5 mb-2" style="color: var(--secondary-teal);">Cardiology</h3>
+              <p class="text-secondary mb-0">Advanced cardiac care with world-renowned specialists.</p>
+              <span class="mt-2 d-inline-block fw-semibold" style="color: var(--primary-teal);">Learn More <i class="fas fa-arrow-right fa-sm"></i></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100" id="pediatrics">
+          <a href="services.html#pediatrics" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-teal), #08a9a4);">
+                <i class="fas fa-baby fa-2x text-white"></i>
+              </div>
+              <h3 class="h5 mb-2" style="color: var(--secondary-teal);">Pediatrics</h3>
+              <p class="text-secondary mb-0">Compassionate care for infants, children, and adolescents.</p>
+              <span class="mt-2 d-inline-block fw-semibold" style="color: var(--primary-teal);">Learn More <i class="fas fa-arrow-right fa-sm"></i></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200" id="oncology">
+          <a href="services.html#oncology" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-teal), #08a9a4);">
+                <i class="fas fa-shield-alt fa-2x text-white"></i>
+              </div>
+              <h3 class="h5 mb-2" style="color: var(--secondary-teal);">Oncology</h3>
+              <p class="text-secondary mb-0">Comprehensive cancer care with latest immunotherapy.</p>
+              <span class="mt-2 d-inline-block fw-semibold" style="color: var(--primary-teal);">Learn More <i class="fas fa-arrow-right fa-sm"></i></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" id="orthopedics">
+          <a href="services.html#orthopedics" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-teal), #08a9a4);">
+                <i class="fas fa-bone fa-2x text-white"></i>
+              </div>
+              <h3 class="h5 mb-2" style="color: var(--secondary-teal);">Orthopedics</h3>
+              <p class="text-secondary mb-0">Expert care for bones, joints, and muscles.</p>
+              <span class="mt-2 d-inline-block fw-semibold" style="color: var(--primary-teal);">Learn More <i class="fas fa-arrow-right fa-sm"></i></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100" id="radiology">
+          <a href="services.html#radiology" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-teal), #08a9a4);">
+                <i class="fas fa-x-ray fa-2x text-white"></i>
+              </div>
+              <h3 class="h5 mb-2" style="color: var(--secondary-teal);">Radiology</h3>
+              <p class="text-secondary mb-0">State-of-the-art imaging and diagnostic services.</p>
+              <span class="mt-2 d-inline-block fw-semibold" style="color: var(--primary-teal);">Learn More <i class="fas fa-arrow-right fa-sm"></i></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200" id="neurology">
+          <a href="services.html#neurology" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-teal), #08a9a4);">
+                <i class="fas fa-brain fa-2x text-white"></i>
+              </div>
+              <h3 class="h5 mb-2" style="color: var(--secondary-teal);">Neurology</h3>
+              <p class="text-secondary mb-0">Specialized care for brain and nervous system.</p>
+              <span class="mt-2 d-inline-block fw-semibold" style="color: var(--primary-teal);">Learn More <i class="fas fa-arrow-right fa-sm"></i></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-5" style="background: var(--soft-white);">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-3">Ready to Schedule Your Visit?</h2>
+      <p class="text-secondary mb-4">Our team is here to help you find the right care.</p>
+      <a href="index.html#appointment-widget" class="btn btn-primary btn-lg">
+        <i class="fas fa-calendar-check"></i> Book Appointment
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; 2024 MediCare Hospital. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ duration: 600, offset: 50 });</script>
+</body>
+</html>

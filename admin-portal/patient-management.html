@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Management | MediCare Hospital EMR</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <span>MediCare EMR</span>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="../admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="patient-management.html" class="sidebar-nav-link active"><i class="fas fa-users"></i> Patient Management</a></li>
+      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
+      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
+      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
+      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
+      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
+      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-secondary w-100 btn-sm"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 class="h4 fw-bold mb-0">Patient Management</h1>
+        <p class="small text-secondary mb-0">Search and filter patient records</p>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="position-relative">
+          <i class="fas fa-bell fa-lg text-secondary"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+          <div>
+            <div class="small fw-semibold">Dr. Sarah Johnson</div>
+            <div class="small text-secondary">Staff ID: SJ-2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <div class="stat-card mb-4">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="fas fa-search text-secondary"></i></span>
+              <input type="text" id="patientSearch" class="form-control" placeholder="Search by name, ID, or department...">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <select id="statusFilter" class="form-select">
+              <option value="all">All Status</option>
+              <option value="admitted">Admitted</option>
+              <option value="outpatient">Outpatient</option>
+              <option value="discharged">Discharged</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <h2 class="h5 fw-bold mb-4">Patients</h2>
+
+        <div class="admin-table-wrap">
+          <table class="data-table" id="patientTable">
+            <thead>
+              <tr>
+                <th>Patient ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Admission Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-status="admitted">
+                <td><strong>RJ-20240524</strong></td>
+                <td>Robert Johnson</td>
+                <td>Cardiology</td>
+                <td><span class="badge-status occupied">Admitted</span></td>
+                <td>May 24, 2024</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="outpatient">
+                <td><strong>MJ-20240115</strong></td>
+                <td>Margaret Johnson</td>
+                <td>Cardiology</td>
+                <td><span class="badge-status pending">Outpatient</span></td>
+                <td>—</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="admitted">
+                <td><strong>DC-20240201</strong></td>
+                <td>David Chen</td>
+                <td>Orthopedics</td>
+                <td><span class="badge-status occupied">Admitted</span></td>
+                <td>Feb 01, 2024</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="discharged">
+                <td><strong>ER-20240210</strong></td>
+                <td>Emily Rodriguez</td>
+                <td>Pediatrics</td>
+                <td><span class="badge-status available">Discharged</span></td>
+                <td>Feb 10, 2024</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="admitted">
+                <td><strong>PW-20240305</strong></td>
+                <td>Paul Williams</td>
+                <td>General Surgery</td>
+                <td><span class="badge-status occupied">Admitted</span></td>
+                <td>Mar 05, 2024</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="outpatient">
+                <td><strong>KG-20240318</strong></td>
+                <td>Karen Garcia</td>
+                <td>Dermatology</td>
+                <td><span class="badge-status pending">Outpatient</span></td>
+                <td>—</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="discharged">
+                <td><strong>TM-20240422</strong></td>
+                <td>Thomas Moore</td>
+                <td>Neurology</td>
+                <td><span class="badge-status available">Discharged</span></td>
+                <td>Apr 22, 2024</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+              <tr data-status="admitted">
+                <td><strong>NC-20240512</strong></td>
+                <td>Nancy Clark</td>
+                <td>Oncology</td>
+                <td><span class="badge-status occupied">Admitted</span></td>
+                <td>May 12, 2024</td>
+                <td><button class="btn btn-sm btn-secondary">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-card-mobile" id="patientCards">
+          <div class="admin-action-card" data-status="admitted">
+            <div class="card-meta">RJ-20240524 • Cardiology</div>
+            <div class="card-title">Robert Johnson</div>
+            <span class="badge-status occupied mb-2">Admitted</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="outpatient">
+            <div class="card-meta">MJ-20240115 • Cardiology</div>
+            <div class="card-title">Margaret Johnson</div>
+            <span class="badge-status pending mb-2">Outpatient</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="admitted">
+            <div class="card-meta">DC-20240201 • Orthopedics</div>
+            <div class="card-title">David Chen</div>
+            <span class="badge-status occupied mb-2">Admitted</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="discharged">
+            <div class="card-meta">ER-20240210 • Pediatrics</div>
+            <div class="card-title">Emily Rodriguez</div>
+            <span class="badge-status available mb-2">Discharged</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="admitted">
+            <div class="card-meta">PW-20240305 • General Surgery</div>
+            <div class="card-title">Paul Williams</div>
+            <span class="badge-status occupied mb-2">Admitted</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="outpatient">
+            <div class="card-meta">KG-20240318 • Dermatology</div>
+            <div class="card-title">Karen Garcia</div>
+            <span class="badge-status pending mb-2">Outpatient</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="discharged">
+            <div class="card-meta">TM-20240422 • Neurology</div>
+            <div class="card-title">Thomas Moore</div>
+            <span class="badge-status available mb-2">Discharged</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+          <div class="admin-action-card" data-status="admitted">
+            <div class="card-meta">NC-20240512 • Oncology</div>
+            <div class="card-title">Nancy Clark</div>
+            <span class="badge-status occupied mb-2">Admitted</span>
+            <div class="card-actions"><button class="btn btn-sm btn-primary">View</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function() {
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.getElementById('adminOverlay');
+      var toggle = document.getElementById('adminSidebarToggle');
+      function openDrawer() { sidebar?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+      function closeDrawer() { sidebar?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+      toggle?.addEventListener('click', function() { sidebar?.classList.contains('active') ? closeDrawer() : openDrawer(); });
+      overlay?.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer(); });
+
+      var search = document.getElementById('patientSearch');
+      var filter = document.getElementById('statusFilter');
+      var rows = document.querySelectorAll('#patientTable tbody tr');
+      var cards = document.querySelectorAll('.admin-action-card');
+
+      function filterPatients() {
+        var q = (search?.value || '').toLowerCase();
+        var status = filter?.value || 'all';
+        rows.forEach(function(r) {
+          var text = r.textContent.toLowerCase();
+          var matchStatus = status === 'all' || r.dataset.status === status;
+          var matchSearch = !q || text.includes(q);
+          r.style.display = matchStatus && matchSearch ? '' : 'none';
+        });
+        cards.forEach(function(c) {
+          var text = c.textContent.toLowerCase();
+          var matchStatus = status === 'all' || c.dataset.status === status;
+          var matchSearch = !q || text.includes(q);
+          c.style.display = matchStatus && matchSearch ? '' : 'none';
+        });
+      }
+      search?.addEventListener('input', filterPatients);
+      filter?.addEventListener('change', filterPatients);
+    })();
+  </script>
+</body>
+</html>

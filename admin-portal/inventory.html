@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory | MediCare Hospital EMR</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <span>MediCare EMR</span>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="../admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
+      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
+      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
+      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
+      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
+      <li><a href="inventory.html" class="sidebar-nav-link active"><i class="fas fa-boxes"></i> Inventory</a></li>
+      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn btn-secondary w-100 btn-sm"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 class="h4 fw-bold mb-0">Medical Supplies Inventory</h1>
+        <p class="small text-secondary mb-0">Track stock levels and reorder alerts</p>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="position-relative">
+          <i class="fas fa-bell fa-lg text-secondary"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+          <div>
+            <div class="small fw-semibold">Dr. Sarah Johnson</div>
+            <div class="small text-secondary">Staff ID: SJ-2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <span class="badge bg-success">Healthy: &gt;30%</span>
+        <span class="badge bg-warning text-dark">Low: 10–30%</span>
+        <span class="badge bg-danger">Critical: &lt;10%</span>
+      </div>
+
+      <div class="stat-card">
+        <h2 class="h5 fw-bold mb-4">Supply Levels</h2>
+
+        <div class="inventory-item">
+          <div style="min-width: 48px; height: 48px; border-radius: 10px; background: rgba(10, 186, 181, 0.15); color: var(--primary-teal); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-syringe"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>IV Saline (0.9%)</strong>
+              <span class="text-secondary small">120/200 units</span>
+            </div>
+            <div class="inventory-progress">
+              <div class="inventory-progress-bar healthy" style="width: 60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inventory-item low-stock">
+          <div style="min-width: 48px; height: 48px; border-radius: 10px; background: rgba(245, 158, 11, 0.2); color: var(--warning-orange); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-pills"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>Acetaminophen 500mg</strong>
+              <span class="text-warning small fw-semibold">45/200 units — Low Stock</span>
+            </div>
+            <div class="inventory-progress">
+              <div class="inventory-progress-bar warning" style="width: 22.5%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inventory-item critical">
+          <div style="min-width: 48px; height: 48px; border-radius: 10px; background: rgba(239, 68, 68, 0.2); color: var(--error-red); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-vial"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>Blood Collection Tubes</strong>
+              <span class="text-danger small fw-semibold">8/100 units — Critical</span>
+            </div>
+            <div class="inventory-progress">
+              <div class="inventory-progress-bar critical" style="width: 8%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inventory-item critical">
+          <div style="min-width: 48px; height: 48px; border-radius: 10px; background: rgba(239, 68, 68, 0.2); color: var(--error-red); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-mask-face"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>N95 Masks</strong>
+              <span class="text-danger small fw-semibold">5/150 units — Critical</span>
+            </div>
+            <div class="inventory-progress">
+              <div class="inventory-progress-bar critical" style="width: 3.3%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inventory-item">
+          <div style="min-width: 48px; height: 48px; border-radius: 10px; background: rgba(10, 186, 181, 0.15); color: var(--primary-teal); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-bandage"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>Gauze Pads (4x4)</strong>
+              <span class="text-secondary small">280/300 units</span>
+            </div>
+            <div class="inventory-progress">
+              <div class="inventory-progress-bar healthy" style="width: 93%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inventory-item low-stock">
+          <div style="min-width: 48px; height: 48px; border-radius: 10px; background: rgba(245, 158, 11, 0.2); color: var(--warning-orange); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-prescription-bottle"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>Insulin (Regular)</strong>
+              <span class="text-warning small fw-semibold">25/100 vials — Low Stock</span>
+            </div>
+            <div class="inventory-progress">
+              <div class="inventory-progress-bar warning" style="width: 25%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button class="btn btn-primary"><i class="fas fa-plus me-2"></i>Request Reorder</button>
+        <button class="btn btn-secondary ms-2"><i class="fas fa-file-export me-2"></i>Export Report</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function() {
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.getElementById('adminOverlay');
+      var toggle = document.getElementById('adminSidebarToggle');
+      function openDrawer() { sidebar?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+      function closeDrawer() { sidebar?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+      toggle?.addEventListener('click', function() { sidebar?.classList.contains('active') ? closeDrawer() : openDrawer(); });
+      overlay?.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer(); });
+    })();
+  </script>
+</body>
+</html>
