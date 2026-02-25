@@ -4,7 +4,7 @@
    WCAG 2.1 AA | Bootstrap 5.3 overrides
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&family=Lora:ital@0;1&display=swap');
 
 /* ========== Design Tokens ========== */
 :root {
@@ -62,6 +62,134 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-navy);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid var(--color-action-blue-light);
+  outline-offset: 2px;
+}
+
+/* --- Ambient Background Animations ---
+   Living UI: aura blobs, micro-grid, hero neural overlay
+   z-index: -1, pointer-events: none, prefers-reduced-motion safe
+   --- */
+
+.ambient-background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+  opacity: 0.04;
+}
+
+.ambient-blob--1 {
+  width: 400px;
+  height: 400px;
+  background: var(--color-teal);
+  top: 10%;
+  right: 5%;
+  animation: ambient-blob-float 25s ease-in-out infinite;
+}
+
+.ambient-blob--2 {
+  width: 350px;
+  height: 350px;
+  background: var(--color-action-blue);
+  bottom: 15%;
+  left: 10%;
+  animation: ambient-blob-float 30s ease-in-out infinite reverse;
+  animation-delay: -5s;
+}
+
+.ambient-blob--3 {
+  width: 300px;
+  height: 300px;
+  background: var(--color-teal-accent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ambient-blob-breathe 20s ease-in-out infinite;
+}
+
+@keyframes ambient-blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-20px, 25px) scale(0.95); }
+  75% { transform: translate(15px, 15px) scale(1.02); }
+}
+
+@keyframes ambient-blob-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.08); }
+}
+
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(45, 55, 72, 0.05) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.hero-neural-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+.hero-neural-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.neural-node {
+  will-change: transform;
+  animation: neural-node-float 18s ease-in-out infinite;
+}
+
+.neural-node--1 { animation-delay: 0s; }
+.neural-node--2 { animation-delay: -3s; }
+.neural-node--3 { animation-delay: -6s; }
+.neural-node--4 { animation-delay: -9s; }
+.neural-node--5 { animation-delay: -12s; }
+.neural-node--6 { animation-delay: -15s; }
+
+@keyframes neural-node-float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(4px, -3px); }
+  66% { transform: translate(-3px, 4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob,
+  .neural-node {
+    animation: none !important;
+  }
 }
 
 /* ========== Typography ========== */
@@ -545,50 +673,117 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   gap: 0.5rem;
 }
 
-/* ========== Testimonials Bento Grid ========== */
-.testimonials-bento {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  max-width: 1000px;
-  margin: 0 auto;
+/* ========== Patient Testimonials ==========
+   3-column Bootstrap grid, equal-height cards, verified badge
+   ========== */
+
+.testimonials-section {
+  background: linear-gradient(135deg, var(--color-soft-white) 0%, white 100%);
 }
 
-.testimonial-bento-card {
-  background: white;
-  border-radius: 16px;
-  padding: 1.75rem;
+.testimonial-card {
+  position: relative;
+  border-radius: 15px;
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
-.testimonial-bento-card:hover {
+.testimonial-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
 }
 
-.testimonial-bento-card.testimonial-bento-card--featured {
-  grid-column: span 2;
+.testimonial-card .card-body {
+  padding: 1.5rem;
+}
+
+.testimonial-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-success);
+  background: rgba(56, 161, 105, 0.12);
+  border-radius: 9999px;
+  box-shadow: 0 0 12px rgba(56, 161, 105, 0.2);
+  animation: badge-pulse 2.5s ease-in-out infinite;
+}
+
+.testimonial-badge i {
+  font-size: 0.625rem;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .testimonial-avatar {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
+}
+
+.testimonial-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin: 0 0 0.125rem 0;
+}
+
+.testimonial-role {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin: 0;
 }
 
 .testimonial-stars {
   color: var(--color-accent-amber);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
 }
 
-/* Carousel fallback controls */
-.testimonial-carousel-controls {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-top: 2rem;
+.testimonial-quote {
+  position: relative;
+  margin: 0;
+  padding-left: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.testimonial-quote::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -0.25rem;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-action-blue);
+  opacity: 0.25;
 }
 
 /* ========== Emergency Banner ========== */
@@ -757,14 +952,6 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
 
 /* ========== Mobile Responsive ========== */
 @media (max-width: 991.98px) {
-  .testimonials-bento {
-    grid-template-columns: 1fr;
-  }
-
-  .testimonial-bento-card.testimonial-bento-card--featured {
-    grid-column: span 1;
-  }
-
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
