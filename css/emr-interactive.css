@@ -1,0 +1,285 @@
+/* ============================================
+   EMR DASHBOARD - Interactive Components
+   Dropdowns, tooltips, transitions, filters
+   Icons: Font Awesome 6
+   ============================================ */
+
+/* ========== Dropdown Base - Smooth transitions ========== */
+.dash-notification-dropdown,
+.dash-actions-menu,
+.dash-search-dropdown {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.dash-notification-dropdown.is-open,
+.dash-actions-menu.is-open,
+.dash-search-dropdown.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ========== Notification Dropdown ========== */
+.dashboard-patient .dash-notification-wrap {
+  position: relative;
+}
+
+.dashboard-patient .dash-notification {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dashboard-patient .dash-notification-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 320px;
+  max-width: 400px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
+  border: 1px solid var(--dash-border);
+  z-index: 110;
+  overflow: hidden;
+}
+
+.dashboard-patient .dash-notification-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dashboard-patient .dash-notification-tab {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dash-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.dashboard-patient .dash-notification-tab:hover {
+  color: var(--dash-primary);
+}
+
+.dashboard-patient .dash-notification-tab.active {
+  color: var(--dash-primary);
+  border-bottom: 2px solid var(--dash-primary);
+  margin-bottom: -1px;
+}
+
+.dashboard-patient .dash-notification-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.dashboard-patient .dash-notification-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--dash-border);
+  transition: background 0.2s ease;
+}
+
+.dashboard-patient .dash-notification-item:last-child {
+  border-bottom: none;
+}
+
+.dashboard-patient .dash-notification-item:hover {
+  background: rgba(15, 118, 110, 0.06);
+}
+
+.dashboard-patient .dash-notification-item.unread {
+  background: rgba(15, 118, 110, 0.04);
+}
+
+.dashboard-patient .dash-notification-icon {
+  color: var(--dash-primary);
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ========== Patient Actions Menu ========== */
+.dashboard-patient .dash-user-wrap {
+  position: relative;
+}
+
+.dashboard-patient .dash-btn-actions {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dash-primary);
+  background: rgba(15, 118, 110, 0.1);
+  border: 1px solid rgba(15, 118, 110, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dashboard-patient .dash-btn-actions:hover {
+  background: var(--dash-primary);
+  color: white;
+}
+
+.dashboard-patient .dash-actions-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
+  border: 1px solid var(--dash-border);
+  z-index: 110;
+  padding: 8px 0;
+}
+
+.dashboard-patient .dash-actions-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  color: var(--dash-text);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dashboard-patient .dash-actions-menu-item:hover {
+  background: rgba(15, 118, 110, 0.08);
+}
+
+.dashboard-patient .dash-actions-menu-item i {
+  color: var(--dash-primary);
+  width: 18px;
+}
+
+/* ========== Global Search - Recent Patients ========== */
+.dashboard-patient .dash-search-wrapper {
+  position: relative;
+}
+
+.dashboard-patient .dash-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
+  border: 1px solid var(--dash-border);
+  z-index: 110;
+  padding: 8px 0;
+}
+
+.dashboard-patient .dash-search-dropdown-header {
+  padding: 10px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dash-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dashboard-patient .dash-search-dropdown-item {
+  display: block;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  color: var(--dash-text);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.dashboard-patient .dash-search-dropdown-item:hover {
+  background: rgba(15, 118, 110, 0.08);
+}
+
+/* ========== Filter Input ========== */
+.dashboard-patient .dash-filter-input {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  border: 1px solid var(--dash-border);
+  border-radius: 8px;
+  min-width: 180px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-patient .dash-filter-input:focus {
+  outline: none;
+  border-color: var(--dash-primary);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+@media (max-width: 767px) {
+  .dashboard-patient .dash-filter-input {
+    min-width: 100%;
+  }
+}
+
+/* ========== Vitals Section ========== */
+.dashboard-patient .dash-vitals-section {
+  margin-bottom: 28px;
+}
+
+/* ========== View Trends - Chart area ========== */
+.dashboard-patient .dash-trends-chart {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.dashboard-patient .dash-trends-chart.is-visible {
+  max-height: 300px;
+}
+
+.dashboard-patient .dash-trends-chart-placeholder {
+  margin-top: 20px;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.06), rgba(15, 118, 110, 0.02));
+  border-radius: var(--dash-radius);
+  border: 1px dashed var(--dash-border);
+  text-align: center;
+}
+
+/* ========== Status Badge Tooltips ========== */
+.dashboard-patient .dash-badge--tooltip {
+  cursor: help;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-patient .dash-badge--tooltip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-patient .dash-stat-card {
+  position: relative;
+}
+
+.dashboard-patient .dash-stat-card .dash-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+/* ========== Filterable rows - hide/show ========== */
+.dashboard-patient .dash-lab-table tbody tr.dash-filter-hidden {
+  display: none !important;
+}
+
+.dashboard-patient .dash-lab-card.dash-filter-hidden,
+.dashboard-patient .dash-med-card.dash-filter-hidden {
+  display: none !important;
+}

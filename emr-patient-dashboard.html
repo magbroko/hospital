@@ -10,6 +10,7 @@
   <link href="css/styles.css" rel="stylesheet">
   <link href="css/patient-portal.css" rel="stylesheet">
   <link href="css/dashboard-patient.css" rel="stylesheet">
+  <link href="css/emr-interactive.css" rel="stylesheet">
 </head>
 <body class="portal-body dashboard-patient">
 
@@ -98,20 +99,88 @@
   <!-- Main Content -->
   <main class="dash-main">
     <header class="dash-header">
-      <div class="dash-header-search">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search records, tests, doctors..." aria-label="Search">
+      <!-- Global Search with Recent Patients dropdown -->
+      <div class="dash-header-search dash-search-wrapper" id="dashSearchWrapper">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input type="text" id="dashGlobalSearch" placeholder="Search records, tests, doctors..." aria-label="Global search" aria-expanded="false" aria-haspopup="listbox" aria-controls="dashRecentPatients">
+        <div class="dash-search-dropdown" id="dashRecentPatients" role="listbox" aria-label="Recent patients" aria-hidden="true">
+          <div class="dash-search-dropdown-header">Recent Patients</div>
+          <a href="#" class="dash-search-dropdown-item" role="option">Robert Johnson (RJ-20240524)</a>
+          <a href="#" class="dash-search-dropdown-item" role="option">Margaret Chen (MC-20240115)</a>
+          <a href="#" class="dash-search-dropdown-item" role="option">David Williams (DW-20231201)</a>
+        </div>
       </div>
       <div class="dash-header-actions">
-        <div class="dash-notification has-badge" id="dashNotification" aria-label="Notifications">
-          <i class="fas fa-bell"></i>
-          <span class="dash-notification-badge">5</span>
+        <!-- Notification Bell with Dropdown -->
+        <div class="dash-notification-wrap">
+          <button type="button" class="dash-notification has-badge" id="dashNotification" aria-label="Notifications" aria-expanded="false" aria-haspopup="true" aria-controls="dashNotificationDropdown">
+            <i class="fas fa-bell" aria-hidden="true"></i>
+            <span class="dash-notification-badge">5</span>
+          </button>
+          <div class="dash-notification-dropdown" id="dashNotificationDropdown" aria-label="Notification panel" aria-hidden="true">
+            <div class="dash-notification-tabs">
+              <button type="button" class="dash-notification-tab active" data-tab="unread" aria-selected="true">Unread</button>
+              <button type="button" class="dash-notification-tab" data-tab="all" aria-selected="false">All</button>
+            </div>
+            <div class="dash-notification-list" data-tab-content="unread">
+              <div class="dash-notification-item unread">
+                <i class="fas fa-flask dash-notification-icon" aria-hidden="true"></i>
+                <div>
+                  <strong>New Lab Results</strong>
+                  <p class="dash-caption mb-0">Blood panel from Jan 15 is ready for review.</p>
+                </div>
+              </div>
+              <div class="dash-notification-item unread">
+                <i class="fas fa-calendar-check dash-notification-icon" aria-hidden="true"></i>
+                <div>
+                  <strong>Upcoming Appointment</strong>
+                  <p class="dash-caption mb-0">Cardiology follow-up with Dr. Smith tomorrow at 2:30 PM.</p>
+                </div>
+              </div>
+            </div>
+            <div class="dash-notification-list d-none" data-tab-content="all">
+              <div class="dash-notification-item unread">
+                <i class="fas fa-flask dash-notification-icon" aria-hidden="true"></i>
+                <div>
+                  <strong>New Lab Results</strong>
+                  <p class="dash-caption mb-0">Blood panel from Jan 15 is ready for review.</p>
+                </div>
+              </div>
+              <div class="dash-notification-item unread">
+                <i class="fas fa-calendar-check dash-notification-icon" aria-hidden="true"></i>
+                <div>
+                  <strong>Upcoming Appointment</strong>
+                  <p class="dash-caption mb-0">Cardiology follow-up with Dr. Smith tomorrow at 2:30 PM.</p>
+                </div>
+              </div>
+              <div class="dash-notification-item">
+                <i class="fas fa-check-circle dash-notification-icon" aria-hidden="true"></i>
+                <div>
+                  <strong>Prescription Refilled</strong>
+                  <p class="dash-caption mb-0">Lisinopril refill approved on Jan 10.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="dash-user">
-          <div class="dash-avatar">RJ</div>
-          <div class="dash-user-info">
-            <h4>Robert Johnson</h4>
-            <p>Patient ID: RJ-20240524</p>
+        <!-- Patient Context: Name + Actions Menu -->
+        <div class="dash-user-wrap">
+          <div class="dash-user">
+            <div class="dash-avatar">RJ</div>
+            <div class="dash-user-info">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <h4 class="mb-0">Robert Johnson</h4>
+                <button type="button" class="dash-btn-actions" id="dashPatientActions" aria-label="Patient actions" aria-expanded="false" aria-haspopup="true" aria-controls="dashPatientActionsMenu">
+                  <i class="fas fa-ellipsis-v" aria-hidden="true"></i> Actions
+                </button>
+              </div>
+              <p class="dash-user-id mb-0">Patient ID: RJ-20240524</p>
+            </div>
+          </div>
+          <div class="dash-actions-menu" id="dashPatientActionsMenu" role="menu" aria-label="Patient actions menu" aria-hidden="true">
+            <button type="button" role="menuitem" class="dash-actions-menu-item"><i class="fas fa-user-edit" aria-hidden="true"></i> Edit Profile</button>
+            <button type="button" role="menuitem" class="dash-actions-menu-item"><i class="fas fa-file-export" aria-hidden="true"></i> Export Records</button>
+            <button type="button" role="menuitem" class="dash-actions-menu-item"><i class="fas fa-exchange-alt" aria-hidden="true"></i> Transfer Patient</button>
           </div>
         </div>
       </div>
@@ -123,31 +192,50 @@
         <p class="dash-breadcrumb">Dashboard / Health Overview</p>
       </div>
 
-      <!-- Stat Cards Grid: 1 col mobile, 2 tablet, 4 desktop -->
-      <div class="dash-stats-grid">
-        <div class="dash-card dash-stat-card">
-          <div class="dash-stat-icon primary"><i class="fas fa-heart-pulse"></i></div>
-          <div class="dash-stat-value">72</div>
-          <div class="dash-stat-label">Heart Rate (bpm)</div>
-          <div class="dash-stat-meta">Last measured: 2 hours ago</div>
+      <!-- Stat Cards Grid with View Trends toggle -->
+      <div class="dash-vitals-section">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h2 class="dash-title-2 mb-0">Vitals & Overview</h2>
+          <button type="button" class="btn btn-secondary btn-sm" id="dashViewTrendsBtn" aria-expanded="false" aria-controls="dashTrendsChart">
+            <i class="fas fa-chart-line" aria-hidden="true"></i> View Trends
+          </button>
         </div>
-        <div class="dash-card dash-stat-card">
-          <div class="dash-stat-icon success"><i class="fas fa-tint"></i></div>
-          <div class="dash-stat-value">120/80</div>
-          <div class="dash-stat-label">Blood Pressure</div>
-          <div class="dash-stat-meta">Status: Normal</div>
+        <div class="dash-stats-grid">
+          <div class="dash-card dash-stat-card">
+            <div class="dash-stat-icon primary"><i class="fas fa-heart-pulse"></i></div>
+            <div class="dash-stat-value">72</div>
+            <div class="dash-stat-label">Heart Rate (bpm)</div>
+            <div class="dash-stat-meta">Last measured: 2 hours ago</div>
+            <span class="dash-badge dash-badge--tooltip normal" data-status="stable" title="Stable: Within normal range. No immediate clinical concern.">Stable</span>
+          </div>
+          <div class="dash-card dash-stat-card">
+            <div class="dash-stat-icon success"><i class="fas fa-tint"></i></div>
+            <div class="dash-stat-value">120/80</div>
+            <div class="dash-stat-label">Blood Pressure</div>
+            <div class="dash-stat-meta">Last measured: 2 hours ago</div>
+            <span class="dash-badge dash-badge--tooltip normal" data-status="stable" title="Stable: BP within normal range (120/80). Optimal cardiovascular status.">Stable</span>
+          </div>
+          <div class="dash-card dash-stat-card">
+            <div class="dash-stat-icon warning"><i class="fas fa-weight"></i></div>
+            <div class="dash-stat-value">72</div>
+            <div class="dash-stat-label">Weight (kg)</div>
+            <div class="dash-stat-meta">↓ 2kg this month</div>
+            <span class="dash-badge dash-badge--tooltip normal" data-status="stable" title="Stable: Healthy weight trend. Gradual loss is positive.">Stable</span>
+          </div>
+          <div class="dash-card dash-stat-card">
+            <div class="dash-stat-icon primary"><i class="fas fa-calendar-check"></i></div>
+            <div class="dash-stat-value">1</div>
+            <div class="dash-stat-label">Upcoming Appointment</div>
+            <div class="dash-stat-meta">Dr. Smith - Tomorrow</div>
+          </div>
         </div>
-        <div class="dash-card dash-stat-card">
-          <div class="dash-stat-icon warning"><i class="fas fa-weight"></i></div>
-          <div class="dash-stat-value">72</div>
-          <div class="dash-stat-label">Weight (kg)</div>
-          <div class="dash-stat-meta">↓ 2kg this month</div>
-        </div>
-        <div class="dash-card dash-stat-card">
-          <div class="dash-stat-icon primary"><i class="fas fa-calendar-check"></i></div>
-          <div class="dash-stat-value">1</div>
-          <div class="dash-stat-label">Upcoming Appointment</div>
-          <div class="dash-stat-meta">Dr. Smith - Tomorrow</div>
+        <!-- Hidden chart area - revealed by View Trends -->
+        <div class="dash-trends-chart" id="dashTrendsChart" aria-hidden="true">
+          <div class="dash-trends-chart-placeholder">
+            <i class="fas fa-chart-area fa-3x dash-icon-primary mb-2" aria-hidden="true"></i>
+            <p class="dash-caption mb-0">Vitals trend chart (Heart Rate, BP, Weight over last 30 days)</p>
+            <p class="dash-caption small">Chart visualization would integrate with your EMR data API.</p>
+          </div>
         </div>
       </div>
 
@@ -190,7 +278,10 @@
         <div class="dash-card dash-card-full">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
             <h2 class="dash-title-2 mb-0">Recent Lab Results</h2>
-            <a href="emr-portal/lab-results.html" class="btn btn-secondary btn-sm">View All Results</a>
+            <div class="d-flex gap-2 align-items-center flex-wrap">
+              <input type="text" class="dash-filter-input" id="dashLabFilter" placeholder="Filter by test name..." aria-label="Filter lab results">
+              <a href="emr-portal/lab-results.html" class="btn btn-secondary btn-sm">View All Results</a>
+            </div>
           </div>
 
           <!-- Desktop: Table -->
@@ -205,33 +296,33 @@
                   <th>Date</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
+              <tbody data-filterable="lab">
+                <tr data-filter-text="blood glucose fasting">
                   <td><strong>Blood Glucose</strong><br><span class="dash-caption">Fasting</span></td>
                   <td>95 mg/dL</td>
                   <td>70-100 mg/dL</td>
-                  <td><span class="dash-badge normal">Normal</span></td>
+                  <td><span class="dash-badge dash-badge--tooltip normal" data-status="normal" title="Normal: Result within reference range. No clinical action needed.">Normal</span></td>
                   <td>Jan 15, 2024</td>
                 </tr>
-                <tr>
+                <tr data-filter-text="cholesterol total lipid panel">
                   <td><strong>Cholesterol (Total)</strong><br><span class="dash-caption">Lipid Panel</span></td>
                   <td>185 mg/dL</td>
                   <td>&lt;200 mg/dL</td>
-                  <td><span class="dash-badge normal">Normal</span></td>
+                  <td><span class="dash-badge dash-badge--tooltip normal" data-status="normal" title="Normal: Total cholesterol within healthy range.">Normal</span></td>
                   <td>Jan 15, 2024</td>
                 </tr>
-                <tr>
+                <tr data-filter-text="hdl cholesterol good">
                   <td><strong>HDL Cholesterol</strong><br><span class="dash-caption">Good Cholesterol</span></td>
                   <td>52 mg/dL</td>
                   <td>&gt;40 mg/dL</td>
-                  <td><span class="dash-badge normal">Normal</span></td>
+                  <td><span class="dash-badge dash-badge--tooltip normal" data-status="normal" title="Normal: HDL (good cholesterol) at protective level.">Normal</span></td>
                   <td>Jan 15, 2024</td>
                 </tr>
-                <tr>
+                <tr data-filter-text="hemoglobin a1c diabetes screening">
                   <td><strong>Hemoglobin A1C</strong><br><span class="dash-caption">Diabetes Screening</span></td>
                   <td>5.8%</td>
                   <td>&lt;5.7%</td>
-                  <td><span class="dash-badge elevated">Elevated</span></td>
+                  <td><span class="dash-badge dash-badge--tooltip elevated" data-status="elevated" title="Elevated: Slightly above normal. May indicate prediabetes. Discuss with provider.">Elevated</span></td>
                   <td>Jan 10, 2024</td>
                 </tr>
               </tbody>
@@ -239,8 +330,8 @@
           </div>
 
           <!-- Mobile: Card List -->
-          <div class="dash-lab-cards">
-            <div class="dash-lab-card">
+          <div class="dash-lab-cards" data-filterable="lab-cards">
+            <div class="dash-lab-card" data-filter-text="blood glucose fasting">
               <div class="dash-lab-card-header">
                 <span class="dash-lab-card-title">Blood Glucose (Fasting)</span>
                 <span class="dash-badge normal">Normal</span>
@@ -251,7 +342,7 @@
                 <span>Jan 15, 2024</span>
               </div>
             </div>
-            <div class="dash-lab-card">
+            <div class="dash-lab-card" data-filter-text="cholesterol total">
               <div class="dash-lab-card-header">
                 <span class="dash-lab-card-title">Cholesterol (Total)</span>
                 <span class="dash-badge normal">Normal</span>
@@ -262,7 +353,7 @@
                 <span>Jan 15, 2024</span>
               </div>
             </div>
-            <div class="dash-lab-card">
+            <div class="dash-lab-card" data-filter-text="hdl cholesterol">
               <div class="dash-lab-card-header">
                 <span class="dash-lab-card-title">HDL Cholesterol</span>
                 <span class="dash-badge normal">Normal</span>
@@ -273,7 +364,7 @@
                 <span>Jan 15, 2024</span>
               </div>
             </div>
-            <div class="dash-lab-card">
+            <div class="dash-lab-card" data-filter-text="hemoglobin a1c">
               <div class="dash-lab-card-header">
                 <span class="dash-lab-card-title">Hemoglobin A1C</span>
                 <span class="dash-badge elevated">Elevated</span>
@@ -298,7 +389,7 @@
                 <h4 class="dash-title-3 mb-1">Dr. James Smith</h4>
                 <p class="dash-meta mb-0">Cardiology - Follow-up Consultation</p>
               </div>
-              <span class="dash-badge normal">Confirmed</span>
+              <span class="dash-badge dash-badge--tooltip normal" data-status="confirmed" title="Confirmed: Appointment is scheduled and confirmed. Patient has been notified.">Confirmed</span>
             </div>
             <div class="dash-meta mb-2">
               <i class="fas fa-calendar me-2 dash-icon-primary"></i>Tomorrow, 2:30 PM<br>
@@ -310,8 +401,12 @@
         </div>
 
         <div class="dash-card">
-          <h2 class="dash-title-2 mb-4">Current Medications</h2>
-          <div class="dash-med-card">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+            <h2 class="dash-title-2 mb-0">Current Medications</h2>
+            <input type="text" class="dash-filter-input" id="dashMedFilter" placeholder="Filter medications..." aria-label="Filter medications">
+          </div>
+          <div class="dash-med-list" data-filterable="meds">
+          <div class="dash-med-card" data-filter-text="lisinopril">
             <div class="dash-med-icon primary">Rx</div>
             <div class="flex-grow-1">
               <h4 class="dash-title-3 mb-1">Lisinopril</h4>
@@ -320,7 +415,7 @@
             </div>
             <button class="dash-btn-icon" aria-label="More options"><i class="fas fa-ellipsis-v"></i></button>
           </div>
-          <div class="dash-med-card">
+          <div class="dash-med-card" data-filter-text="atorvastatin">
             <div class="dash-med-icon accent">Rx</div>
             <div class="flex-grow-1">
               <h4 class="dash-title-3 mb-1">Atorvastatin</h4>
@@ -329,6 +424,7 @@
             </div>
             <button class="dash-btn-icon" aria-label="More options"><i class="fas fa-ellipsis-v"></i></button>
           </div>
+          </div>
           <a href="emr-portal/prescriptions.html" class="btn btn-primary w-100">View Full Medication History</a>
         </div>
       </div>
@@ -336,61 +432,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    (function() {
-      AOS.init();
-
-      var sidebar = document.getElementById('dashSidebar');
-      var overlay = document.getElementById('dashOverlay');
-      var toggle = document.getElementById('dashSidebarToggle');
-      var notification = document.getElementById('dashNotification');
-
-      // Desktop: sidebar is collapsed (icons only) by default, expands on hover via CSS
-
-      // Mobile: toggle drawer
-      function openDrawer() {
-        sidebar.classList.add('dash-mobile-open');
-        overlay.classList.add('active');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeDrawer() {
-        sidebar.classList.remove('dash-mobile-open');
-        overlay.classList.remove('active');
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-
-      toggle?.addEventListener('click', function() {
-        if (sidebar.classList.contains('dash-mobile-open')) {
-          closeDrawer();
-        } else {
-          openDrawer();
-        }
-      });
-
-      overlay?.addEventListener('click', closeDrawer);
-
-      // Close on escape
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && sidebar?.classList.contains('dash-mobile-open')) {
-          closeDrawer();
-        }
-      });
-
-      // Pulse notification bell only when badge > 0
-      var badge = notification?.querySelector('.dash-notification-badge');
-      if (badge && parseInt(badge.textContent, 10) > 0) {
-        notification.classList.add('has-badge');
-      } else if (notification) {
-        notification.classList.remove('has-badge');
-      }
-
-      // Prevent layout jitter: use will-change on overlay
-      overlay?.style.setProperty('will-change', 'opacity');
-    })();
-  </script>
+  <script src="js/emr-dashboard.js"></script>
 </body>
 </html>
