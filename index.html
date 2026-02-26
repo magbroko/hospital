@@ -6,6 +6,7 @@
   <meta name="description" content="Premium hospital with world-class medical care, cutting-edge technology, and compassionate staff. Book appointments, find doctors, access EMR.">
   <title>MediCare Hospital | Excellence in Healthcare, Delivered Daily</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
@@ -20,36 +21,40 @@
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- Navbar: Glassmorphic, sticky, shrinks on scroll -->
-  <nav class="navbar navbar-expand-lg" id="mainNavbar" role="navigation" aria-label="Main navigation">
-    <div class="container">
-      <a class="navbar-brand" href="index.html" aria-label="MediCare Hospital - Home">
-        <i class="fas fa-hospital" aria-hidden="true"></i>
-        MediCare
+  <!-- Navbar: Premium glassmorphic, sticky, shrinks on scroll -->
+  <nav class="navbar navbar-expand-lg" id="mainNavbar" aria-label="Main navigation">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand d-flex align-items-center" href="index.html" aria-label="MediCare Hospital - Home">
+        <i class="fas fa-hospital navbar-brand__icon" aria-hidden="true"></i>
+        <span class="navbar-brand__text"><span class="navbar-brand__medi">Medi</span><span class="navbar-brand__care">Care</span></span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
-        <span class="navbar-toggler-icon"></span>
+
+      <button class="navbar-hamburger" type="button" id="navbarHamburger" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span class="navbar-hamburger__line"></span>
+        <span class="navbar-hamburger__line"></span>
+        <span class="navbar-hamburger__line"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto" role="menubar">
-          <li class="nav-item" role="none">
-            <a class="nav-link active" href="index.html" role="menuitem">Home</a>
+        <ul class="navbar-nav ms-auto d-flex align-items-center">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Home</a>
           </li>
-          <li class="nav-item" role="none">
-            <a class="nav-link" href="about.html" role="menuitem">About</a>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
           </li>
-          <li class="nav-item" role="none">
-            <a class="nav-link" href="services.html" role="menuitem">Services</a>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
           </li>
-          <li class="nav-item" role="none">
-            <a class="nav-link" href="emr-patient-dashboard.html" role="menuitem">Patient Portal</a>
+          <li class="nav-item">
+            <a class="nav-link" href="emr-patient-dashboard.html">Patient Portal</a>
           </li>
-          <li class="nav-item" role="none">
-            <a class="nav-link" href="admin-dashboard.html" role="menuitem">Staff Login</a>
+          <li class="nav-item">
+            <a class="nav-link" href="admin-dashboard.html">Staff Login</a>
           </li>
-          <li class="nav-item" role="none">
-            <a class="btn btn-primary ms-2" href="#appointment-widget" role="menuitem">
-              <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-nav-cta" href="#appointment-widget">
+              <i class="bi bi-calendar-check" aria-hidden="true"></i> Book Appointment
             </a>
           </li>
         </ul>
@@ -57,76 +62,63 @@
     </div>
   </nav>
 
-  <!-- Hero Section: Split-screen layout -->
+  <!-- Hero Section: Centralized, Cinematic Background Slider -->
   <main id="main-content">
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-bg-elements" aria-hidden="true">
-      <div class="floating-shape floating-shape--1 rounded-circle"></div>
-      <div class="floating-shape floating-shape--2 rounded-circle"></div>
-      <div class="floating-shape floating-shape--3 rounded-circle"></div>
+  <section class="hero hero--cinematic" aria-labelledby="hero-heading">
+    <!-- Dynamic Background Slider with Ken Burns Effect -->
+    <div class="hero-bg-slider" aria-hidden="true">
+      <div class="hero-bg-slide hero-bg-slide--active" data-index="0">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1920&h=1080&fit=crop" alt="" role="presentation">
+      </div>
+      <div class="hero-bg-slide" data-index="1">
+        <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1920&h=1080&fit=crop" alt="" role="presentation">
+      </div>
+      <div class="hero-bg-slide" data-index="2">
+        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&h=1080&fit=crop" alt="" role="presentation">
+      </div>
+      <div class="hero-bg-slide" data-index="3">
+        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=1920&h=1080&fit=crop" alt="" role="presentation">
+      </div>
     </div>
-    <div class="hero-neural-overlay" aria-hidden="true">
-      <svg class="hero-neural-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
-        <defs>
-          <pattern id="neural-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-            <circle class="neural-dot" cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.15)"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#neural-dots)"/>
-        <line class="neural-line" x1="50" y1="80" x2="120" y2="60" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <line class="neural-line" x1="120" y1="60" x2="200" y2="100" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <line class="neural-line" x1="200" y1="100" x2="280" y2="70" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <line class="neural-line" x1="80" y1="150" x2="160" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <line class="neural-line" x1="160" y1="120" x2="240" y2="180" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <line class="neural-line" x1="100" y1="220" x2="200" y2="200" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <line class="neural-line" x1="200" y1="200" x2="320" y2="220" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-        <circle class="neural-node neural-node--1" cx="80" cy="100" r="2" fill="rgba(255,255,255,0.2)"/>
-        <circle class="neural-node neural-node--2" cx="180" cy="80" r="2" fill="rgba(255,255,255,0.2)"/>
-        <circle class="neural-node neural-node--3" cx="280" cy="120" r="2" fill="rgba(255,255,255,0.2)"/>
-        <circle class="neural-node neural-node--4" cx="120" cy="180" r="2" fill="rgba(255,255,255,0.2)"/>
-        <circle class="neural-node neural-node--5" cx="220" cy="160" r="2" fill="rgba(255,255,255,0.2)"/>
-        <circle class="neural-node neural-node--6" cx="150" cy="240" r="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    </div>
+    <!-- Deep Navy Gradient Overlay -->
+    <div class="hero-overlay" aria-hidden="true"></div>
 
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6">
+    <div class="container hero__container h-100 d-flex align-items-center justify-content-center">
+      <div class="row justify-content-center text-center w-100">
+        <div class="col-12 col-lg-10 col-xl-8">
           <h1 id="hero-heading" class="display-hero text-white mb-4">
             Excellence in Healthcare, Delivered Daily
           </h1>
-          <p class="text-white hero-subtitle mb-4">
+          <p class="text-white hero-subtitle mb-4 mx-auto">
             World-class medical care with cutting-edge technology, compassionate staff, and patient-centered solutions.
           </p>
 
-          <div class="hero-cta-group mb-4">
-            <a href="#appointment-widget" class="btn btn-primary">
-              <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
+          <div class="hero-cta-group mb-4 justify-content-center">
+            <a href="#appointment-widget" class="btn btn-primary hero-cta-primary">
+              <i class="bi bi-calendar-check" aria-hidden="true"></i> Book Appointment
             </a>
-            <a href="services.html" class="btn btn-secondary btn-white">
-              <i class="fas fa-search" aria-hidden="true"></i> Find a Doctor
+            <a href="services.html" class="btn btn-ghost-hero">
+              <i class="bi bi-search" aria-hidden="true"></i> Find a Doctor
             </a>
           </div>
 
-          <div class="d-flex gap-4 flex-wrap">
-            <div class="trust-badge">
-              <i class="fas fa-star" aria-hidden="true"></i>
-              <span>4.9/5 Patient Rating</span>
-            </div>
-            <div class="trust-badge">
-              <i class="fas fa-award" aria-hidden="true"></i>
-              <span>ISO 9001:2015 Certified</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 mt-5 mt-lg-0">
-          <div class="hero-image-container position-relative">
-            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&h=400&fit=crop" alt="Professional medical team in modern hospital setting" class="img-fluid">
-            <div class="hero-floating-badge">
-              <p class="mb-0 small text-secondary">
-                <i class="fas fa-check text-success me-2" aria-hidden="true"></i>24/7 Emergency Services
-              </p>
+          <!-- Partners/Credentials Marquee -->
+          <div class="hero-marquee" aria-label="Trusted partners and certifications">
+            <div class="hero-marquee__track">
+              <div class="hero-marquee__item">JCI Accredited</div>
+              <div class="hero-marquee__item">ISO 9001:2015</div>
+              <div class="hero-marquee__item">Blue Cross</div>
+              <div class="hero-marquee__item">Aetna</div>
+              <div class="hero-marquee__item">UnitedHealthcare</div>
+              <div class="hero-marquee__item">Cigna</div>
+              <div class="hero-marquee__item">Medicare</div>
+              <div class="hero-marquee__item">JCI Accredited</div>
+              <div class="hero-marquee__item">ISO 9001:2015</div>
+              <div class="hero-marquee__item">Blue Cross</div>
+              <div class="hero-marquee__item">Aetna</div>
+              <div class="hero-marquee__item">UnitedHealthcare</div>
+              <div class="hero-marquee__item">Cigna</div>
+              <div class="hero-marquee__item">Medicare</div>
             </div>
           </div>
         </div>
@@ -134,67 +126,82 @@
     </div>
   </section>
 
-  <!-- Appointment Widget: Card-based, validation states -->
-  <section id="appointment-widget" class="appointment-section" aria-labelledby="appointment-heading">
+  <!-- Appointment Widget: Premium glassmorphic card -->
+  <section id="appointment-widget" class="appointment-section" aria-labelledby="appointment-heading" data-aos="fade-up">
     <div class="container">
-      <h2 id="appointment-heading" class="text-center mb-5 section-heading">
+      <h2 id="appointment-heading" class="appointment-section__title text-center mb-5">
         Schedule Your Appointment Today
       </h2>
 
-      <div class="appointment-card" id="appointmentCard">
+      <div class="appointment-card" id="appointmentCard" data-aos="fade-up" data-aos-delay="100">
         <form id="appointmentForm" novalidate aria-label="Appointment booking form">
           <div class="form-group">
             <label for="deptSelect" class="form-label">Select Department</label>
-            <select id="deptSelect" class="form-select" required aria-required="true" aria-describedby="deptFeedback">
-              <option value="">Choose a department...</option>
-              <option value="cardiology">Cardiology</option>
-              <option value="pediatrics">Pediatrics</option>
-              <option value="oncology">Oncology</option>
-              <option value="orthopedics">Orthopedics</option>
-              <option value="radiology">Radiology</option>
-            </select>
+            <div class="input-icon-wrapper">
+              <i class="bi bi-building input-icon" aria-hidden="true"></i>
+              <select id="deptSelect" class="form-select form-input--icon" required aria-required="true" aria-describedby="deptFeedback">
+                <option value="">Choose a department...</option>
+                <option value="cardiology">Cardiology</option>
+                <option value="pediatrics">Pediatrics</option>
+                <option value="oncology">Oncology</option>
+                <option value="orthopedics">Orthopedics</option>
+                <option value="radiology">Radiology</option>
+              </select>
+            </div>
             <span id="deptFeedback" class="form-feedback" role="alert" aria-live="polite"></span>
           </div>
 
           <div class="form-group">
             <label for="doctorSelect" class="form-label">Select Doctor</label>
-            <select id="doctorSelect" class="form-select" required aria-required="true" aria-describedby="doctorFeedback">
-              <option value="">Choose a doctor...</option>
-              <option value="dr-smith">Dr. James Smith (Cardiology)</option>
-              <option value="dr-johnson">Dr. Sarah Johnson (Pediatrics)</option>
-              <option value="dr-williams">Dr. Michael Williams (Oncology)</option>
-            </select>
+            <div class="input-icon-wrapper">
+              <i class="bi bi-person input-icon" aria-hidden="true"></i>
+              <select id="doctorSelect" class="form-select form-input--icon" required aria-required="true" aria-describedby="doctorFeedback">
+                <option value="">Choose a doctor...</option>
+                <option value="dr-smith">Dr. James Smith (Cardiology)</option>
+                <option value="dr-johnson">Dr. Sarah Johnson (Pediatrics)</option>
+                <option value="dr-williams">Dr. Michael Williams (Oncology)</option>
+              </select>
+            </div>
             <span id="doctorFeedback" class="form-feedback" role="alert" aria-live="polite"></span>
           </div>
 
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="apptDate" class="form-label">Preferred Date</label>
-                <input type="date" id="apptDate" class="form-input" required aria-required="true">
+                <div class="input-icon-wrapper">
+                  <i class="bi bi-calendar3 input-icon" aria-hidden="true"></i>
+                  <input type="date" id="apptDate" class="form-input form-input--icon" required aria-required="true">
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="apptTime" class="form-label">Preferred Time</label>
-                <select id="apptTime" class="form-select" required aria-required="true">
-                  <option value="">Select time...</option>
-                  <option value="09:00">09:00 AM</option>
-                  <option value="10:30">10:30 AM</option>
-                  <option value="14:00">02:00 PM</option>
-                  <option value="15:30">03:30 PM</option>
-                </select>
+                <div class="input-icon-wrapper">
+                  <i class="bi bi-clock input-icon" aria-hidden="true"></i>
+                  <select id="apptTime" class="form-select form-input--icon" required aria-required="true">
+                    <option value="">Select time...</option>
+                    <option value="09:00">09:00 AM</option>
+                    <option value="10:30">10:30 AM</option>
+                    <option value="14:00">02:00 PM</option>
+                    <option value="15:30">03:30 PM</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="reasonVisit" class="form-label">Reason for Visit</label>
-            <textarea id="reasonVisit" class="form-textarea" rows="3" placeholder="Brief description..." required aria-required="true"></textarea>
+            <div class="input-icon-wrapper input-icon-wrapper--textarea">
+              <i class="bi bi-chat-text input-icon" aria-hidden="true"></i>
+              <textarea id="reasonVisit" class="form-textarea form-input--icon" rows="3" placeholder="Brief description..." required aria-required="true"></textarea>
+            </div>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100" id="submitAppointment">
-            <i class="fas fa-check" aria-hidden="true"></i> Confirm Appointment
+          <button type="submit" class="btn btn-confirm w-100" id="submitAppointment">
+            <i class="bi bi-check-lg" aria-hidden="true"></i> Confirm Appointment
           </button>
         </form>
 

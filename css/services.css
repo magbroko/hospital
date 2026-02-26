@@ -1,0 +1,294 @@
+/* ============================================
+   MediCare Services Page - Premium Medical Interface
+   ============================================ */
+
+/* ========== Page Background - Mesh Gradient ========== */
+.services-page {
+  background-color: #f0f9ff;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(180, 100%, 94%, 0.8) 0, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(205, 100%, 90%, 0.6) 0, transparent 50%),
+    radial-gradient(at 50% 50%, hsla(210, 60%, 98%, 0.9) 0, transparent 70%);
+  min-height: 100vh;
+}
+
+/* ========== Floating Navbar Overrides ========== */
+.navbar--floating {
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  width: auto;
+  margin: 0 1rem;
+  max-width: calc(100% - 2rem);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(26, 54, 93, 0.08);
+}
+
+.btn-nav-cta--pulse {
+  animation: nav-cta-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes nav-cta-pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(49, 130, 206, 0.35); }
+  50% { box-shadow: 0 6px 24px rgba(49, 130, 206, 0.5); }
+}
+
+.navbar--floating.navbar--scrolled {
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  max-width: 100%;
+  border-radius: 0;
+}
+
+@media (max-width: 991.98px) {
+  .navbar--floating {
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    max-width: 100%;
+    border-radius: 0;
+  }
+}
+
+/* ========== Services Hero - Ken Burns ========== */
+.services-hero {
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 6rem 0 4rem;
+  margin-top: 0;
+}
+
+.services-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.services-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: services-ken-burns 25s ease-in-out infinite;
+}
+
+@keyframes services-ken-burns {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.services-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 54, 93, 0.88) 0%,
+    rgba(10, 25, 47, 0.85) 100%
+  );
+}
+
+.services-hero .container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.services-hero__title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.services-hero__subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-hero__bg img {
+    animation: none;
+  }
+}
+
+/* ========== Service Cards - Glass UI ========== */
+.services-grid {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.service-card {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(26, 54, 93, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.service-card.service-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 48px rgba(26, 54, 93, 0.12), 0 8px 16px rgba(0, 0, 0, 0.06);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.service-card__link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.service-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+  color: white;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.service-card:hover .service-card__icon {
+  box-shadow: 0 0 24px rgba(49, 130, 206, 0.4);
+}
+
+.service-card__icon--cardiology {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+}
+
+.service-card__icon--pediatrics {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+}
+
+.service-card__icon--oncology {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+}
+
+.service-card__icon--orthopedics {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.service-card__icon--radiology {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.service-card__icon--neurology {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.service-card__title {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 0.75rem;
+}
+
+.service-card__desc {
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.service-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-action-blue);
+  transition: gap 0.3s ease, color 0.3s ease;
+}
+
+.service-card__cta i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-card__cta {
+  color: var(--color-navy);
+  gap: 0.75rem;
+}
+
+.service-card:hover .service-card__cta i {
+  transform: translateX(4px);
+}
+
+/* ========== Partners Marquee ========== */
+.services-marquee {
+  padding: 2rem 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.services-marquee__track {
+  display: flex;
+  gap: 1.5rem;
+  animation: services-marquee-scroll 40s linear infinite;
+  width: max-content;
+}
+
+.services-marquee__item {
+  flex-shrink: 0;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+@keyframes services-marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-marquee__track {
+    animation: none;
+  }
+}
+
+/* ========== CTA Section ========== */
+.services-cta {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.services-cta__title {
+  font-family: var(--font-sans);
+  color: var(--color-dark-text);
+}

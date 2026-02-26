@@ -1,44 +1,50 @@
 /**
- * MediCare Hospital - Main JavaScript
- * Handles smooth scroll, hero background slider, and general interactions
+ * MediCare Services Page - Premium Interface
+ * Intersection Observer for scroll animations, navbar behavior
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-  initSmoothScroll();
-  initHeroBackgroundSlider();
+  initServiceCardObserver();
   initNavbarScroll();
   initNavbarHamburger();
+  initSmoothScroll();
 });
 
 /**
- * Hero Background Slider - Crossfade with Ken Burns effect
- * Cycles through 3-4 medical images, 1.5s crossfade
+ * Intersection Observer - Fade and slide up service cards on scroll
  */
-function initHeroBackgroundSlider() {
-  var slides = document.querySelectorAll('.hero-bg-slide');
-  if (!slides.length) return;
+function initServiceCardObserver() {
+  var cards = document.querySelectorAll('[data-service-card]');
+  if (!cards.length) return;
 
-  var currentIndex = 0;
-  var interval = 6000; // 6s per slide (4s visible + 1.5s crossfade overlap)
+  var observer = new IntersectionObserver(
+    function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('service-card--visible');
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+  );
 
-  function nextSlide() {
-    slides[currentIndex].classList.remove('hero-bg-slide--active');
-    currentIndex = (currentIndex + 1) % slides.length;
-    slides[currentIndex].classList.add('hero-bg-slide--active');
-  }
-
-  setInterval(nextSlide, interval);
+  cards.forEach(function(card) {
+    observer.observe(card);
+  });
 }
 
 /**
- * Navbar scroll listener - shrink and intensify blur on scroll
+ * Navbar scroll - floating to fixed when scrolled
  */
 function initNavbarScroll() {
   var navbar = document.getElementById('mainNavbar');
-  if (!navbar) return;
+  if (!navbar || !navbar.classList.contains('navbar--floating')) return;
 
   function onScroll() {
-    var scrolled = window.pageYOffset > 30;
+    var scrolled = window.pageYOffset > 80;
     navbar.classList.toggle('navbar--scrolled', scrolled);
   }
 
@@ -61,7 +67,6 @@ function initNavbarHamburger() {
     hamburger.setAttribute('aria-expanded', 'false');
   });
 
-  // Close menu when clicking overlay (dark background, not the nav panel)
   collapse.addEventListener('click', function(e) {
     if (collapse.classList.contains('show') && !e.target.closest('.navbar-nav')) {
       var bsCollapse = bootstrap.Collapse.getInstance(collapse);
@@ -74,12 +79,12 @@ function initNavbarHamburger() {
  * Smooth scroll for anchor links
  */
 function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     anchor.addEventListener('click', function(e) {
-      const targetId = this.getAttribute('href');
+      var targetId = this.getAttribute('href');
       if (targetId === '#') return;
-      
-      const target = document.querySelector(targetId);
+
+      var target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
