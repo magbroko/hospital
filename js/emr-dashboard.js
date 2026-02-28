@@ -45,7 +45,30 @@ function initSidebar() {
 }
 
 /* ============================================
+   HEADER DROPDOWNS - Mutual exclusivity helper
+   Only one menu (notification or profile) open at a time
+   ============================================ */
+function closeOtherHeaderDropdown(exceptId) {
+  var notifDropdown = document.getElementById('dashNotificationDropdown');
+  var notifTrigger = document.getElementById('dashNotification');
+  var profileMenu = document.getElementById('dashPatientActionsMenu');
+  var profileTrigger = document.getElementById('dashPatientActions');
+
+  if (exceptId !== 'dashNotificationDropdown' && notifDropdown?.classList.contains('is-open')) {
+    notifDropdown.classList.remove('is-open');
+    notifDropdown.setAttribute('aria-hidden', 'true');
+    if (notifTrigger) notifTrigger.setAttribute('aria-expanded', 'false');
+  }
+  if (exceptId !== 'dashPatientActionsMenu' && profileMenu?.classList.contains('is-open')) {
+    profileMenu.classList.remove('is-open');
+    profileMenu.setAttribute('aria-hidden', 'true');
+    if (profileTrigger) profileTrigger.setAttribute('aria-expanded', 'false');
+  }
+}
+
+/* ============================================
    NOTIFICATION DROPDOWN - Unread / All tabs
+   Same behavior as Profile Actions menu
    ============================================ */
 function initNotificationDropdown() {
   var trigger = document.getElementById('dashNotification');
@@ -57,6 +80,7 @@ function initNotificationDropdown() {
 
   trigger.addEventListener('click', function(e) {
     e.stopPropagation();
+    closeOtherHeaderDropdown('dashNotificationDropdown');
     var isOpen = dropdown.classList.toggle('is-open');
     trigger.setAttribute('aria-expanded', isOpen);
     dropdown.setAttribute('aria-hidden', !isOpen);
@@ -89,6 +113,7 @@ function initPatientActionsMenu() {
 
   trigger.addEventListener('click', function(e) {
     e.stopPropagation();
+    closeOtherHeaderDropdown('dashPatientActionsMenu');
     var isOpen = menu.classList.toggle('is-open');
     trigger.setAttribute('aria-expanded', isOpen);
     menu.setAttribute('aria-hidden', !isOpen);

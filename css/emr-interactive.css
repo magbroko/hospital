@@ -20,6 +20,7 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  z-index: 1061;
 }
 
 /* ========== Notification Dropdown ========== */
@@ -36,15 +37,16 @@
 .dashboard-patient .dash-notification-dropdown {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
   min-width: 320px;
   max-width: 400px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
   border: 1px solid var(--dash-border);
-  z-index: 110;
+  z-index: 1060;
   overflow: hidden;
+  padding: 8px 0;
 }
 
 .dashboard-patient .dash-notification-tabs {
@@ -111,33 +113,27 @@
   position: relative;
 }
 
-.dashboard-patient .dash-btn-actions {
-  padding: 4px 10px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--dash-primary);
-  background: rgba(15, 118, 110, 0.1);
-  border: 1px solid rgba(15, 118, 110, 0.3);
-  border-radius: 8px;
+.dashboard-patient .dash-avatar-trigger {
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.dashboard-patient .dash-btn-actions:hover {
-  background: var(--dash-primary);
-  color: white;
+.dashboard-patient .dash-avatar-trigger:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.35);
 }
 
 .dashboard-patient .dash-actions-menu {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
   min-width: 200px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
   border: 1px solid var(--dash-border);
-  z-index: 110;
+  z-index: 1060;
   padding: 8px 0;
 }
 
@@ -179,7 +175,7 @@
   border-radius: 12px;
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
   border: 1px solid var(--dash-border);
-  z-index: 110;
+  z-index: 1060;
   padding: 8px 0;
 }
 
@@ -224,6 +220,37 @@
 @media (max-width: 767px) {
   .dashboard-patient .dash-filter-input {
     min-width: 100%;
+  }
+}
+
+/* ========== MOBILE (max-width: 767px) - Header & Touch Targets ========== */
+@media (max-width: 767px) {
+  /* Header: notification left, profile right (search hidden on mobile) */
+  .dashboard-patient .dash-header {
+    justify-content: space-between;
+  }
+
+  .dashboard-patient .dash-header-right {
+    gap: 12px;
+  }
+
+  /* Touch targets: min 44x44px */
+  .dashboard-patient .dash-avatar,
+  .dashboard-patient .dash-avatar-trigger {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Notification dropdown: left-aligned (dropdown-menu-start) to prevent cutoff */
+  .dashboard-patient .dash-notification-dropdown {
+    left: 0;
+    right: auto;
+  }
+
+  .dashboard-patient .dash-notification-list {
+    max-height: 50vh;
   }
 }
 

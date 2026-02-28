@@ -27,59 +27,59 @@
       <ul class="dash-sidebar-nav">
         <li>
           <a href="#dashboard" class="dash-sidebar-nav-link active">
-            <i class="fas fa-chart-line"></i>
-            <span>Dashboard</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-chart-line"></i></span>
+            <span class="dash-nav-label">Dashboard</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/medical-history.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-history"></i>
-            <span>Medical History</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-history"></i></span>
+            <span class="dash-nav-label">Medical History</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/lab-results.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-flask"></i>
-            <span>Lab Results</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-flask"></i></span>
+            <span class="dash-nav-label">Lab Results</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/imaging.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-image"></i>
-            <span>Imaging & Scans</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-image"></i></span>
+            <span class="dash-nav-label">Imaging & Scans</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/prescriptions.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-prescription-bottle"></i>
-            <span>E-Prescriptions</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-prescription-bottle"></i></span>
+            <span class="dash-nav-label">E-Prescriptions</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/appointments.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-calendar-check"></i>
-            <span>Appointments</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-calendar-check"></i></span>
+            <span class="dash-nav-label">Appointments</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/messages.html" class="dash-sidebar-nav-link">
             <span class="dash-nav-icon-wrap">
               <i class="fas fa-envelope"></i>
-              <span class="dash-nav-badge">3</span>
             </span>
-            <span>Messages</span>
+            <span class="dash-nav-label">Messages</span>
+            <span class="dash-nav-badge">3</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/billing.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-receipt"></i>
-            <span>Billing</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-receipt"></i></span>
+            <span class="dash-nav-label">Billing</span>
           </a>
         </li>
         <li>
           <a href="emr-portal/settings.html" class="dash-sidebar-nav-link">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
+            <span class="dash-nav-icon-wrap"><i class="fas fa-cog"></i></span>
+            <span class="dash-nav-label">Settings</span>
           </a>
         </li>
       </ul>
@@ -98,26 +98,15 @@
 
   <!-- Main Content -->
   <main class="dash-main">
-    <header class="dash-header">
-      <!-- Global Search with Recent Patients dropdown -->
-      <div class="dash-header-search dash-search-wrapper" id="dashSearchWrapper">
-        <i class="fas fa-search" aria-hidden="true"></i>
-        <input type="text" id="dashGlobalSearch" placeholder="Search records, tests, doctors..." aria-label="Global search" aria-expanded="false" aria-haspopup="listbox" aria-controls="dashRecentPatients">
-        <div class="dash-search-dropdown" id="dashRecentPatients" role="listbox" aria-label="Recent patients" aria-hidden="true">
-          <div class="dash-search-dropdown-header">Recent Patients</div>
-          <a href="#" class="dash-search-dropdown-item" role="option">Robert Johnson (RJ-20240524)</a>
-          <a href="#" class="dash-search-dropdown-item" role="option">Margaret Chen (MC-20240115)</a>
-          <a href="#" class="dash-search-dropdown-item" role="option">David Williams (DW-20231201)</a>
-        </div>
-      </div>
-      <div class="dash-header-actions">
-        <!-- Notification Bell with Dropdown -->
+    <header class="dash-header d-flex align-items-center justify-content-between gap-3">
+      <!-- Left: Notification Bell (dropdown trigger) -->
+      <div class="dash-header-left d-flex align-items-center">
         <div class="dash-notification-wrap">
           <button type="button" class="dash-notification has-badge" id="dashNotification" aria-label="Notifications" aria-expanded="false" aria-haspopup="true" aria-controls="dashNotificationDropdown">
             <i class="fas fa-bell" aria-hidden="true"></i>
             <span class="dash-notification-badge">5</span>
           </button>
-          <div class="dash-notification-dropdown" id="dashNotificationDropdown" aria-label="Notification panel" aria-hidden="true">
+          <div class="dash-notification-dropdown dropdown-menu-start" id="dashNotificationDropdown" role="menu" aria-label="Notification panel" aria-hidden="true">
             <div class="dash-notification-tabs">
               <button type="button" class="dash-notification-tab active" data-tab="unread" aria-selected="true">Unread</button>
               <button type="button" class="dash-notification-tab" data-tab="all" aria-selected="false">All</button>
@@ -163,17 +152,27 @@
             </div>
           </div>
         </div>
-        <!-- Patient Context: Name + Actions Menu -->
+      </div>
+      <!-- Center: Global Search with Recent Patients dropdown -->
+      <div class="dash-header-search dash-search-wrapper flex-grow-1" id="dashSearchWrapper">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input type="text" id="dashGlobalSearch" placeholder="Search records, tests, doctors..." aria-label="Global search" aria-expanded="false" aria-haspopup="listbox" aria-controls="dashRecentPatients">
+        <div class="dash-search-dropdown" id="dashRecentPatients" role="listbox" aria-label="Recent patients" aria-hidden="true">
+          <div class="dash-search-dropdown-header">Recent Patients</div>
+          <a href="#" class="dash-search-dropdown-item" role="option">Robert Johnson (RJ-20240524)</a>
+          <a href="#" class="dash-search-dropdown-item" role="option">Margaret Chen (MC-20240115)</a>
+          <a href="#" class="dash-search-dropdown-item" role="option">David Williams (DW-20231201)</a>
+        </div>
+      </div>
+      <!-- Right: Profile (Robert Johnson + Avatar) -->
+      <div class="dash-header-right d-flex align-items-center ms-auto">
         <div class="dash-user-wrap">
           <div class="dash-user">
-            <div class="dash-avatar">RJ</div>
+            <button type="button" class="dash-avatar dash-avatar-trigger" id="dashPatientActions" aria-label="Patient actions" aria-expanded="false" aria-haspopup="true" aria-controls="dashPatientActionsMenu">
+              RJ
+            </button>
             <div class="dash-user-info">
-              <div class="d-flex align-items-center gap-2 flex-wrap">
-                <h4 class="mb-0">Robert Johnson</h4>
-                <button type="button" class="dash-btn-actions" id="dashPatientActions" aria-label="Patient actions" aria-expanded="false" aria-haspopup="true" aria-controls="dashPatientActionsMenu">
-                  <i class="fas fa-ellipsis-v" aria-hidden="true"></i> Actions
-                </button>
-              </div>
+              <h4 class="mb-0">Robert Johnson</h4>
               <p class="dash-user-id mb-0">Patient ID: RJ-20240524</p>
             </div>
           </div>

@@ -51,6 +51,7 @@
   left: 0;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   width: var(--dash-sidebar-rail);
   background: var(--dash-bg-card);
   box-shadow: var(--dash-shadow-lg);
@@ -101,6 +102,7 @@
 
 .dashboard-patient .dash-sidebar nav {
   flex: 1;
+  flex-grow: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -112,15 +114,18 @@
   padding: 12px 0;
   margin: 0;
   flex: 1;
+  flex-grow: 1;
   min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dashboard-patient .dash-sidebar-nav-link {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 12px 20px;
+  min-height: 48px;
+  padding: 14px 20px;
   margin: 4px 12px;
   border-radius: 12px;
   text-decoration: none;
@@ -129,14 +134,15 @@
   font-size: 0.9375rem;
   border-left: 3px solid transparent;
   transition: all var(--dash-transition);
+  box-sizing: border-box;
 }
 
 .dashboard-patient .dash-nav-icon-wrap {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
+  width: 40px;
+  min-width: 40px;
   flex-shrink: 0;
 }
 
@@ -145,39 +151,50 @@
   text-align: center;
 }
 
-.dashboard-patient .dash-sidebar-nav-link .dash-nav-badge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  font-size: 0.625rem;
-}
-
-.dashboard-patient .dash-sidebar-nav-link span:not(.dash-nav-badge) {
+.dashboard-patient .dash-nav-label {
+  flex: 1;
   white-space: nowrap;
   opacity: 0;
   transition: opacity var(--dash-transition);
 }
 
+.dashboard-patient .dash-sidebar:hover .dash-nav-label,
+.dashboard-patient .dash-sidebar.dash-sidebar-expanded .dash-nav-label,
+.dashboard-patient .dash-sidebar.dash-mobile-open .dash-nav-label {
+  opacity: 1;
+}
 
-.dashboard-patient .dash-sidebar:hover .dash-sidebar-nav-link span:not(.dash-nav-badge),
-.dashboard-patient .dash-sidebar.dash-sidebar-expanded .dash-sidebar-nav-link span:not(.dash-nav-badge),
-.dashboard-patient .dash-sidebar.dash-mobile-open .dash-sidebar-nav-link span:not(.dash-nav-badge) {
+.dashboard-patient .dash-sidebar-nav-link .dash-nav-badge {
+  flex-shrink: 0;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 0.6875rem;
+  margin-left: 4px;
+  opacity: 0;
+  transition: opacity var(--dash-transition);
+}
+
+.dashboard-patient .dash-sidebar:hover .dash-nav-badge,
+.dashboard-patient .dash-sidebar.dash-sidebar-expanded .dash-nav-badge,
+.dashboard-patient .dash-sidebar.dash-mobile-open .dash-nav-badge {
   opacity: 1;
 }
 
 .dashboard-patient .dash-sidebar-nav-link:hover {
   background: rgba(15, 118, 110, 0.08);
   color: var(--dash-primary);
-  border-left-color: var(--dash-primary);
+  border-left: 3px solid rgba(15, 118, 110, 0.4);
+  border-radius: 8px 50px 50px 8px;
+  margin: 4px 1rem;
 }
 
 .dashboard-patient .dash-sidebar-nav-link.active {
-  background: rgba(15, 118, 110, 0.12);
+  background: rgba(15, 118, 110, 0.1);
   color: var(--dash-primary);
-  border-left-color: var(--dash-primary);
+  border-left: 3px solid var(--dash-primary);
+  border-radius: 8px 50px 50px 8px;
+  margin: 4px 1rem;
 }
 
 .dashboard-patient .dash-sidebar-nav-link.active i {
@@ -185,7 +202,7 @@
 }
 
 .dashboard-patient .dash-nav-badge {
-  border-radius: 8px;
+  border-radius: 50%;
   background: var(--dash-elevated);
   color: white;
   font-weight: 700;
@@ -202,9 +219,10 @@
   margin-top: auto;
   flex-shrink: 0;
   padding: 16px 20px;
-  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--dash-border);
   z-index: 1;
+  background: var(--dash-bg-card);
 }
 
 .dashboard-patient .dash-sidebar .btn-logout {
@@ -223,6 +241,7 @@
   cursor: pointer;
   transition: all var(--dash-transition);
   text-decoration: none;
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
 }
 
 .dashboard-patient .dash-sidebar .btn-logout:hover {
@@ -301,7 +320,8 @@
   font-size: 0.875rem;
 }
 
-.dashboard-patient .dash-header-actions {
+.dashboard-patient .dash-header-left,
+.dashboard-patient .dash-header-right {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -309,8 +329,10 @@
 
 .dashboard-patient .dash-notification {
   position: relative;
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,6 +371,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: dashBadgePing 2s ease-in-out infinite;
+}
+
+@keyframes dashBadgePing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(225, 29, 72, 0); }
 }
 
 .dashboard-patient .dash-user {
@@ -807,6 +835,11 @@
 
   .dashboard-patient .dash-lab-cards {
     display: block;
+  }
+
+  /* Logout: bottom padding for 390x844, gesture pill, and safe area */
+  .dashboard-patient .dash-sidebar-footer {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   }
 }
 
