@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare | Doctor | Appointments</title>
+  <style>body{visibility:hidden}body.rbac-ready{visibility:visible}</style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
+  <link href="../css/hms.css" rel="stylesheet">
+</head>
+<body data-auth-required="staff">
+
+  <script src="../js/hms-rbac.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-user-md"></i>
+      <span>MediCare Doctor</span>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="#/doctor/appointments" class="sidebar-nav-link active" data-route="doctor/appointments"><i class="fas fa-list-alt"></i> Appointments</a></li>
+      <li><a href="#/doctor/prescriptions" class="sidebar-nav-link" data-route="doctor/prescriptions"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
+      <li><a href="#/doctor/history" class="sidebar-nav-link" data-route="doctor/history"><i class="fas fa-history"></i> History</a></li>
+      <li><a href="auth.html" class="sidebar-nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="auth.html" class="btn btn-secondary w-100 btn-sm btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 class="text-lg font-semibold mb-0">Doctor Dashboard</h1>
+        <p class="text-xs text-gray-500 mb-0">Appointment queue &amp; eRx</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="rounded-full flex items-center justify-center text-white font-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">DR</div>
+        <div>
+          <div class="text-xs font-semibold" data-user-name>Dr. Sarah Johnson</div>
+          <div class="text-[11px] text-gray-500" data-user-id>Staff ID: SJ-2024</div>
+          <div class="text-[11px] text-gray-500" data-user-role>Doctor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <!-- Appointments: Queue + Split-pane patient history -->
+      <section data-view="doctor/appointments">
+        <div class="doctor-split grid gap-4 lg:grid-cols-12">
+          <div class="doctor-queue-col lg:col-span-7">
+            <div class="hms-card">
+              <h2 class="hms-card-title"><i class="fas fa-list-alt text-primary-teal"></i> Appointment Queue</h2>
+              <p class="small text-secondary mb-3">Accept, reject, or start consultation. Use <strong>Consult</strong> to add notes and send eRx to Pharmacy.</p>
+              <div id="doctorQueueContainer"></div>
+            </div>
+          </div>
+          <div class="doctor-history-col lg:col-span-5">
+            <div class="hms-card">
+              <h2 class="hms-card-title"><i class="fas fa-folder-open text-primary-teal"></i> Selected Patient History</h2>
+              <p class="small text-secondary mb-3">Prescriptions and history for the patient in the current consultation.</p>
+              <div id="doctorPatientHistory">
+                <p class="text-secondary small mb-0">Select a patient from the queue or start a consultation to view history.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Prescriptions: List all -->
+      <section class="hidden" data-view="doctor/prescriptions" hidden>
+        <div class="hms-card">
+          <h2 class="hms-card-title"><i class="fas fa-prescription-bottle text-primary-teal"></i> All Prescriptions</h2>
+          <p class="small text-secondary mb-3">Prescriptions you have sent to the pharmacy.</p>
+          <div id="doctorPrescriptionsList"></div>
+        </div>
+      </section>
+
+      <!-- History: Patient lookup -->
+      <section class="hidden" data-view="doctor/history" hidden>
+        <div class="hms-card">
+          <h2 class="hms-card-title"><i class="fas fa-history text-primary-teal"></i> Patient History</h2>
+          <p class="small text-secondary mb-3">View past consultations and prescriptions by patient.</p>
+          <div id="doctorHistoryContent">
+            <p class="text-secondary small mb-0">Use the Appointments view to select a patient and see their history in the right panel.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="globalToastContainer" class="toast-container position-fixed top-0 end-0 p-3" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="../js/bootstrap-shim.js"></script>
+  <script type="module" src="../js/entry/doctor-app.js"></script>
+</body>
+</html>

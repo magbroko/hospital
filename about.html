@@ -6,35 +6,39 @@
   <meta name="description" content="Learn about MediCare Hospital - our mission, vision, values, leadership team, and certifications.">
   <title>About Us | MediCare Hospital</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="css/about.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <i class="fas fa-hospital"></i>
-        MediCare
+  <!-- Navbar: Premium glassmorphic, sticky -->
+  <nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar" aria-label="Main navigation">
+    <div class="container navbar__container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html" aria-label="MediCare Hospital - Home">
+        <i class="fas fa-hospital navbar-brand__icon" aria-hidden="true"></i>
+        <span class="navbar-brand__text"><span class="navbar-brand__medi">Medi</span><span class="navbar-brand__care">Care</span></span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-hamburger" type="button" id="navbarHamburger" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span class="navbar-hamburger__line"></span>
+        <span class="navbar-hamburger__line"></span>
+        <span class="navbar-hamburger__line"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="emr-patient-dashboard.html">Patient Portal</a></li>
-          <li class="nav-item"><a class="nav-link" href="admin-dashboard.html">Staff Login</a></li>
-          <li class="nav-item">
-            <a class="btn btn-primary ms-2" href="index.html#appointment-widget">
-              <i class="fas fa-calendar-check"></i> Book Appointment
-            </a>
-          </li>
-        </ul>
+        <div class="navbar-nav-wrap">
+          <ul class="navbar-nav navbar-nav--center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-portal/emr-patient-dashboard.html">Patient Portal</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-portal/admin-dashboard.html">Staff Login</a></li>
+          </ul>
+          <a class="btn btn-nav-cta" href="index.html#appointment-widget">
+            <i class="bi bi-calendar-check" aria-hidden="true"></i> Book Appointment
+          </a>
+        </div>
       </div>
     </div>
   </nav>
@@ -114,72 +118,72 @@
     </div>
   </section>
 
-  <!-- Medical Leadership Team -->
-  <section class="section-padding">
+  <!-- Medical Leadership Team - Premium Cinematic -->
+  <section class="leadership-section" id="leadership-section">
     <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold mb-2">Our Medical Leadership</h2>
-        <p class="text-secondary">Distinguished physicians and healthcare professionals</p>
+      <div class="text-center leadership-header leadership-header--compact">
+        <h2 class="leadership-title">Our Medical Leadership</h2>
+        <p class="leadership-subtitle">Distinguished physicians and healthcare professionals</p>
       </div>
 
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4" data-aos="fade-up">
-          <div class="card overflow-hidden">
-            <div class="ratio ratio-4x3 bg-light rounded-3 overflow-hidden mb-3">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=300&fit=crop" alt="Dr. James Smith" class="object-fit-cover">
-            </div>
-            <h3 class="h5 mb-1" style="color: var(--secondary-teal);">Dr. James Smith</h3>
-            <p class="fw-semibold mb-2" style="color: var(--primary-teal); font-size: 14px;">Chief Cardiologist</p>
-            <p class="text-secondary small mb-3">
-              30+ years of experience in interventional cardiology. MD from Harvard Medical School, trained at Mayo Clinic.
-            </p>
-            <div class="d-flex gap-2">
-              <a href="#" class="rounded-circle d-flex align-items-center justify-content-center text-decoration-none" style="width: 36px; height: 36px; background: var(--soft-white); color: var(--primary-teal); transition: all 0.3s;">
-                <i class="fab fa-linkedin"></i>
-              </a>
-              <a href="#" class="rounded-circle d-flex align-items-center justify-content-center text-decoration-none" style="width: 36px; height: 36px; background: var(--soft-white); color: var(--primary-teal); transition: all 0.3s;">
-                <i class="fas fa-envelope"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="card overflow-hidden">
-            <div class="ratio ratio-4x3 bg-light rounded-3 overflow-hidden mb-3">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop" alt="Dr. Sarah Johnson" class="object-fit-cover">
-            </div>
-            <h3 class="h5 mb-1" style="color: var(--secondary-teal);">Dr. Sarah Johnson</h3>
-            <p class="fw-semibold mb-2" style="color: var(--primary-teal); font-size: 14px;">Chief of Pediatrics</p>
-            <p class="text-secondary small mb-3">
-              Board-certified pediatrician with 20+ years. Specializes in developmental pediatrics and child wellness.
-            </p>
-            <div class="d-flex gap-2">
-              <a href="#" class="rounded-circle d-flex align-items-center justify-content-center text-decoration-none" style="width: 36px; height: 36px; background: var(--soft-white); color: var(--primary-teal);">
-                <i class="fab fa-linkedin"></i>
-              </a>
-              <a href="#" class="rounded-circle d-flex align-items-center justify-content-center text-decoration-none" style="width: 36px; height: 36px; background: var(--soft-white); color: var(--primary-teal);">
-                <i class="fas fa-envelope"></i>
-              </a>
+      <div class="row row-cols-lg-3 g-3 g-lg-4">
+        <div class="col-md-6 col-lg-4 leadership-card-wrap" data-reveal-index="0">
+          <div class="leadership-card">
+            <div class="leadership-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop" alt="Dr. James Smith" class="leadership-card__image">
+              <div class="leadership-card__glass">
+                <div class="leadership-card__header">
+                  <div class="leadership-card__meta">
+                    <h3 class="leadership-card__name">Dr. James Smith</h3>
+                    <p class="leadership-card__role">Chief Cardiologist</p>
+                  </div>
+                  <div class="leadership-card__socials">
+                    <a href="#" class="leadership-card__social" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="leadership-card__social" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                  </div>
+                </div>
+                <p class="leadership-card__bio">30+ years of experience in interventional cardiology. MD from Harvard Medical School, trained at Mayo Clinic.</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="card overflow-hidden">
-            <div class="ratio ratio-4x3 bg-light rounded-3 overflow-hidden mb-3">
-              <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=300&fit=crop" alt="Dr. Michael Williams" class="object-fit-cover">
+        <div class="col-md-6 col-lg-4 leadership-card-wrap" data-reveal-index="1">
+          <div class="leadership-card">
+            <div class="leadership-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop" alt="Dr. Sarah Johnson" class="leadership-card__image">
+              <div class="leadership-card__glass">
+                <div class="leadership-card__header">
+                  <div class="leadership-card__meta">
+                    <h3 class="leadership-card__name">Dr. Sarah Johnson</h3>
+                    <p class="leadership-card__role">Chief of Pediatrics</p>
+                  </div>
+                  <div class="leadership-card__socials">
+                    <a href="#" class="leadership-card__social" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="leadership-card__social" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                  </div>
+                </div>
+                <p class="leadership-card__bio">Board-certified pediatrician with 20+ years. Specializes in developmental pediatrics and child wellness.</p>
+              </div>
             </div>
-            <h3 class="h5 mb-1" style="color: var(--secondary-teal);">Dr. Michael Williams</h3>
-            <p class="fw-semibold mb-2" style="color: var(--primary-teal); font-size: 14px;">Chief Medical Officer</p>
-            <p class="text-secondary small mb-3">
-              Oncology specialist with expertise in immunotherapy. Leads our cancer research and treatment programs.
-            </p>
-            <div class="d-flex gap-2">
-              <a href="#" class="rounded-circle d-flex align-items-center justify-content-center text-decoration-none" style="width: 36px; height: 36px; background: var(--soft-white); color: var(--primary-teal);">
-                <i class="fab fa-linkedin"></i>
-              </a>
-              <a href="#" class="rounded-circle d-flex align-items-center justify-content-center text-decoration-none" style="width: 36px; height: 36px; background: var(--soft-white); color: var(--primary-teal);">
-                <i class="fas fa-envelope"></i>
-              </a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 leadership-card-wrap" data-reveal-index="2">
+          <div class="leadership-card">
+            <div class="leadership-card__image-wrap">
+              <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=500&fit=crop" alt="Dr. Michael Williams" class="leadership-card__image">
+              <div class="leadership-card__glass">
+                <div class="leadership-card__header">
+                  <div class="leadership-card__meta">
+                    <h3 class="leadership-card__name">Dr. Michael Williams</h3>
+                    <p class="leadership-card__role">Chief Medical Officer</p>
+                  </div>
+                  <div class="leadership-card__socials">
+                    <a href="#" class="leadership-card__social" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="leadership-card__social" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                  </div>
+                </div>
+                <p class="leadership-card__bio">Oncology specialist with expertise in immunotherapy. Leads our cancer research and treatment programs.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -187,71 +191,145 @@
     </div>
   </section>
 
-  <!-- Certifications & Accreditations -->
-  <section class="section-padding" style="background: var(--soft-white);">
+  <!-- Certifications & Accreditations - Compact Glassmorphism -->
+  <section class="certifications-section" id="certifications-section">
     <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold mb-2">Certifications & Accreditations</h2>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-3" data-aos="fade-up">
-          <div class="card text-center h-100">
-            <i class="fas fa-award fa-3x mb-3" style="color: var(--primary-teal);"></i>
-            <h4 class="h5 mb-2">ISO 9001:2015</h4>
-            <p class="text-secondary small mb-0">Quality Management Certified</p>
+      <h2 class="certifications-title">Certifications & Accreditations</h2>
+      <div class="certifications-row">
+        <div class="cert-capsule" data-reveal-index="0">
+          <div class="cert-capsule__icon-wrap">
+            <i class="fas fa-award cert-capsule__icon"></i>
+          </div>
+          <div class="cert-capsule__text">
+            <h4 class="cert-capsule__title">ISO 9001:2015</h4>
+            <p class="cert-capsule__desc">Quality Management Certified</p>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-          <div class="card text-center h-100">
-            <i class="fas fa-certificate fa-3x mb-3" style="color: var(--primary-teal);"></i>
-            <h4 class="h5 mb-2">JCI Accredited</h4>
-            <p class="text-secondary small mb-0">International Healthcare Standards</p>
+        <div class="cert-capsule" data-reveal-index="1">
+          <div class="cert-capsule__icon-wrap">
+            <i class="fas fa-certificate cert-capsule__icon"></i>
+          </div>
+          <div class="cert-capsule__text">
+            <h4 class="cert-capsule__title">JCI Accredited</h4>
+            <p class="cert-capsule__desc">International Healthcare Standards</p>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-          <div class="card text-center h-100">
-            <i class="fas fa-shield-alt fa-3x mb-3" style="color: var(--primary-teal);"></i>
-            <h4 class="h5 mb-2">HIPAA Compliant</h4>
-            <p class="text-secondary small mb-0">Patient Data Protection</p>
+        <div class="cert-capsule" data-reveal-index="2">
+          <div class="cert-capsule__icon-wrap">
+            <i class="fas fa-shield-alt cert-capsule__icon"></i>
+          </div>
+          <div class="cert-capsule__text">
+            <h4 class="cert-capsule__title">HIPAA Compliant</h4>
+            <p class="cert-capsule__desc">Patient Data Protection</p>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-          <div class="card text-center h-100">
-            <i class="fas fa-flask fa-3x mb-3" style="color: var(--primary-teal);"></i>
-            <h4 class="h5 mb-2">CAP Certified</h4>
-            <p class="text-secondary small mb-0">Laboratory Accreditation</p>
+        <div class="cert-capsule" data-reveal-index="3">
+          <div class="cert-capsule__icon-wrap">
+            <i class="fas fa-flask cert-capsule__icon"></i>
+          </div>
+          <div class="cert-capsule__text">
+            <h4 class="cert-capsule__title">CAP Certified</h4>
+            <p class="cert-capsule__desc">Laboratory Accreditation</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
+  <!-- Footer: Glassmorphism, 4-column, high-density -->
+  <footer class="footer" role="contentinfo">
     <div class="container">
-      <div class="row g-4">
-        <div class="col-md-4">
-          <h4 class="mb-3 fw-bold">MediCare Hospital</h4>
-          <p class="opacity-90">Excellence in healthcare, delivered daily.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="footer-brand__logo" href="index.html" aria-label="MediCare Hospital - Home">
+            <i class="fas fa-hospital footer-brand__icon" aria-hidden="true"></i>
+            <span class="footer-brand__text"><span class="footer-brand__medi">Medi</span><span class="footer-brand__care">Care</span></span>
+          </a>
+          <p class="footer-brand__mission">Excellence in healthcare, delivered daily. World-class care with cutting-edge technology.</p>
         </div>
-        <div class="col-md-2">
-          <h5 class="mb-3 fw-semibold">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li class="mb-2"><a href="index.html">Home</a></li>
-            <li class="mb-2"><a href="about.html">About</a></li>
-            <li class="mb-2"><a href="services.html">Services</a></li>
+        <div class="footer-column">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="emr-patient-dashboard.html">Patient Portal</a></li>
+            <li><a href="admin-dashboard.html">Staff Login</a></li>
           </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Our Services</h5>
+          <ul>
+            <li><a href="services/cardiology.html">Cardiology</a></li>
+            <li><a href="services.html#pediatrics">Pediatrics</a></li>
+            <li><a href="services.html#oncology">Oncology</a></li>
+            <li><a href="services.html#orthopedics">Orthopedics</a></li>
+            <li><a href="services.html#radiology">Radiology</a></li>
+            <li><a href="services.html#neurology">Neurology</a></li>
+          </ul>
+        </div>
+        <div class="footer-column footer-contact-newsletter">
+          <h5>Contact</h5>
+          <ul class="footer-contact-list">
+            <li>
+              <a href="tel:+15551234567" class="footer-contact-link">
+                <i class="bi bi-telephone-fill footer-contact-icon" aria-hidden="true"></i>
+                <span>+1 (555) 123-4567</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:info@medicare.com" class="footer-contact-link">
+                <i class="bi bi-envelope-fill footer-contact-icon" aria-hidden="true"></i>
+                <span>info@medicare.com</span>
+              </a>
+            </li>
+          </ul>
+          <div class="footer-newsletter">
+            <form class="footer-newsletter-form" aria-label="Newsletter signup">
+              <input type="email" placeholder="Your email" aria-label="Email address">
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p class="mb-0">&copy; 2024 MediCare Hospital. All rights reserved.</p>
+        <p class="footer-bottom__copy">&copy; 2024 MediCare Hospital. All rights reserved. HIPAA Compliant.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social__btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="#" class="footer-social__btn" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          <a href="#" class="footer-social__btn" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+        </div>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="js/main.js"></script>
   <script>AOS.init({ duration: 600, offset: 50 });</script>
+  <script>
+    (function() {
+      var section = document.getElementById('leadership-section');
+      if (section) {
+        var cards = section.querySelectorAll('.leadership-card-wrap');
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) entry.target.classList.add('is-revealed');
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        cards.forEach(function(c) { observer.observe(c); });
+      }
+      var certSection = document.getElementById('certifications-section');
+      if (certSection) {
+        var capsules = certSection.querySelectorAll('.cert-capsule');
+        var certObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) entry.target.classList.add('is-revealed');
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        capsules.forEach(function(c) { certObserver.observe(c); });
+      }
+    })();
+  </script>
 </body>
 </html>

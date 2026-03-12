@@ -4,15 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Staff Dashboard | MediCare Hospital EMR</title>
+  <style>body{visibility:hidden}body.rbac-ready{visibility:visible}</style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
-  <link href="css/admin-dashboard.css" rel="stylesheet">
-  <link href="css/admin-portal.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
 </head>
-<body>
+<body data-auth-required="staff">
 
+  <script src="../js/hms-rbac.js"></script>
+  <script src="../js/auth-guard.js"></script>
   <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
 
   <!-- Sidebar -->
@@ -23,16 +26,17 @@
     </div>
     <ul class="sidebar-nav">
       <li><a href="admin-dashboard.html" class="sidebar-nav-link active"><i class="fas fa-th-large"></i> Dashboard</a></li>
-      <li><a href="admin-portal/patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
-      <li><a href="admin-portal/prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
-      <li><a href="admin-portal/lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
-      <li><a href="admin-portal/bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
-      <li><a href="admin-portal/shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
-      <li><a href="admin-portal/inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
-      <li><a href="admin-portal/alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+      <li><a href="hms-dashboard.html" class="sidebar-nav-link"><i class="fas fa-hospital-alt"></i> HMS</a></li>
+      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
+      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
+      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
+      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
+      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
+      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
+      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
     </ul>
     <div class="sidebar-footer">
-      <a href="index.html" class="btn btn-secondary w-100 btn-sm"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+      <a href="auth.html" class="btn btn-secondary w-100 btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
     </div>
   </aside>
 
@@ -40,13 +44,13 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Alert Banner -->
-    <div class="alert-banner">
+    <!-- Alert Banner (dynamic from AppState: low stock + urgent appointments) -->
+    <div class="alert-banner" id="staffAlertBanner">
       <div class="d-flex align-items-center gap-2">
         <span class="pulse-dot"></span>
-        <span><strong>2 Critical Alerts</strong> — Patient in Room 204 requires urgent attention. Low inventory: IV Saline.</span>
+        <span class="alert-banner-message"><strong>Alerts</strong> — Loading…</span>
       </div>
-      <a href="admin-portal/alerts.html" class="btn btn-sm text-white border border-white">View Alerts</a>
+      <a href="alerts.html" class="btn btn-sm text-white border border-white">View Alerts</a>
     </div>
 
     <div class="top-bar">
@@ -69,8 +73,9 @@
       </div>
     </div>
 
+    <section data-view="overview">
     <div class="p-4">
-      <!-- Clinical KPIs -->
+      <!-- Clinical KPIs (live from AppState) -->
       <div class="row g-4 mb-4">
         <div class="col-md-6 col-lg-3">
           <a href="admin-portal/patient-management.html" class="text-decoration-none">
@@ -78,7 +83,7 @@
               <div class="d-flex justify-content-between align-items-start">
                 <div>
                   <p class="mb-1 small text-secondary">Total Patients</p>
-                  <h3 class="h4 fw-bold mb-0">156</h3>
+                  <h3 class="h4 fw-bold mb-0" id="totalPatientsCount">—</h3>
                 </div>
                 <div class="icon-wrap" style="background: rgba(10, 186, 181, 0.2); color: var(--primary-teal);">
                   <i class="fas fa-users"></i>
@@ -93,7 +98,7 @@
               <div class="d-flex justify-content-between align-items-start">
                 <div>
                   <p class="mb-1 small text-secondary">Bed Occupancy Rate</p>
-                  <h3 class="h4 fw-bold mb-0">84%</h3>
+                  <h3 class="h4 fw-bold mb-0" id="bedOccupancyCount">—</h3>
                 </div>
                 <div class="icon-wrap" style="background: rgba(245, 158, 11, 0.2); color: var(--warning-orange);">
                   <i class="fas fa-bed"></i>
@@ -108,7 +113,7 @@
               <div class="d-flex justify-content-between align-items-start">
                 <div>
                   <p class="mb-1 small text-secondary">Pending Lab Orders</p>
-                  <h3 class="h4 fw-bold mb-0">8</h3>
+                  <h3 class="h4 fw-bold mb-0" id="pendingLabOrdersCount">—</h3>
                 </div>
                 <div class="icon-wrap" style="background: rgba(59, 130, 246, 0.2); color: #3B82F6;">
                   <i class="fas fa-flask"></i>
@@ -118,12 +123,12 @@
           </a>
         </div>
         <div class="col-md-6 col-lg-3">
-          <a href="admin-portal/inventory.html" class="text-decoration-none">
+          <a href="admin-portal/hms-dashboard.html" class="text-decoration-none" title="Hospital Management System - Drug inventory, billing, expenses">
             <div class="stat-card">
               <div class="d-flex justify-content-between align-items-start">
                 <div>
-                  <p class="mb-1 small text-secondary">Inventory Alerts</p>
-                  <h3 class="h4 fw-bold mb-0">3</h3>
+                  <p class="mb-1 small text-secondary">HMS / Pharmacy</p>
+                  <h3 class="h4 fw-bold mb-0" id="hmsCriticalCount">—</h3>
                 </div>
                 <div class="icon-wrap" style="background: rgba(239, 68, 68, 0.2); color: var(--error-red);">
                   <i class="fas fa-boxes-stacked"></i>
@@ -142,48 +147,8 @@
               <h2 class="h5 fw-bold mb-0">Recent Patients</h2>
               <a href="admin-portal/patient-management.html" class="btn btn-primary btn-sm"><i class="fas fa-search me-1"></i> Patient Lookup</a>
             </div>
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Patient ID</th>
-                    <th>Name</th>
-                    <th>Department</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>RJ-20240524</strong></td>
-                    <td>Robert Johnson</td>
-                    <td>Cardiology</td>
-                    <td><span class="badge-status occupied">In Care</span></td>
-                    <td><button class="btn btn-sm btn-secondary">View</button></td>
-                  </tr>
-                  <tr>
-                    <td><strong>MJ-20240115</strong></td>
-                    <td>Margaret Johnson</td>
-                    <td>Cardiology</td>
-                    <td><span class="badge-status available">Discharged</span></td>
-                    <td><button class="btn btn-sm btn-secondary">View</button></td>
-                  </tr>
-                  <tr>
-                    <td><strong>DC-20240201</strong></td>
-                    <td>David Chen</td>
-                    <td>Orthopedics</td>
-                    <td><span class="badge-status pending">Awaiting</span></td>
-                    <td><button class="btn btn-sm btn-secondary">View</button></td>
-                  </tr>
-                  <tr>
-                    <td><strong>ER-20240210</strong></td>
-                    <td>Emily Rodriguez</td>
-                    <td>Pediatrics</td>
-                    <td><span class="badge-status occupied">In Care</span></td>
-                    <td><button class="btn btn-sm btn-secondary">View</button></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div id="recentPatientsTable">
+              <!-- Recent Patients table injected by staff-overview.js -->
             </div>
           </div>
         </div>
@@ -213,7 +178,7 @@
               </div>
               <small class="text-secondary">10/10 beds occupied</small>
             </div>
-            <a href="admin-portal/bed-allocation.html" class="btn btn-primary w-100 btn-sm">Manage Beds</a>
+            <a href="bed-allocation.html" class="btn btn-primary w-100 btn-sm">Manage Beds</a>
           </div>
         </div>
       </div>
@@ -234,36 +199,14 @@
         </div>
       </div>
     </div>
+    </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script type="module" src="../js/entry/staff-dashboard-app.js"></script>
   <script>
-    AOS.init();
-    (function() {
-      var sidebar = document.querySelector('.sidebar');
-      var overlay = document.getElementById('adminOverlay');
-      var toggle = document.getElementById('adminSidebarToggle');
-      function openDrawer() {
-        sidebar?.classList.add('active');
-        overlay?.classList.add('active');
-        overlay?.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeDrawer() {
-        sidebar?.classList.remove('active');
-        overlay?.classList.remove('active');
-        overlay?.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-      toggle?.addEventListener('click', function() {
-        sidebar?.classList.contains('active') ? closeDrawer() : openDrawer();
-      });
-      overlay?.addEventListener('click', closeDrawer);
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer();
-      });
-    })();
+    if (typeof AOS !== 'undefined') AOS.init();
   </script>
 </body>
 </html>

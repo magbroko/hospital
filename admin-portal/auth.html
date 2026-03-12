@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | MediCare – Your Health, Our Priority</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/auth.css" rel="stylesheet">
+</head>
+<body class="auth-page">
+
+  <div class="auth-container">
+    <!-- Left Panel: Branding & Image -->
+    <aside class="auth-panel auth-panel--brand">
+      <div class="auth-panel__bg">
+        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&h=1080&fit=crop" alt="" role="presentation">
+      </div>
+      <div class="auth-panel__gradient"></div>
+      <div class="auth-panel__content">
+        <div class="auth-brand">
+          <i class="fas fa-heartbeat auth-brand__icon" aria-hidden="true"></i>
+          <h1 class="auth-brand__title">Welcome to MediCare</h1>
+          <p class="auth-brand__tagline">Your Health, Our Priority</p>
+        </div>
+        <ul class="auth-features" aria-hidden="true">
+          <li><i class="fas fa-shield-halved"></i> Secure, HIPAA-compliant access</li>
+          <li><i class="fas fa-user-doctor"></i> Role-based dashboards</li>
+          <li><i class="fas fa-clock"></i> 24/7 availability</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Right Panel: Form -->
+    <main class="auth-panel auth-panel--form">
+      <div class="auth-form-wrapper">
+        <div class="auth-form-glass">
+          <!-- Tab Switcher -->
+          <div class="auth-tabs" role="tablist">
+            <button type="button" class="auth-tab auth-tab--active" data-tab="login" role="tab" aria-selected="true">Login</button>
+            <button type="button" class="auth-tab" data-tab="register" role="tab" aria-selected="false">Register</button>
+          </div>
+
+          <!-- Login Form -->
+          <form id="loginForm" class="auth-form auth-form--active" data-form="login">
+            <div class="auth-form__inner">
+              <div class="auth-form-group auth-form-group--float">
+                <input type="email" id="loginEmail" class="auth-input" placeholder=" " autocomplete="email" required>
+                <label for="loginEmail" class="auth-label">Email</label>
+                <span id="loginEmailError" class="auth-error" aria-live="polite"></span>
+              </div>
+
+              <div class="auth-form-group auth-form-group--float">
+                <input type="password" id="loginPassword" class="auth-input" placeholder=" " autocomplete="current-password" required>
+                <label for="loginPassword" class="auth-label">Password</label>
+                <button type="button" class="auth-password-toggle" id="loginPasswordToggle" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye" aria-hidden="true"></i>
+                </button>
+                <span id="loginPasswordError" class="auth-error" aria-live="polite"></span>
+              </div>
+
+              <div class="auth-role-section">
+                <span class="auth-role-label">I am a...</span>
+                <div class="auth-role-select">
+                  <label class="auth-role-option">
+                    <input type="radio" name="role" value="patient" class="auth-role-input" checked>
+                    <span class="auth-role-box"><i class="fas fa-user"></i> Patient</span>
+                  </label>
+                  <label class="auth-role-option">
+                    <input type="radio" name="role" value="admin" class="auth-role-input">
+                    <span class="auth-role-box"><i class="fas fa-user-shield"></i> Admin</span>
+                  </label>
+                  <label class="auth-role-option">
+                    <input type="radio" name="role" value="doctor" class="auth-role-input">
+                    <span class="auth-role-box"><i class="fas fa-user-doctor"></i> Doctor</span>
+                  </label>
+                  <label class="auth-role-option">
+                    <input type="radio" name="role" value="pharmacist" class="auth-role-input">
+                    <span class="auth-role-box"><i class="fas fa-pills"></i> Pharmacist</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="auth-form-row">
+                <label class="auth-checkbox">
+                  <input type="checkbox" id="loginRemember" class="auth-checkbox__input">
+                  <span class="auth-checkbox__box"></span>
+                  Remember Me
+                </label>
+                <a href="#" class="auth-link">Forgot Password?</a>
+              </div>
+
+              <button type="submit" class="auth-btn auth-btn--primary auth-btn--secure">
+                <i class="fas fa-shield-halved auth-btn__icon"> </i>
+                <span>Login</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Register Form -->
+          <form id="registerForm" class="auth-form" data-form="register" hidden>
+            <div class="auth-form__inner">
+              <div class="auth-form-group auth-form-group--float">
+                <input type="text" id="registerName" class="auth-input" placeholder=" " autocomplete="name" required>
+                <label for="registerName" class="auth-label">Full Name</label>
+                <span id="registerNameError" class="auth-error" aria-live="polite"></span>
+              </div>
+
+              <div class="auth-form-group auth-form-group--float">
+                <input type="email" id="registerEmail" class="auth-input" placeholder=" " autocomplete="email" required>
+                <label for="registerEmail" class="auth-label">Email</label>
+                <span id="registerEmailError" class="auth-error" aria-live="polite"></span>
+              </div>
+
+              <div class="auth-form-group auth-form-group--float">
+                <input type="password" id="registerPassword" class="auth-input" placeholder=" " autocomplete="new-password" required>
+                <label for="registerPassword" class="auth-label">Password</label>
+                <button type="button" class="auth-password-toggle" id="registerPasswordToggle" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye" aria-hidden="true"></i>
+                </button>
+                <div class="auth-password-strength">
+                  <div class="auth-password-strength__bar" id="passwordStrengthBar" data-strength="none"></div>
+                </div>
+                <span id="registerPasswordError" class="auth-error" aria-live="polite"></span>
+              </div>
+
+              <div class="auth-form-group auth-form-group--float">
+                <input type="password" id="registerConfirm" class="auth-input" placeholder=" " autocomplete="new-password" required>
+                <label for="registerConfirm" class="auth-label">Confirm Password</label>
+                <button type="button" class="auth-password-toggle" id="registerConfirmToggle" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye" aria-hidden="true"></i>
+                </button>
+                <span id="registerConfirmError" class="auth-error" aria-live="polite"></span>
+              </div>
+
+              <div class="auth-role-section">
+                <span class="auth-role-label">I am a...</span>
+                <div class="auth-role-select">
+                  <label class="auth-role-option">
+                    <input type="radio" name="roleRegister" value="patient" class="auth-role-input" checked>
+                    <span class="auth-role-box"><i class="fas fa-user"></i> Patient</span>
+                  </label>
+                  <label class="auth-role-option">
+                    <input type="radio" name="roleRegister" value="admin" class="auth-role-input">
+                    <span class="auth-role-box"><i class="fas fa-user-shield"></i> Admin</span>
+                  </label>
+                  <label class="auth-role-option">
+                    <input type="radio" name="roleRegister" value="doctor" class="auth-role-input">
+                    <span class="auth-role-box"><i class="fas fa-user-doctor"></i> Doctor</span>
+                  </label>
+                  <label class="auth-role-option">
+                    <input type="radio" name="roleRegister" value="pharmacist" class="auth-role-input">
+                    <span class="auth-role-box"><i class="fas fa-pills"></i> Pharmacist</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" class="auth-btn auth-btn--primary">
+                <i class="fas fa-user-plus auth-btn__icon"> </i>
+                <span>Create Account</span>
+              </button>
+            </div>
+          </form>
+
+          <p class="auth-footer">
+            <span id="authFooterText">Don't have an account?</span>
+            <a href="#" class="auth-link auth-link--muted" id="authSwitchLink">Register</a>
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/auth.js"></script>
+</body>
+</html>

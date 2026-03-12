@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pharmacy Console | Dashboard</title>
+
+  <!-- Security: RBAC visibility gate -->
+  <style>
+    body{visibility:hidden}body.rbac-ready{visibility:visible}
+
+    @keyframes pulse-soft {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: .9; }
+    }
+    .pulse-amber { animation: pulse-soft 1.2s ease-in-out infinite; }
+  </style>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter','system-ui','sans-serif'],
+            display: ['Inter','system-ui','sans-serif'],
+          },
+          colors: {
+            brand: { teal: '#0f766e' }
+          },
+          boxShadow: {
+            soft: '0 18px 45px rgba(15,23,42,0.06)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Base styles -->
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/admin-dashboard.css" />
+  <link rel="stylesheet" href="/css/admin-portal.css" />
+</head>
+<body class="bg-slate-50 font-sans text-slate-900"
+      data-auth-required="staff">
+
+  <!-- RBAC + Auth guard (root-relative) -->
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
+
+  <div class="admin-overlay fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity lg:hidden"
+       id="adminOverlay"
+       aria-hidden="true"></div>
+
+  <div class="min-h-screen bg-slate-50 font-sans text-slate-900 flex">
+    <!-- Pharmacy Console Sidebar (shared aesthetic) -->
+    <aside class="sidebar fixed inset-y-0 left-0 z-40 w-72 bg-slate-900 text-slate-100 border-r border-slate-800 flex flex-col">
+      <div class="flex items-center gap-3 px-6 h-16 border-b border-slate-800">
+        <div class="h-9 w-9 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400">
+          <i class="fas fa-pills"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">Pharmacy Console</p>
+          <p class="text-sm font-semibold text-slate-50">MediCare Pharmacist Suite</p>
+        </div>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+        <p class="px-3 text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">Workspace</p>
+        <!-- Dashboard (active) -->
+        <a href="pharmacy-dashboard.html"
+           class="group relative mt-1 flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-50 bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-teal-500 shadow-[0_0_12px_rgba(45,212,191,0.75)]"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/60 text-slate-100">
+            <i class="fas fa-grip-vertical text-xs"></i>
+          </span>
+          <span class="flex-1">Dashboard</span>
+        </a>
+        <!-- Inventory -->
+        <a href="pharmacy-inventory.html"
+           class="group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-transparent group-hover:bg-teal-500/60"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/50 text-slate-300">
+            <i class="fas fa-boxes-stacked text-xs"></i>
+          </span>
+          <span class="flex-1">Drug Inventory</span>
+        </a>
+        <!-- Prescriptions -->
+        <a href="prescriptions.html"
+           class="group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-transparent group-hover:bg-teal-500/60"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/50 text-slate-300">
+            <i class="fas fa-prescription-bottle-medical text-xs"></i>
+          </span>
+          <span class="flex-1">Prescriptions Queue</span>
+        </a>
+        <!-- System Alerts -->
+        <a href="alerts.html"
+           class="group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-transparent group-hover:bg-teal-500/60"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/50 text-slate-300">
+            <i class="fas fa-bell text-xs"></i>
+          </span>
+          <span class="flex-1">System Alerts</span>
+        </a>
+      </nav>
+
+      <div class="px-4 py-4 border-t border-slate-800/80 mt-auto">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="h-9 w-9 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-300 text-sm font-semibold">
+              PH
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-slate-50">Pharmacy Staff</p>
+              <p class="text-[11px] text-slate-400">Role: Pharmacist</p>
+            </div>
+          </div>
+        </div>
+        <button id="logoutBtn"
+                class="btn btn-secondary w-100 btn-sm inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-100 hover:bg-slate-700 transition">
+          <i class="fas fa-sign-out-alt text-xs"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar toggle -->
+    <button class="sidebar-toggle fixed top-3 left-3 z-50 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-slate-100 shadow-sm lg:hidden"
+            id="adminSidebarToggle"
+            aria-label="Toggle menu">
+      <i class="fas fa-bars text-sm"></i>
+    </button>
+
+    <!-- Main content -->
+    <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
+      <!-- Top bar -->
+      <header class="sticky top-0 z-20 bg-slate-50/80 backdrop-blur border-b border-slate-200">
+        <div class="px-6 py-4 flex items-center justify-between gap-4">
+          <div>
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-slate-500 mb-1">
+              Pharmacy Operations
+            </p>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+              Command Dashboard
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">
+              Live queue, inventory risk, and recent dispenses powered by shared HMS data.
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="hidden sm:flex flex-col items-end text-right text-xs text-slate-500">
+              <span class="font-medium text-slate-700" id="shiftLabel">Day Shift · Active</span>
+              <span id="clock" class="tabular-nums"></span>
+            </div>
+            <div class="h-10 px-3 rounded-full border border-slate-200 bg-white shadow-sm flex items-center gap-2">
+              <span class="h-7 w-7 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-semibold">
+                PH
+              </span>
+              <div class="hidden sm:block">
+                <p class="text-xs font-semibold text-slate-900 leading-tight">Pharmacy Staff</p>
+                <p class="text-[11px] text-slate-500 leading-tight">Role: Pharmacist</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="flex-1">
+        <div class="px-6 py-6 space-y-6">
+          <!-- Stats grid -->
+          <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <!-- Active Prescriptions -->
+            <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500 mb-1">
+                    Active Prescriptions
+                  </p>
+                  <p id="kpiActivePrescriptions"
+                     class="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                    0
+                  </p>
+                </div>
+                <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+                  <i class="fa-solid fa-file-medical"></i>
+                </div>
+              </div>
+              <p class="mt-3 text-xs text-slate-500">
+                Pending and in-progress prescriptions awaiting dispense.
+              </p>
+            </article>
+
+            <!-- Total Stock Items -->
+            <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500 mb-1">
+                    Total Stock Items
+                  </p>
+                  <p id="kpiTotalItems"
+                     class="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                    0
+                  </p>
+                </div>
+                <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+                  <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+              </div>
+              <p class="mt-3 text-xs text-slate-500">
+                Distinct medications currently held in inventory.
+              </p>
+            </article>
+
+            <!-- Low Stock Alerts -->
+            <article id="kpiLowStockCard"
+                     class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500 mb-1">
+                    Low Stock Alerts
+                  </p>
+                  <div class="flex items-baseline gap-2">
+                    <p id="kpiLowStockCount"
+                       class="text-2xl font-semibold tracking-tight text-amber-600 tabular-nums">
+                      0
+                    </p>
+                    <span class="text-[11px] font-medium uppercase tracking-wide text-amber-600/80">
+                      &le; 10 units
+                    </span>
+                  </div>
+                </div>
+                <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+              </div>
+              <p class="mt-3 text-xs text-slate-500">
+                Pulses when any item falls below the configured safety threshold.
+              </p>
+            </article>
+
+            <!-- Recent Dispenses -->
+            <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500 mb-1">
+                    Recent Dispenses
+                  </p>
+                  <p id="kpiRecentDispenses"
+                     class="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                    0
+                  </p>
+                </div>
+                <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                  <i class="fa-solid fa-check-double"></i>
+                </div>
+              </div>
+              <p class="mt-3 text-xs text-slate-500">
+                Completed dispenses in the current shift window.
+              </p>
+            </article>
+          </section>
+
+          <!-- Live Queue + Inventory Monitor -->
+          <section class="grid gap-6 lg:grid-cols-3">
+            <!-- Pending Prescriptions (Live Queue) -->
+            <article class="lg:col-span-1 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
+              <div class="flex items-start justify-between gap-3 mb-3">
+                <div>
+                  <h2 class="font-display text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white">
+                      <i class="fa-solid fa-clipboard-list"></i>
+                    </span>
+                    Pending Prescriptions
+                  </h2>
+                  <p class="mt-1 text-xs text-slate-500">
+                    Patient orders waiting in the dispensing queue.
+                  </p>
+                </div>
+                <span class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-medium text-slate-600">
+                  <i class="fa-solid fa-circle text-[7px] text-amber-500"></i>
+                  <span><span id="pendingCountChip">0</span> in queue</span>
+                </span>
+              </div>
+
+              <div class="flex-1 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/60">
+                <div class="max-h-72 overflow-y-auto">
+                  <table class="min-w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-100/80 text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">
+                      <tr>
+                        <th class="px-3 py-2">Patient</th>
+                        <th class="px-3 py-2">Medication</th>
+                        <th class="px-3 py-2">Urgency</th>
+                        <th class="px-3 py-2 text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="pendingTableBody" class="bg-white divide-y divide-slate-100">
+                      <!-- injected via JS -->
+                    </tbody>
+                  </table>
+                </div>
+                <div id="pendingEmpty"
+                     class="hidden px-4 py-5 text-center text-xs text-slate-500 bg-white">
+                  <p class="font-medium text-slate-700 mb-1">No pending prescriptions</p>
+                  <p>New eRx from clinicians will appear here automatically.</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Inventory Monitor -->
+            <article class="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                <div>
+                  <h2 class="font-display text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+                      <i class="fa-solid fa-box-open text-sm"></i>
+                    </span>
+                    Inventory Monitor
+                  </h2>
+                  <p class="mt-1 text-xs text-slate-500">
+                    Searchable medication list with expiry and stock status.
+                  </p>
+                </div>
+                <div class="relative w-full sm:w-64">
+                  <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400 text-xs">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </span>
+                  <input id="inventorySearch"
+                         type="text"
+                         class="w-full rounded-full border border-slate-200 bg-slate-50 pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/60 focus:border-teal-500/60"
+                         placeholder="Search by name or category…" />
+                </div>
+              </div>
+
+              <div class="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/60">
+                <div class="max-h-80 overflow-y-auto">
+                  <table class="min-w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-100/80 text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">
+                      <tr>
+                        <th class="px-3 py-2">Medication</th>
+                        <th class="px-3 py-2">Expiry</th>
+                        <th class="px-3 py-2 w-40">Stock</th>
+                      </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody" class="bg-white divide-y divide-slate-100">
+                      <!-- injected via JS -->
+                    </tbody>
+                  </table>
+                </div>
+                <div id="inventoryEmpty"
+                     class="hidden px-4 py-5 text-center text-xs text-slate-500 bg-white">
+                  <p class="font-medium text-slate-700 mb-1">No inventory</p>
+                  <p>Use the Inventory workspace to seed medications.</p>
+                </div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </main>
+    </main>
+  </div>
+
+  <!-- Mobile sidebar behavior -->
+  <script src="/js/sidebar-nav.js"></script>
+
+  <!-- Data integration: shared services (root-relative) -->
+  <script type="module">
+    import AppState from '/js/core/app-state.js';
+    import inventoryService from '/js/services/inventory-service.js';
+    import prescriptionService from '/js/services/prescription-service.js';
+
+    const LOW_STOCK_THRESHOLD = 10;
+
+    const el = (id) => document.getElementById(id);
+
+    const kpiActivePrescriptions = el('kpiActivePrescriptions');
+    const kpiTotalItems = el('kpiTotalItems');
+    const kpiLowStockCard = el('kpiLowStockCard');
+    const kpiLowStockCount = el('kpiLowStockCount');
+    const kpiRecentDispenses = el('kpiRecentDispenses');
+    const pendingCountChip = el('pendingCountChip');
+    const pendingTableBody = el('pendingTableBody');
+    const pendingEmpty = el('pendingEmpty');
+    const inventorySearch = el('inventorySearch');
+    const inventoryTableBody = el('inventoryTableBody');
+    const inventoryEmpty = el('inventoryEmpty');
+    const clock = el('clock');
+
+    let recentDispenseCount = 0;
+    let inventoryItems = [];
+    let filteredInventory = [];
+
+    function tickClock() {
+      if (!clock) return;
+      const now = new Date();
+      clock.textContent = now.toLocaleTimeString(undefined, {
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+    }
+
+    function getExpiryMeta(item) {
+      if (!item.expiryDate) return { label: 'No expiry', tone: 'neutral' };
+      const expiry = new Date(item.expiryDate);
+      if (Number.isNaN(expiry.getTime())) return { label: 'Unknown', tone: 'neutral' };
+      const today = new Date();
+      const diffMs = expiry - today;
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays < 0) return { label: `Expired ${Math.abs(diffDays)}d ago`, tone: 'danger' };
+      if (diffDays === 0) return { label: 'Expires today', tone: 'danger' };
+      if (diffDays <= 30) return { label: `In ${diffDays} days`, tone: 'warning' };
+      return { label: `In ${diffDays} days`, tone: 'safe' };
+    }
+
+    function expiryClasses(tone) {
+      if (tone === 'danger') return 'bg-rose-50 text-rose-700 border border-rose-200';
+      if (tone === 'warning') return 'bg-amber-50 text-amber-700 border border-amber-200';
+      if (tone === 'safe') return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+      return 'bg-slate-50 text-slate-600 border border-slate-200';
+    }
+
+    function updateKpis() {
+      const summary = inventoryService.getSummary({
+        lowStockThreshold: LOW_STOCK_THRESHOLD,
+        expirySoonDays: 30
+      });
+
+      if (kpiTotalItems) kpiTotalItems.textContent = summary.totalItems;
+      if (kpiLowStockCount) kpiLowStockCount.textContent = summary.lowStockCount;
+
+      if (summary.lowStockCount > 0) {
+        kpiLowStockCard?.classList.add('pulse-amber');
+      } else {
+        kpiLowStockCard?.classList.remove('pulse-amber');
+      }
+
+      // Active prescriptions / recent dispenses from AppState prescriptions slice
+      const allRx = prescriptionService.getAll();
+      const active = allRx.filter((p) => p.status === 'pending').length;
+      const dispensed = allRx.filter((p) => p.status === 'dispensed').length;
+
+      if (kpiActivePrescriptions) kpiActivePrescriptions.textContent = active;
+      if (pendingCountChip) pendingCountChip.textContent = active;
+      recentDispenseCount = dispensed;
+      if (kpiRecentDispenses) kpiRecentDispenses.textContent = recentDispenseCount;
+    }
+
+    function renderPendingQueue() {
+      const all = prescriptionService.getAll();
+      const pending = all
+        .filter((p) => p.status === 'pending')
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      if (!pending.length) {
+        pendingTableBody.innerHTML = '';
+        pendingEmpty.classList.remove('hidden');
+        return;
+      }
+      pendingEmpty.classList.add('hidden');
+
+      pendingTableBody.innerHTML = pending
+        .slice(0, 12)
+        .map((rx) => {
+          const mainLine = (rx.lines && rx.lines[0]) || null;
+          const extra = (rx.lines || []).length - 1;
+          const label =
+            mainLine ?
+              `${mainLine.medication} · ${mainLine.qty} units` :
+              'No lines';
+          const urgency =
+            (rx.diagnosis || '').toLowerCase().includes('stat') ? 'Stat' : 'Routine';
+          const urgencyClass =
+            urgency === 'Stat'
+              ? 'bg-rose-50 text-rose-700 border border-rose-200'
+              : 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+
+          return `
+            <tr class="hover:bg-slate-50/80 transition-colors">
+              <td class="px-3 py-2 align-top">
+                <div class="flex flex-col">
+                  <span class="text-xs font-semibold text-slate-900 tracking-tight">${rx.patientName || 'Unknown patient'}</span>
+                  <span class="mt-0.5 text-[11px] text-slate-500">${rx.patientId || ''}</span>
+                </div>
+              </td>
+              <td class="px-3 py-2 align-top">
+                <div class="text-xs text-slate-800">${label}${extra > 0 ? ` +${extra} more` : ''}</div>
+              </td>
+              <td class="px-3 py-2 align-top">
+                <span class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${urgencyClass}">
+                  <i class="fa-solid fa-bolt text-[9px]"></i>
+                  ${urgency}
+                </span>
+              </td>
+              <td class="px-3 py-2 align-top text-right">
+                <button type="button"
+                        class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-900 hover:text-white transition-all"
+                        data-dispense-id="${rx.id}">
+                  <i class="fa-solid fa-syringe text-[10px]"></i>
+                  Dispense
+                </button>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    function applyInventoryFilter() {
+      const q = (inventorySearch?.value || '').trim().toLowerCase();
+      if (!q) {
+        filteredInventory = inventoryItems.slice();
+      } else {
+        filteredInventory = inventoryItems.filter((item) => {
+          const name = (item.name || '').toLowerCase();
+          const cat = (item.category || '').toLowerCase();
+          return name.includes(q) || cat.includes(q);
+        });
+      }
+      renderInventory();
+    }
+
+    function renderInventory() {
+      if (!filteredInventory.length) {
+        inventoryTableBody.innerHTML = '';
+        inventoryEmpty.classList.remove('hidden');
+        return;
+      }
+      inventoryEmpty.classList.add('hidden');
+
+      const maxQty = filteredInventory.reduce(
+        (max, item) => Math.max(max, Number(item.qty) || 0),
+        1
+      );
+
+      inventoryTableBody.innerHTML = filteredInventory
+        .map((item) => {
+          const qty = Number(item.qty) || 0;
+          const pct = Math.max(3, Math.min(100, Math.round((qty / maxQty) * 100)));
+          const expiryMeta = getExpiryMeta(item);
+
+          return `
+            <tr class="hover:bg-slate-50/80 transition-colors">
+              <td class="px-3 py-2 align-top">
+                <div class="flex flex-col">
+                  <span class="text-xs font-semibold text-slate-900 tracking-tight">${item.name || 'Unnamed medication'}</span>
+                  <span class="mt-0.5 text-[11px] text-slate-500">
+                    ${(item.category || 'Uncategorized')} ${item.strength ? '• ' + item.strength : ''}
+                  </span>
+                </div>
+              </td>
+              <td class="px-3 py-2 align-top">
+                <span class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${expiryClasses(expiryMeta.tone)}">
+                  <i class="fa-solid fa-clock text-[9px]"></i>
+                  ${expiryMeta.label}
+                </span>
+              </td>
+              <td class="px-3 py-2 align-top w-40">
+                <div class="flex flex-col gap-1">
+                  <div class="flex items-center justify-between text-[11px] text-slate-500">
+                    <span>${qty} units</span>
+                    <span>${pct}%</span>
+                  </div>
+                  <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div class="h-1.5 rounded-full ${
+                      pct <= 10 ? 'bg-rose-500' : pct <= 30 ? 'bg-amber-500' : 'bg-teal-500'
+                    }" style="width:${pct}%"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    function initSubscriptions() {
+      // Inventory reactive feed
+      inventoryService.subscribe((items) => {
+        inventoryItems = Array.isArray(items) ? items.slice() : [];
+        filteredInventory = inventoryItems.slice();
+        updateKpis();
+        applyInventoryFilter();
+      });
+
+      // Prescription reactive feed
+      AppState.subscribe('prescriptions', () => {
+        updateKpis();
+        renderPendingQueue();
+      });
+
+      // Initial paint
+      updateKpis();
+      renderPendingQueue();
+    }
+
+    function initEvents() {
+      inventorySearch?.addEventListener('input', applyInventoryFilter);
+
+      pendingTableBody?.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-dispense-id]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-dispense-id');
+        if (!id) return;
+        // In a fuller flow, call prescriptionService.markDispensed(id)
+        // Here, demonstrate hook only:
+        // prescriptionService.markDispensed(id);
+        alert('Dispense workflow would be triggered for RX: ' + id);
+      });
+
+      tickClock();
+      setInterval(tickClock, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initSubscriptions();
+      initEvents();
+    });
+  </script>
+</body>
+</html>

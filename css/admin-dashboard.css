@@ -95,6 +95,19 @@ body { background: #F5F7FA; color: #1a1a1a; }
   color: white;
 }
 
+.sidebar-footer .btn,
+.sidebar-footer .btn-logout {
+  transition: all 0.3s ease;
+}
+
+.sidebar-footer .btn:hover,
+.sidebar-footer .btn-logout:hover {
+  background: linear-gradient(135deg, #00b2a9, #008c85) !important;
+  color: white !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 178, 169, 0.35);
+}
+
 .main-content { margin-left: 260px; min-height: 100vh; }
 
 .top-bar {

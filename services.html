@@ -16,32 +16,30 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Floating Glassmorphism Navbar -->
-  <nav class="navbar navbar-expand-lg navbar--floating" id="mainNavbar" aria-label="Main navigation">
-    <div class="container d-flex justify-content-between align-items-center">
+  <nav class="navbar navbar-expand-lg navbar--floating sticky-top" id="mainNavbar" aria-label="Main navigation">
+    <div class="container navbar__container">
       <a class="navbar-brand d-flex align-items-center" href="index.html" aria-label="MediCare Hospital - Home">
         <i class="fas fa-hospital navbar-brand__icon" aria-hidden="true"></i>
         <span class="navbar-brand__text"><span class="navbar-brand__medi">Medi</span><span class="navbar-brand__care">Care</span></span>
       </a>
-
       <button class="navbar-hamburger" type="button" id="navbarHamburger" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
         <span class="navbar-hamburger__line"></span>
         <span class="navbar-hamburger__line"></span>
         <span class="navbar-hamburger__line"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto d-flex align-items-center">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="emr-patient-dashboard.html">Patient Portal</a></li>
-          <li class="nav-item"><a class="nav-link" href="admin-dashboard.html">Staff Login</a></li>
-          <li class="nav-item ms-lg-2">
-            <a class="btn btn-nav-cta btn-nav-cta--pulse" href="index.html#appointment-widget">
-              <i class="bi bi-calendar-check" aria-hidden="true"></i> Book Appointment
-            </a>
-          </li>
-        </ul>
+        <div class="navbar-nav-wrap">
+          <ul class="navbar-nav navbar-nav--center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-portal/emr-patient-dashboard.html">Patient Portal</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-portal/admin-dashboard.html">Staff Login</a></li>
+          </ul>
+          <a class="btn btn-nav-cta btn-nav-cta--pulse" href="index.html#appointment-widget">
+            <i class="bi bi-calendar-check" aria-hidden="true"></i> Book Appointment
+          </a>
+        </div>
       </div>
     </div>
   </nav>
@@ -178,11 +176,69 @@
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
+  <!-- Footer: Glassmorphism, 4-column, high-density -->
+  <footer class="footer" role="contentinfo">
     <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="footer-brand__logo" href="index.html" aria-label="MediCare Hospital - Home">
+            <i class="fas fa-hospital footer-brand__icon" aria-hidden="true"></i>
+            <span class="footer-brand__text"><span class="footer-brand__medi">Medi</span><span class="footer-brand__care">Care</span></span>
+          </a>
+          <p class="footer-brand__mission">Excellence in healthcare, delivered daily. World-class care with cutting-edge technology.</p>
+        </div>
+        <div class="footer-column">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="emr-patient-dashboard.html">Patient Portal</a></li>
+            <li><a href="admin-dashboard.html">Staff Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h5>Our Services</h5>
+          <ul>
+            <li><a href="services/cardiology.html">Cardiology</a></li>
+            <li><a href="services.html#pediatrics">Pediatrics</a></li>
+            <li><a href="services.html#oncology">Oncology</a></li>
+            <li><a href="services.html#orthopedics">Orthopedics</a></li>
+            <li><a href="services.html#radiology">Radiology</a></li>
+            <li><a href="services.html#neurology">Neurology</a></li>
+          </ul>
+        </div>
+        <div class="footer-column footer-contact-newsletter">
+          <h5>Contact</h5>
+          <ul class="footer-contact-list">
+            <li>
+              <a href="tel:+15551234567" class="footer-contact-link">
+                <i class="bi bi-telephone-fill footer-contact-icon" aria-hidden="true"></i>
+                <span>+1 (555) 123-4567</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:info@medicare.com" class="footer-contact-link">
+                <i class="bi bi-envelope-fill footer-contact-icon" aria-hidden="true"></i>
+                <span>info@medicare.com</span>
+              </a>
+            </li>
+          </ul>
+          <div class="footer-newsletter">
+            <form class="footer-newsletter-form" aria-label="Newsletter signup">
+              <input type="email" placeholder="Your email" aria-label="Email address">
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
       <div class="footer-bottom">
-        <p class="mb-0">&copy; 2024 MediCare Hospital. All rights reserved.</p>
+        <p class="footer-bottom__copy">&copy; 2024 MediCare Hospital. All rights reserved. HIPAA Compliant.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social__btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="#" class="footer-social__btn" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          <a href="#" class="footer-social__btn" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+        </div>
       </div>
     </div>
   </footer>

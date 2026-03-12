@@ -54,18 +54,35 @@ function initNavbarHamburger() {
   var collapse = document.getElementById('navbarNav');
   if (!hamburger || !collapse) return;
 
-  collapse.addEventListener('show.bs.collapse', function() {
+  function openMenu() {
+    collapse.classList.add('show');
     hamburger.setAttribute('aria-expanded', 'true');
-  });
-  collapse.addEventListener('hide.bs.collapse', function() {
+  }
+
+  function closeMenu() {
+    collapse.classList.remove('show');
     hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger.addEventListener('click', function () {
+    if (collapse.classList.contains('show')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
-  // Close menu when clicking overlay (dark background, not the nav panel)
-  collapse.addEventListener('click', function(e) {
-    if (collapse.classList.contains('show') && !e.target.closest('.navbar-nav')) {
-      var bsCollapse = bootstrap.Collapse.getInstance(collapse);
-      if (bsCollapse) bsCollapse.hide();
+  // Close menu when clicking overlay area (dark background outside the nav panel)
+  collapse.addEventListener('click', function (e) {
+    if (collapse.classList.contains('show') && !e.target.closest('.navbar-nav-wrap')) {
+      closeMenu();
+    }
+  });
+
+  // Close on Escape for accessibility
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && collapse.classList.contains('show')) {
+      closeMenu();
     }
   });
 }

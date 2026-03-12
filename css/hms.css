@@ -1,0 +1,221 @@
+/* ============================================
+   Hospital Management System - HMS Styles
+   Modular append to existing styles
+   ============================================ */
+
+.text-primary-teal { color: var(--primary-teal, #0ABAB5); }
+
+/* Role Switcher */
+.role-switcher-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.role-switcher-wrap label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.role-switcher-wrap select {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-weight: 500;
+  background: white;
+  cursor: pointer;
+}
+
+/* Role-based visibility - sections hidden by default, shown via JS */
+.hms-role-section { display: none; }
+.hms-role-section.visible { display: block; }
+
+/* HMS Card styling */
+.hms-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(10, 186, 181, 0.08);
+}
+
+.hms-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark-text);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Equipment Ledger Table */
+.hms-equipment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.hms-equipment-table th,
+.hms-equipment-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hms-equipment-table th {
+  background: var(--medical-gray-50);
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.hms-equipment-table tbody tr:hover {
+  background: var(--medical-gray-50);
+}
+
+/* Billing Generation */
+.hms-billing-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.hms-billing-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+@media (max-width: 768px) {
+  .hms-billing-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.hms-billing-totals {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-border);
+}
+
+.hms-billing-totals .total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-weight: 500;
+}
+
+.hms-billing-totals .total-row.grand-total {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--medical-primary);
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Expense Tracking */
+.hms-expense-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.hms-expense-card {
+  background: var(--medical-gray-50);
+  border-radius: 10px;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+}
+
+.hms-expense-card .expense-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.hms-expense-card .expense-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--medical-primary);
+}
+
+/* Invoice Print Area */
+.hms-invoice-print {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hms-invoice-print .invoice-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--medical-primary);
+}
+
+.hms-invoice-print .invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.hms-invoice-print .invoice-table th,
+.hms-invoice-print .invoice-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hms-invoice-print .invoice-table th {
+  background: var(--medical-gray-50);
+  font-weight: 600;
+}
+
+/* RBAC Staff Badge - Role: Pharmacist */
+.rbac-staff-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+  background: linear-gradient(135deg, #00796B, #1A237E);
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 121, 107, 0.3);
+}
+
+/* Pharmacy role switcher - locked for Pharmacist */
+.pharmacy-role-lock select:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  background: var(--medical-gray-50);
+}
+
+/* ====== HMS Routed View Layout & Animations (from core/hms-layout.css) ====== */
+
+[data-view] {
+  width: 100%;
+}
+
+.view-fade-in {
+  animation: viewFadeIn 220ms ease-out;
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

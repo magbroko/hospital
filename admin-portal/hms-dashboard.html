@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare | Admin Overview</title>
+  <style>body{visibility:hidden}body.rbac-ready{visibility:visible}</style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+  <link href="../css/admin-dashboard.css" rel="stylesheet">
+  <link href="../css/admin-portal.css" rel="stylesheet">
+  <link href="../css/hms.css" rel="stylesheet">
+</head>
+<body data-auth-required="staff">
+
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
+  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-hospital"></i>
+      <span>MediCare HMS</span>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="#/overview" class="sidebar-nav-link active" data-route="overview"><i class="fas fa-hospital-alt"></i> HMS Overview</a></li>
+      <li><a href="#/inventory" class="sidebar-nav-link" data-route="inventory"><i class="fas fa-boxes"></i> Inventory</a></li>
+      <li><a href="#/billing" class="sidebar-nav-link" data-route="billing"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+      <li><a href="#/alerts" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="auth.html" class="btn btn-secondary w-100 btn-sm btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 class="text-lg font-semibold mb-0">Hospital Management System</h1>
+        <p class="text-xs text-gray-500 mb-0">Pharmacy, Billing, Expenses &amp; Case Notes</p>
+      </div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="role-switcher-wrap">
+          <label for="roleSwitcher">Role:</label>
+          <select id="roleSwitcher" aria-label="Switch user role">
+            <option value="admin">Admin</option>
+            <option value="doctor">Doctor</option>
+            <option value="pharmacist">Pharmacist</option>
+          </select>
+        </div>
+        <div class="hms-actions no-print">
+          <button
+            type="button"
+            class="btn-secondary btn-sm"
+            id="btnBackup"
+            title="Export data backup"
+          >
+            <i class="fas fa-download mr-1"></i> Backup
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="rounded-full flex items-center justify-center text-white font-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+          <div>
+            <div class="text-xs font-semibold" data-user-name>Dr. Sarah Johnson</div>
+            <div class="text-[11px] text-gray-500" data-user-id>Staff ID: SJ-2024</div>
+            <div class="text-[11px] text-gray-500" data-user-role>Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <!-- Routed Views -->
+      <section data-view="overview">
+        <div id="adminAnalyticsCards" class="grid gap-3 md:grid-cols-2 xl:grid-cols-4 mb-4"></div>
+        <div class="hms-dashboard-grid">
+
+          <!-- PHARMACY: Drug Inventory (Admin, Pharmacist) -->
+          <div class="hms-col-6 hms-role-section" id="section-pharmacy" data-roles="admin,pharmacist">
+            <div class="hms-card">
+              <h2 class="hms-card-title"><i class="fas fa-pills text-primary-teal"></i> Drug Inventory</h2>
+              <p class="text-xs text-gray-500 mb-3">Drugs expiring within 30 days are highlighted in amber.</p>
+              <div class="overflow-x-auto">
+                <table class="hms-equipment-table" id="drugInventoryTable">
+                  <thead>
+                    <tr>
+                      <th>Drug Name</th>
+                      <th>Qty</th>
+                      <th>Expiry Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="drugInventoryBody"></tbody>
+                </table>
+              </div>
+              <div class="mt-3 hms-actions">
+                <button type="button" class="btn-primary btn-sm" id="btnAddDrug"><i class="fas fa-plus mr-1"></i> Add Drug</button>
+              </div>
+            </div>
+          </div>
+
+        <!-- EQUIPMENT LEDGER (Admin) -->
+        <div class="hms-col-6 hms-role-section" id="section-equipment" data-roles="admin">
+          <div class="hms-card">
+            <h2 class="hms-card-title"><i class="fas fa-microchip text-primary-teal"></i> Equipment Ledger</h2>
+            <div class="overflow-x-auto">
+              <table class="hms-equipment-table" id="equipmentTable">
+                <thead>
+                  <tr>
+                    <th>Asset ID</th>
+                    <th>Equipment</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="equipmentBody"></tbody>
+              </table>
+            </div>
+            <div class="mt-3 hms-actions">
+              <button type="button" class="btn-primary btn-sm" id="btnAddEquipment"><i class="fas fa-plus mr-1"></i> Add Equipment</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BILLING GENERATION (Admin, Doctor) -->
+          <div class="hms-col-8 hms-role-section" id="section-billing" data-roles="admin,doctor">
+            <div class="hms-card hms-invoice-print" id="billingCard">
+              <div class="invoice-header">
+                <h2 class="text-lg font-semibold mb-1">MediCare Hospital</h2>
+                <p class="text-xs text-gray-500 mb-0">INVOICE</p>
+                <p class="text-xs mb-0 mt-2" id="invoiceDate"></p>
+              </div>
+              <h2 class="hms-card-title no-print"><i class="fas fa-file-invoice-dollar text-primary-teal"></i> Billing Generation</h2>
+              <div class="invoice-header no-print">
+                <div class="hms-billing-form">
+                  <div class="hms-billing-row">
+                    <input type="text" id="billingItem" class="form-input" placeholder="Item / Service">
+                    <input type="number" id="billingQty" class="form-input" placeholder="Qty" value="1" min="1">
+                    <input type="number" id="billingPrice" class="form-input" placeholder="Price ($)" step="0.01" min="0">
+                    <button type="button" class="btn-primary" id="btnAddBillingItem"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+              <table class="invoice-table" id="billingTable">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Amount</th>
+                    <th class="no-print"></th>
+                  </tr>
+                </thead>
+                <tbody id="billingBody"></tbody>
+              </table>
+              <div class="hms-billing-totals">
+                <div class="total-row"><span>Subtotal</span><span id="billingSubtotal">$0.00</span></div>
+                <div class="total-row"><span>Tax (8%)</span><span id="billingTax">$0.00</span></div>
+                <div class="total-row grand-total"><span>Total</span><span id="billingTotal">$0.00</span></div>
+              </div>
+              <div class="mt-4 hms-actions no-print">
+                <button type="button" class="btn-primary btn-print" id="btnPrintInvoice"><i class="fas fa-print mr-1"></i> Print Invoice</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- EXPENSE TRACKING (Admin) -->
+          <div class="hms-col-4 hms-role-section" id="section-expenses" data-roles="admin">
+            <div class="hms-card">
+              <h2 class="hms-card-title"><i class="fas fa-chart-pie text-primary-teal"></i> Expense Tracking</h2>
+              <div class="hms-expense-grid" id="expenseGrid"></div>
+              <div class="mt-3 hms-actions">
+                <button type="button" class="btn-secondary btn-sm" id="btnAddExpense"><i class="fas fa-plus mr-1"></i> Log Expense</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PATIENT CASE NOTES (Admin, Doctor) -->
+          <div class="hms-col-12 hms-role-section" id="section-case-notes" data-roles="admin,doctor">
+            <div class="hms-card">
+              <h2 class="hms-card-title"><i class="fas fa-notes-medical text-primary-teal"></i> Patient Case Notes</h2>
+              <p class="text-xs text-gray-500 mb-3">Scrollable timeline of patient history notes.</p>
+              <div class="hms-timeline" id="caseNotesTimeline"></div>
+              <div class="mt-3 hms-actions">
+                <input type="text" id="caseNoteInput" class="form-input inline-block mr-2" style="max-width: 400px;" placeholder="Add new case note...">
+                <button type="button" class="btn-primary btn-sm" id="btnAddCaseNote"><i class="fas fa-plus mr-1"></i> Add Note</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Placeholder views for dedicated Inventory & Billing routes.
+           These can be expanded later to host persona-optimized layouts. -->
+      <section class="hidden" data-view="inventory" hidden>
+        <div class="hms-card">
+          <h2 class="hms-card-title"><i class="fas fa-boxes text-primary-teal"></i> Inventory View</h2>
+          <p class="text-xs text-gray-500 mb-0">Dedicated inventory workspace coming soon. For now, use the overview dashboard.</p>
+        </div>
+      </section>
+
+      <section class="hidden" data-view="billing" hidden>
+        <div class="hms-card">
+          <h2 class="hms-card-title"><i class="fas fa-file-invoice-dollar text-primary-teal"></i> Billing View</h2>
+          <p class="text-xs text-gray-500 mb-0">Dedicated billing workspace coming soon. For now, use the overview dashboard.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="../js/entry/admin-app.js"></script>
+</body>
+</html>

@@ -4,10 +4,24 @@
    WCAG 2.1 AA | Bootstrap 5.3 overrides
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Montserrat:wght@500;600;700&family=Lora:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700&family=Lora:ital@0;1&display=swap');
 
 /* ========== Design Tokens ========== */
 :root {
+  /* Primary Medical Colors - Blues, Teals, Grays */
+  --medical-primary: #0ABAB5;
+  --medical-primary-dark: #089B97;
+  --medical-secondary: #1A365D;
+  --medical-accent: #0EA5E9;
+  --medical-teal-light: #5EEAD4;
+  --medical-gray-50: #F8FAFC;
+  --medical-gray-100: #F1F5F9;
+  --medical-gray-200: #E2E8F0;
+  --medical-gray-300: #CBD5E1;
+  --medical-gray-600: #475569;
+  --medical-gray-700: #334155;
+  --medical-gray-800: #1E293B;
+
   /* Refined Color Palette */
   --color-navy: #1A365D;
   --color-navy-light: #2C5282;
@@ -39,7 +53,7 @@
   --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Montserrat', var(--font-sans);
 
-  /* Shadows */
+  /* Shadows - Subtle medical aesthetic */
   --shadow-sm: 0 1px 2px rgba(26, 54, 93, 0.04);
   --shadow-md: 0 4px 6px -1px rgba(26, 54, 93, 0.08), 0 2px 4px -2px rgba(26, 54, 93, 0.04);
   --shadow-lg: 0 10px 15px -3px rgba(26, 54, 93, 0.08), 0 4px 6px -4px rgba(26, 54, 93, 0.04);
@@ -209,7 +223,7 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
 
 /* ========== Navbar - Premium Glassmorphic ========== */
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -217,10 +231,49 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   padding: 1rem 0;
   transition: padding 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.navbar__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-collapse {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-nav-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-nav-wrap > .navbar-nav {
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-nav--center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.25rem;
 }
 
 .navbar.navbar--scrolled {
@@ -319,41 +372,51 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   }
 }
 
-/* Nav Links - Premium font, Smart Underline */
-.navbar-nav .nav-link {
-  font-family: var(--font-sans);
+/* Nav Links - Plus Jakarta Sans, no underlines, minimalist hover */
+.navbar-nav .nav-link,
+.navbar-nav--center .nav-link {
+  font-family: 'Plus Jakarta Sans', var(--font-sans);
   color: var(--color-dark-text);
   font-weight: 500;
   font-size: 0.9375rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem 1rem;
   position: relative;
+  text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.navbar-nav .nav-link::after {
+.navbar-nav .nav-link::after,
+.navbar-nav--center .nav-link::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 2px;
   background: var(--color-action-blue);
-  transition: width 0.3s ease, left 0.3s ease;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav--center .nav-link:hover {
+  color: var(--color-action-blue);
 }
 
 .navbar-nav .nav-link:hover::after,
-.navbar-nav .nav-link.active::after {
+.navbar-nav--center .nav-link:hover::after {
   width: 100%;
-  left: 0;
 }
 
-.navbar-nav .nav-link:hover {
-  color: var(--color-action-blue);
-}
-
-.navbar-nav .nav-link.active {
+.navbar-nav .nav-link.active,
+.navbar-nav--center .nav-link.active {
   color: var(--color-action-blue);
   font-weight: 600;
+}
+
+.navbar-nav .nav-link.active::after,
+.navbar-nav--center .nav-link.active::after {
+  width: 100%;
 }
 
 .navbar-nav .nav-link:focus-visible {
@@ -361,12 +424,12 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   outline-offset: 2px;
 }
 
-/* CTA Button - Primary Gradient + Glow */
+/* CTA Button - Pill shape, gradient, soft shadow */
 .btn-nav-cta {
   background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-action-blue) 100%);
   color: white !important;
-  padding: 0.625rem 1.25rem;
-  border-radius: 10px;
+  padding: 0.625rem 1.5rem;
+  border-radius: 50px;
   font-weight: 600;
   font-size: 0.9375rem;
   border: none;
@@ -377,6 +440,7 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(49, 130, 206, 0.35);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .btn-nav-cta:hover {
@@ -385,9 +449,10 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   transform: translateY(-1px);
 }
 
-.btn-nav-cta i {
+.btn-nav-cta i,
+.btn-nav-cta .bi {
   font-size: 1.1rem;
-  vertical-align: middle;
+  margin-right: 0.25rem;
 }
 
 /* Mobile - Slide-out full-screen menu */
@@ -420,7 +485,7 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
     pointer-events: auto;
   }
 
-  .navbar-collapse .navbar-nav {
+  .navbar-collapse .navbar-nav-wrap {
     position: absolute;
     top: 0;
     right: 0;
@@ -436,10 +501,29 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
     transform: translateX(100%);
     transition: transform 0.3s ease;
     border-left: 1px solid rgba(0, 0, 0, 0.06);
+    flex: unset;
+    justify-content: flex-start;
   }
 
-  .navbar-collapse.show .navbar-nav {
+  .navbar-collapse .navbar-nav,
+  .navbar-collapse .navbar-nav--center {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-collapse.show .navbar-nav-wrap {
     transform: translateX(0);
+  }
+
+  .navbar-collapse .navbar-nav-wrap {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  .navbar-collapse .btn-nav-cta {
+    margin-top: auto;
+    width: 100%;
   }
 
   .navbar-nav .nav-item {
@@ -1410,4 +1494,108 @@ p { font-size: 1rem; font-weight: 400; line-height: 1.65; }
   .section-padding {
     padding: 3rem 0;
   }
+}
+
+/* ========== Utility Helpers (Bootstrap compatibility) ========== */
+.d-none {
+  display: none !important;
+}
+
+/* ========== HMS: Drug Near-Expiry (Pharmacy) ========== */
+.drug-row.near-expiry {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-left: 4px solid var(--color-accent-amber);
+  animation: near-expiry-pulse 2s ease-in-out infinite;
+}
+
+@keyframes near-expiry-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drug-row.near-expiry { animation: none; }
+}
+
+/* ========== HMS: Dashboard CSS Grid ========== */
+.hms-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.hms-dashboard-grid .hms-col-8 { grid-column: span 8; }
+.hms-dashboard-grid .hms-col-4 { grid-column: span 4; }
+.hms-dashboard-grid .hms-col-6 { grid-column: span 6; }
+.hms-dashboard-grid .hms-col-12 { grid-column: span 12; }
+
+@media (max-width: 991px) {
+  .hms-dashboard-grid .hms-col-8,
+  .hms-dashboard-grid .hms-col-4,
+  .hms-dashboard-grid .hms-col-6 { grid-column: span 12; }
+}
+
+/* ========== HMS: Patient Case Notes Timeline ========== */
+.hms-timeline {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.hms-timeline::-webkit-scrollbar { width: 6px; }
+.hms-timeline::-webkit-scrollbar-track { background: var(--color-bg-subtle); border-radius: 3px; }
+.hms-timeline::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+
+.hms-timeline-item {
+  position: relative;
+  padding-left: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.hms-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: -0.5rem;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.hms-timeline-item:last-child::before { display: none; }
+
+.hms-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--medical-primary);
+  border: 3px solid white;
+  box-shadow: var(--shadow-sm);
+}
+
+.hms-timeline-date {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+
+.hms-timeline-content {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  font-size: 0.9375rem;
+}
+
+/* ========== HMS: Print Invoice ========== */
+@media print {
+  .no-print, .sidebar, .sidebar-toggle, .admin-overlay,
+  .btn-print, .role-switcher-wrap, .hms-actions { display: none !important; }
+  .main-content { margin-left: 0 !important; }
+  body { background: white !important; }
+  .hms-invoice-print { box-shadow: none !important; border: 1px solid #ddd !important; }
 }

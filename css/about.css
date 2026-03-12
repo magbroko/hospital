@@ -1,0 +1,367 @@
+/* ============================================
+   About Page - Medical Leadership
+   Premium cinematic UI
+   ============================================ */
+
+/* Section: Mesh gradient, compact padding */
+.leadership-section {
+  padding: 2.5rem 0 3rem;
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(240, 242, 245, 0.9), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(248, 250, 252, 0.8), transparent),
+    radial-gradient(ellipse 60% 40% at 0% 80%, rgba(245, 247, 250, 0.7), transparent),
+    linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+/* Typography: Plus Jakarta Sans, compact */
+.leadership-header {
+  font-family: 'Plus Jakarta Sans', var(--font-sans);
+}
+
+.leadership-header--compact {
+  margin-bottom: 1.5rem !important;
+}
+
+.leadership-title {
+  font-family: 'Plus Jakarta Sans', var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-navy);
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.leadership-subtitle {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Card container */
+.leadership-card-wrap {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.leadership-card-wrap.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.leadership-card-wrap[data-reveal-index="1"].is-revealed {
+  transition-delay: 0.1s;
+}
+
+.leadership-card-wrap[data-reveal-index="2"].is-revealed {
+  transition-delay: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leadership-card-wrap {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Cinematic profile card */
+.leadership-card {
+  border-radius: 24px;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .leadership-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 24px 48px -12px rgba(26, 54, 93, 0.25), 0 12px 24px -8px rgba(26, 54, 93, 0.15);
+  }
+}
+
+/* Image: 4:5 aspect ratio, grayscale → color on hover */
+.leadership-card__image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.leadership-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(20%);
+  transition: filter 0.5s var(--ease-out);
+}
+
+.leadership-card:hover .leadership-card__image {
+  filter: grayscale(0%);
+}
+
+/* Floating glass panel - bottom 25-30%, compact */
+.leadership-card__glass {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28%;
+  min-height: 100px;
+  padding: 0.875rem 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 0 0 24px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: height 0.4s var(--ease-out), padding 0.4s var(--ease-out);
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .leadership-card:hover .leadership-card__glass {
+    height: 82%;
+    min-height: 260px;
+    padding: 1.25rem 1.25rem;
+    justify-content: flex-start;
+    border-radius: 24px;
+  }
+}
+
+/* Header row: name/role + icons horizontal */
+.leadership-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.leadership-card__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.leadership-card__name {
+  font-family: 'Plus Jakarta Sans', var(--font-sans);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-navy);
+  margin: 0 0 0.125rem 0;
+}
+
+.leadership-card__role {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-teal-accent);
+  margin: 0;
+}
+
+/* Social icons - inline with name, always visible in glass */
+.leadership-card__socials {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.leadership-card__bio {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s var(--ease-out), opacity 0.4s var(--ease-out), margin 0.4s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .leadership-card:hover .leadership-card__bio {
+    max-height: 100px;
+    opacity: 1;
+    margin-top: 0.75rem;
+  }
+}
+
+.leadership-card__social {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-teal-accent);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(10, 186, 181, 0.2);
+  transition: all 0.3s var(--ease-out);
+}
+
+.leadership-card__social:hover {
+  background: var(--color-teal-accent);
+  color: white;
+  box-shadow: 0 6px 20px rgba(10, 186, 181, 0.4);
+  transform: scale(1.08);
+}
+
+.leadership-card__social:focus-visible {
+  outline: 2px solid var(--color-action-blue);
+  outline-offset: 2px;
+}
+
+/* Mobile: compact card spacing, tap targets */
+@media (max-width: 991.98px) {
+  .leadership-section {
+    padding: 2rem 0 2.5rem;
+  }
+
+  .leadership-card__social {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ============================================
+   Certifications & Accreditations
+   Compact glassmorphism capsules
+   ============================================ */
+
+.certifications-section {
+  padding: 2rem 0 2.5rem;
+  background: var(--soft-white);
+}
+
+.certifications-title {
+  font-family: 'Plus Jakarta Sans', var(--font-sans);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-navy);
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.certifications-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+/* Glassmorphism capsule */
+.cert-capsule {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 8px rgba(26, 54, 93, 0.06);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), background 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.cert-capsule.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cert-capsule[data-reveal-index="1"].is-revealed { transition-delay: 0.08s; }
+.cert-capsule[data-reveal-index="2"].is-revealed { transition-delay: 0.16s; }
+.cert-capsule[data-reveal-index="3"].is-revealed { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-capsule {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.cert-capsule:hover {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 16px rgba(26, 54, 93, 0.1);
+}
+
+.cert-capsule:hover .cert-capsule__icon {
+  animation: cert-icon-pulse 1.2s ease-in-out infinite;
+}
+
+.cert-capsule:focus-visible {
+  outline: 2px solid var(--color-action-blue);
+  outline-offset: 2px;
+}
+
+@keyframes cert-icon-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.9; }
+}
+
+/* Icon in soft-grey circular background */
+.cert-capsule__icon-wrap {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: rgba(226, 232, 240, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-capsule__icon {
+  font-size: 1rem;
+  color: var(--color-teal-accent);
+}
+
+/* Text hierarchy */
+.cert-capsule__text {
+  text-align: left;
+}
+
+.cert-capsule__title {
+  font-family: 'Plus Jakarta Sans', var(--font-sans);
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-navy);
+  margin: 0 0 0.125rem 0;
+}
+
+.cert-capsule__desc {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Mobile: 2x2 grid */
+@media (max-width: 767.98px) {
+  .certifications-section {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .certifications-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .cert-capsule {
+    flex-direction: column;
+    text-align: center;
+    padding: 0.875rem 1rem;
+  }
+
+  .cert-capsule__text {
+    text-align: center;
+  }
+}

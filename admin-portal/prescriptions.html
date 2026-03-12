@@ -3,134 +3,334 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prescriptions | MediCare Hospital EMR</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Pharmacy Console | Pending Prescriptions</title>
+  <style>body{visibility:hidden}body.rbac-ready{visibility:visible}</style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/admin-dashboard.css" rel="stylesheet">
-  <link href="../css/admin-portal.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin-dashboard.css" rel="stylesheet">
+  <link href="/css/admin-portal.css" rel="stylesheet">
 </head>
-<body>
+<body data-auth-required="staff">
 
-  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
 
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <i class="fas fa-hospital"></i>
-      <span>MediCare EMR</span>
-    </div>
-    <ul class="sidebar-nav">
-      <li><a href="../admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
-      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
-      <li><a href="prescriptions.html" class="sidebar-nav-link active"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
-      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
-      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
-      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
-      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
-      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
-    </ul>
-    <div class="sidebar-footer">
-      <a href="../index.html" class="btn btn-secondary w-100 btn-sm"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-    </div>
-  </aside>
+  <div class="admin-overlay fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity lg:hidden"
+       id="adminOverlay"
+       aria-hidden="true"></div>
 
-  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
-
-  <main class="main-content">
-    <div class="top-bar">
-      <div>
-        <h1 class="h4 fw-bold mb-0">Prescriptions</h1>
-        <p class="small text-secondary mb-0">Issue and track medication orders</p>
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <div class="position-relative">
-          <i class="fas fa-bell fa-lg text-secondary"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4</span>
+  <div class="min-h-screen bg-slate-50 font-sans text-slate-900 flex">
+    <!-- Pharmacy Console Sidebar (shared) -->
+    <aside class="sidebar fixed inset-y-0 left-0 z-40 w-72 bg-slate-900 text-slate-100 border-r border-slate-800 flex flex-col">
+      <div class="flex items-center gap-3 px-6 h-16 border-b border-slate-800">
+        <div class="h-9 w-9 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400">
+          <i class="fas fa-pills"></i>
         </div>
-        <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+        <div>
+          <p class="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">Pharmacy Console</p>
+          <p class="text-sm font-semibold text-slate-50">MediCare Pharmacist Suite</p>
+        </div>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+        <p class="px-3 text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">Workspace</p>
+        <a href="pharmacy-dashboard.html"
+           class="group relative mt-1 flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-transparent group-hover:bg-teal-500/60"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/80 text-slate-300">
+            <i class="fas fa-th-large text-xs"></i>
+          </span>
+          <span class="flex-1">Dashboard</span>
+        </a>
+        <a href="pharmacy-inventory.html"
+           class="group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-transparent group-hover:bg-teal-500/60"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/80 text-slate-300">
+            <i class="fas fa-boxes-stacked text-xs"></i>
+          </span>
+          <span class="flex-1">Drug Inventory</span>
+        </a>
+        <a href="prescriptions.html"
+           class="group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-50 bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-teal-500"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-500/15 text-teal-400">
+            <i class="fas fa-prescription-bottle text-xs"></i>
+          </span>
+          <span class="flex-1">Prescriptions Queue</span>
+        </a>
+        <a href="alerts.html"
+           class="group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+          <span class="absolute inset-y-1 -left-1 w-1 rounded-full bg-transparent group-hover:bg-teal-500/60"></span>
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/80 text-slate-300">
+            <i class="fas fa-bell text-xs"></i>
+          </span>
+          <span class="flex-1">System Alerts</span>
+        </a>
+      </nav>
+
+      <div class="px-4 py-4 border-t border-slate-800/80 mt-auto">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="h-9 w-9 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-300 text-sm font-semibold">
+              PH
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-slate-50">Pharmacy Staff</p>
+              <p class="text-[11px] text-slate-400">Role: Pharmacist</p>
+            </div>
+          </div>
+        </div>
+        <a href="auth.html"
+           class="btn btn-secondary w-100 btn-sm btn-logout inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-100 hover:bg-slate-700 transition"
+           id="logoutBtn">
+          <i class="fas fa-sign-out-alt text-xs"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar toggle -->
+    <button class="sidebar-toggle fixed top-3 left-3 z-50 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-slate-100 shadow-sm lg:hidden"
+            id="adminSidebarToggle"
+            aria-label="Toggle menu">
+      <i class="fas fa-bars text-sm"></i>
+    </button>
+
+    <!-- Main content -->
+    <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
+      <!-- Shared top header -->
+      <header class="sticky top-0 z-20 bg-slate-50/80 backdrop-blur border-b border-slate-200">
+        <div class="px-6 py-4 flex items-center justify-between">
           <div>
-            <div class="small fw-semibold">Dr. Sarah Johnson</div>
-            <div class="small text-secondary">Staff ID: SJ-2024</div>
+            <p class="text-xs font-medium tracking-[0.18em] text-slate-500 uppercase">Dispensing Queue</p>
+            <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-900">Pending Prescriptions</h1>
+            <p class="mt-1 text-xs text-slate-500">Live physician orders prioritized for safe, verified dispensing.</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="hidden sm:flex flex-col items-end text-right">
+              <p class="text-[11px] font-medium uppercase text-slate-500">Safety posture</p>
+              <p class="text-xs font-semibold text-slate-900">Double-check required before dispense</p>
+            </div>
+            <div class="h-10 px-3 rounded-full border border-slate-200 bg-white shadow-sm flex items-center gap-2">
+              <span class="h-7 w-7 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-semibold">PH</span>
+              <div class="hidden sm:block">
+                <p class="text-xs font-semibold text-slate-900 leading-tight">Pharmacy Staff</p>
+                <p class="text-[11px] text-slate-500 leading-tight">Role: Pharmacist</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </header>
 
-    <div class="p-4">
-      <div class="d-flex flex-wrap gap-2 mb-4">
-        <button class="btn btn-outline-primary active">Pending (4)</button>
-        <button class="btn btn-outline-secondary">Active</button>
-        <button class="btn btn-outline-secondary">Completed</button>
-      </div>
+      <section class="flex-1 px-6 py-6 space-y-6">
+        <!-- Queue filters and status -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-8 items-center rounded-full bg-rose-50 px-3 text-xs font-semibold text-rose-700 border border-rose-100">
+              <span class="mr-2 inline-flex h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+              STAT first · then routine
+            </span>
+            <span class="hidden sm:inline-flex h-8 items-center rounded-full bg-slate-100 px-3 text-[11px] font-medium text-slate-600">
+              <i class="fas fa-wave-square mr-1.5 text-xs text-slate-500"></i>
+              Live feed from orders
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button class="inline-flex items-center gap-1 rounded-full bg-slate-900 text-slate-50 px-3 py-1.5 font-semibold shadow-sm">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              Pending
+            </button>
+            <button class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 font-medium text-slate-600 border border-slate-200">
+              Active
+            </button>
+            <button class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 font-medium text-slate-600 border border-slate-200">
+              Completed
+            </button>
+          </div>
+        </div>
 
-      <div class="stat-card">
-        <h2 class="h5 fw-bold mb-4">Pending Authorization</h2>
-
-        <div class="workflow-card pending">
-          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+        <!-- Verification step -->
+        <div class="rounded-2xl border border-amber-200 bg-amber-50/80 shadow-sm px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-start gap-3">
+            <div class="mt-0.5 h-7 w-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700">
+              <i class="fas fa-shield-check text-sm"></i>
+            </div>
             <div>
-              <h5 class="mb-1">Lisinopril 10mg — Once daily</h5>
-              <p class="mb-0 small text-secondary">Patient: Robert Johnson (RJ-20240524) • Prescriber: Dr. James Smith</p>
-              <p class="mb-0 small text-secondary mt-1">Duration: 30 days • Refills: 2</p>
-            </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-primary btn-sm">Approve</button>
-              <button class="btn btn-outline-secondary btn-sm">Modify</button>
+              <p class="text-xs font-semibold text-amber-900 uppercase tracking-[0.16em]">Verification gate</p>
+              <p class="mt-0.5 text-xs text-amber-900">
+                For patient safety, dispensing controls are locked until you confirm the dose matches the signed doctor order.
+              </p>
             </div>
           </div>
+          <label for="verifyDosageCheckbox" class="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-xs font-medium text-slate-800 border border-amber-200 shadow-xs cursor-pointer">
+            <input type="checkbox"
+                   id="verifyDosageCheckbox"
+                   class="h-3.5 w-3.5 rounded border-amber-400 text-teal-600 focus:ring-teal-500">
+            <span class="flex flex-col">
+              <span class="font-semibold">I have verified the dosage against the doctor order.</span>
+              <span class="text-[11px] text-slate-500">Unlocks the <span class="font-semibold">Dispense</span> controls in the queue below.</span>
+            </span>
+          </label>
         </div>
 
-        <div class="workflow-card pending">
-          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+        <!-- Pending prescriptions queue -->
+        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-5 pt-4 pb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-slate-100">
             <div>
-              <h5 class="mb-1">Atorvastatin 20mg — Once daily (evening)</h5>
-              <p class="mb-0 small text-secondary">Patient: Robert Johnson (RJ-20240524) • Prescriber: Dr. James Smith</p>
-              <p class="mb-0 small text-secondary mt-1">Duration: 90 days • Refills: 5</p>
+              <p class="text-[11px] font-medium tracking-[0.18em] text-slate-500 uppercase">Queue</p>
+              <h2 class="mt-1 text-lg font-semibold text-slate-900 flex items-center gap-2">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-slate-50">
+                  <i class="fas fa-list-check text-xs"></i>
+                </span>
+                <span>Pending Prescriptions</span>
+              </h2>
+              <p class="mt-1 text-xs text-slate-500">
+                Each line represents a discrete dispensing task with quantity impact on stock.
+              </p>
             </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-primary btn-sm">Approve</button>
-              <button class="btn btn-outline-secondary btn-sm">Modify</button>
+            <div class="flex flex-col sm:flex-row gap-2 md:items-center md:justify-end">
+              <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] text-slate-600">
+                <i class="fas fa-circle-info text-slate-400 text-xs"></i>
+                <span><span class="font-semibold">STAT</span> orders are surfaced visually for rapid triage.</span>
+              </div>
+              <button type="button"
+                      class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 transition">
+                <i class="fas fa-clock-rotate-left text-xs text-slate-500"></i>
+                <span>View history</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-3">
+            <div id="pendingPrescriptionsRegion" class="pointer-events-none opacity-50 transition-all duration-200 rounded-xl border border-slate-100 bg-slate-50/80 overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-slate-800">
+                  <thead class="bg-slate-900 text-slate-50 text-[11px] font-medium uppercase tracking-[0.16em]">
+                    <tr>
+                      <th scope="col" class="px-4 py-2 text-left">
+                        <div class="flex items-center gap-2">
+                          <i class="fas fa-user text-[10px] opacity-80"></i>
+                          <span>Patient</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-4 py-2 text-left">
+                        <div class="flex items-center gap-2">
+                          <i class="fas fa-prescription-bottle-medical text-[10px] opacity-80"></i>
+                          <span>Order Details</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-4 py-2 text-left">
+                        <div class="flex items-center gap-2">
+                          <i class="fas fa-layer-group text-[10px] opacity-80"></i>
+                          <span>Total Qty</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-4 py-2 text-left">
+                        <div class="flex items-center gap-2">
+                          <i class="fas fa-bolt text-[10px] opacity-80"></i>
+                          <span>Urgency</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-4 py-2 text-right">
+                        <span class="mr-2">Action</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="pendingPrescriptionsBody" class="divide-y divide-slate-100 bg-white">
+                    <!-- Example static rows to communicate desired layout -->
+                    <tr>
+                      <td class="px-4 py-3 align-top">
+                        <div class="text-sm font-semibold text-slate-900">Robert Johnson</div>
+                        <div class="text-xs text-slate-500">RJ-20240524 · Room 204</div>
+                      </td>
+                      <td class="px-4 py-3 align-top">
+                        <div class="text-sm text-slate-800">Lisinopril 10mg — Once daily</div>
+                        <div class="mt-0.5 text-xs text-slate-500">Prescriber: Dr. James Smith · 30 days · 2 refills</div>
+                      </td>
+                      <td class="px-4 py-3 align-top">
+                        <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700">
+                          30 units
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 align-top">
+                        <span class="inline-flex items-center rounded-full bg-rose-50 px-2 py-1 text-[11px] font-semibold text-rose-700 border border-rose-100">
+                          <span class="h-1.5 w-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>
+                          STAT
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 align-top text-right">
+                        <button type="button"
+                                class="inline-flex items-center justify-center gap-1.5 rounded-full bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-teal-700 transition">
+                          <i class="fas fa-check text-[10px]"></i>
+                          <span>Dispense</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 align-top">
+                        <div class="text-sm font-semibold text-slate-900">Emily Rodriguez</div>
+                        <div class="text-xs text-slate-500">ER-20240210</div>
+                      </td>
+                      <td class="px-4 py-3 align-top">
+                        <div class="text-sm text-slate-800">Amoxicillin 500mg — Three times daily</div>
+                        <div class="mt-0.5 text-xs text-slate-500">Prescriber: Dr. Emily Davis · 7 days</div>
+                      </td>
+                      <td class="px-4 py-3 align-top">
+                        <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700">
+                          21 units
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 align-top">
+                        <span class="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-[11px] font-semibold text-amber-700 border border-amber-100">
+                          <span class="h-1.5 w-1.5 rounded-full bg-amber-500 mr-1.5"></span>
+                          Today
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 align-top text-right">
+                        <button type="button"
+                                class="inline-flex items-center justify-center gap-1.5 rounded-full bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-teal-700 transition">
+                          <i class="fas fa-check text-[10px]"></i>
+                          <span>Dispense</span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="workflow-card pending">
-          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
-            <div>
-              <h5 class="mb-1">Metformin 500mg — Twice daily</h5>
-              <p class="mb-0 small text-secondary">Patient: David Chen (DC-20240201) • Prescriber: Dr. Sarah Johnson</p>
-              <p class="mb-0 small text-secondary mt-1">Duration: 60 days • Refills: 3</p>
-            </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-primary btn-sm">Approve</button>
-              <button class="btn btn-outline-secondary btn-sm">Modify</button>
-            </div>
-          </div>
+        <div class="flex justify-between items-center pt-1">
+          <button type="button"
+                  class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 transition">
+            <i class="fas fa-magnifying-glass text-xs text-slate-500"></i>
+            <span>Open patient chart</span>
+          </button>
+          <button type="button"
+                  class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-50 hover:bg-slate-800 transition">
+            <i class="fas fa-plus text-xs"></i>
+            <span>Issue new prescription</span>
+          </button>
         </div>
+      </section>
+    </main>
+  </div>
 
-        <div class="workflow-card pending">
-          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
-            <div>
-              <h5 class="mb-1">Amoxicillin 500mg — Three times daily</h5>
-              <p class="mb-0 small text-secondary">Patient: Emily Rodriguez (ER-20240210) • Prescriber: Dr. Emily Davis</p>
-              <p class="mb-0 small text-secondary mt-1">Duration: 7 days • Refills: 0</p>
-            </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-primary btn-sm">Approve</button>
-              <button class="btn btn-outline-secondary btn-sm">Modify</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <button class="btn btn-primary"><i class="fas fa-plus me-2"></i>Issue New Prescription</button>
-      </div>
-    </div>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/sidebar-nav.js"></script>
   <script>
     (function() {
       var sidebar = document.querySelector('.sidebar');
@@ -142,6 +342,20 @@
       overlay?.addEventListener('click', closeDrawer);
       document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer(); });
     })();
+
+    // Verification gate: unlock queue interactions only after dosage confirmation.
+    document.addEventListener('DOMContentLoaded', function () {
+      var checkbox = document.getElementById('verifyDosageCheckbox');
+      var region = document.getElementById('pendingPrescriptionsRegion');
+      if (!checkbox || !region) return;
+      checkbox.addEventListener('change', function () {
+        if (checkbox.checked) {
+          region.classList.remove('pointer-events-none', 'opacity-50');
+        } else {
+          region.classList.add('pointer-events-none', 'opacity-50');
+        }
+      });
+    });
   </script>
 </body>
 </html>
