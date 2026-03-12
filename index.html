@@ -11,127 +11,154 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-            display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Inter', 'system-ui', 'sans-serif'],
           },
           colors: {
-            'medical-primary': '#0ABAB5',
-            'medical-primary-dark': '#089B97',
-            'medical-secondary': '#1A365D',
-            'medical-accent': '#0EA5E9',
-            'medical-gray-50': '#F8FAFC',
-            'medical-gray-100': '#F1F5F9',
-            'medical-gray-200': '#E2E8F0',
-            'medical-gray-600': '#475569',
-            'medical-gray-700': '#334155',
-            'medical-gray-800': '#1E293B'
-          }
+            'medical-primary': '#0d9488',
+            'medical-primary-dark': '#0f766e',
+          },
+          animation: {
+            'marquee': 'marquee 40s linear infinite',
+            'fade-up': 'fadeUp 0.6s ease-out forwards',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
         }
       }
     };
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <style>
+    .hero-elite-overlay {
+      background: linear-gradient(to right, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.45));
+    }
+    .btn-appointment-glow {
+      box-shadow: 0 0 24px rgba(13, 148, 136, 0.4);
+    }
+    .btn-appointment-glow:hover {
+      box-shadow: 0 0 32px rgba(13, 148, 136, 0.5);
+    }
+    .animate-marquee {
+      animation: elite-marquee 45s linear infinite;
+    }
+    @keyframes elite-marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-marquee { animation: none; }
+    }
+  </style>
 </head>
-  <body class="bg-white text-slate-900">
-  <div class="ambient-background-layer" aria-hidden="true">
-    <div class="ambient-blob ambient-blob--1"></div>
-    <div class="ambient-blob ambient-blob--2"></div>
-    <div class="ambient-blob ambient-blob--3"></div>
-    <div class="ambient-grid"></div>
-  </div>
-
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- Navbar: Premium glassmorphic, sticky, horizontal layout -->
-  <nav class="navbar" id="mainNavbar" aria-label="Main navigation">
-    <div class="container navbar__container">
-      <a class="navbar-brand" href="index.html" aria-label="MediCare Hospital - Home">
-        <i class="fas fa-hospital navbar-brand__icon" aria-hidden="true"></i>
-        <span class="navbar-brand__text"><span class="navbar-brand__medi">Medi</span><span class="navbar-brand__care">Care</span></span>
-      </a>
+  <!-- Sticky Nav: backdrop-blur, clinical palette -->
+  <nav id="mainNavbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-slate-200/60" aria-label="Main navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-18">
+        <a class="flex items-center gap-2 font-display font-bold text-slate-900 tracking-tight" href="index.html" aria-label="MediCare Hospital - Home">
+          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-600 text-white"><i class="fas fa-hospital text-sm" aria-hidden="true"></i></span>
+          <span><span class="text-teal-600">Medi</span><span class="text-slate-900">Care</span></span>
+        </a>
 
-      <button class="navbar-hamburger" type="button" id="navbarHamburger" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
-        <span class="navbar-hamburger__line"></span>
-        <span class="navbar-hamburger__line"></span>
-        <span class="navbar-hamburger__line"></span>
-      </button>
+        <button type="button" id="navbarHamburger" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu" class="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition">
+          <span class="block w-5 h-0.5 bg-slate-700 mb-1"></span>
+          <span class="block w-5 h-0.5 bg-slate-700 mb-1"></span>
+          <span class="block w-5 h-0.5 bg-slate-700"></span>
+        </button>
 
-      <div class="navbar-collapse" id="navbarNav">
-        <div class="navbar-nav-wrap">
-          <ul class="navbar-nav navbar-nav--center">
-            <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-            <li class="nav-item"><a class="nav-link" href="admin-portal/auth.html">Patient Portal</a></li>
-            <li class="nav-item"><a class="nav-link" href="admin-portal/auth.html">Login</a></li>
+        <div id="navbarNav" class="hidden lg:flex lg:items-center lg:gap-8">
+          <ul class="flex items-center gap-8">
+            <li><a class="text-sm font-medium text-teal-600 border-b-2 border-teal-600 pb-0.5" href="index.html">Home</a></li>
+            <li><a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition" href="about.html">About</a></li>
+            <li><a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition" href="services.html">Services</a></li>
+            <li><a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition" href="admin-portal/auth.html">Patient Portal</a></li>
+            <li><a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition" href="admin-portal/auth.html">Login</a></li>
           </ul>
-          <a class="btn-nav-cta" href="#appointment-widget">
+          <a href="#appointment-widget" class="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm btn-appointment-glow hover:bg-teal-700 transition">
             <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
           </a>
         </div>
       </div>
+      <div id="navbarNavMobile" class="hidden lg:hidden pb-4 border-t border-slate-200">
+        <ul class="pt-4 space-y-2">
+          <li><a class="block py-2 text-slate-700 font-medium" href="index.html">Home</a></li>
+          <li><a class="block py-2 text-slate-700 font-medium" href="about.html">About</a></li>
+          <li><a class="block py-2 text-slate-700 font-medium" href="services.html">Services</a></li>
+          <li><a class="block py-2 text-slate-700 font-medium" href="admin-portal/auth.html">Patient Portal</a></li>
+          <li><a class="block py-2 text-slate-700 font-medium" href="admin-portal/auth.html">Login</a></li>
+          <li><a href="#appointment-widget" class="mt-3 flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white">Book Appointment</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero Section: Centralized, Cinematic Background Slider -->
-  <main id="main-content">
-  <section class="hero hero--cinematic" aria-labelledby="hero-heading">
-    <!-- Dynamic Background Slider with Ken Burns Effect -->
-    <div class="hero-bg-slider" aria-hidden="true">
-      <div class="hero-bg-slide hero-bg-slide--active" data-index="0">
-        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1920&h=1080&fit=crop" alt="" role="presentation">
-      </div>
-      <div class="hero-bg-slide" data-index="1">
-        <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1920&h=1080&fit=crop" alt="" role="presentation">
-      </div>
-      <div class="hero-bg-slide" data-index="2">
-        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&h=1080&fit=crop" alt="" role="presentation">
-      </div>
-      <div class="hero-bg-slide" data-index="3">
-        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=1920&h=1080&fit=crop" alt="" role="presentation">
-      </div>
+  <!-- Hero: single high-res bg + gradient overlay, premium typography & CTAs -->
+  <main id="main-content" class="pt-0">
+  <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
+    <div class="absolute inset-0" aria-hidden="true">
+      <img
+        src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1920&h=1080&fit=crop"
+        alt=""
+        role="presentation"
+        class="w-full h-full object-cover object-center"
+      />
     </div>
-    <!-- Deep Navy Gradient Overlay -->
-    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-elite-overlay absolute inset-0" aria-hidden="true"></div>
 
-    <div class="container hero__container h-full flex items-center justify-center">
-      <div class="w-full flex justify-center text-center">
-        <div class="w-full max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-6">
-          <h1 id="hero-heading" class="display-hero text-white mb-4">
-            Excellence in Healthcare, Delivered Daily
-          </h1>
-          <p class="hero-subtitle text-white mb-4 mx-auto">
-            World-class medical care with cutting-edge technology, compassionate staff, and patient-centered solutions.
-          </p>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 id="hero-heading" class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight mb-6 animate-fade-up" data-aos="fade-up">
+          Excellence in Healthcare, Delivered Daily
+        </h1>
+        <p class="text-lg sm:text-xl text-slate-200 mb-10 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+          World-class medical care with cutting-edge technology, compassionate staff, and patient-centered solutions.
+        </p>
 
-          <div class="hero-cta-group mb-4 justify-center">
-            <a href="#appointment-widget" class="btn-primary hero-cta-primary">
-              <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
-            </a>
-            <a href="services.html" class="btn-ghost-hero">
-              <i class="fas fa-search" aria-hidden="true"></i> Find a Doctor
-            </a>
-          </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14" data-aos="fade-up" data-aos-delay="200">
+          <a href="#appointment-widget" class="hero-cta-primary inline-flex items-center gap-2 rounded-xl bg-teal-600 px-6 py-3.5 text-base font-semibold text-white btn-appointment-glow hover:bg-teal-500 transition">
+            <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
+          </a>
+          <a href="services.html" class="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-sm hover:bg-white/20 transition">
+            <i class="fas fa-search" aria-hidden="true"></i> Find a Doctor
+          </a>
+        </div>
 
-          <!-- Partners/Credentials Marquee -->
-          <div class="hero-marquee" aria-label="Trusted partners and certifications">
-            <div class="hero-marquee__track">
-              <div class="hero-marquee__item">JCI Accredited</div>
-              <div class="hero-marquee__item">ISO 9001:2015</div>
-              <div class="hero-marquee__item">Blue Cross</div>
-              <div class="hero-marquee__item">Aetna</div>
-              <div class="hero-marquee__item">UnitedHealthcare</div>
-              <div class="hero-marquee__item">Cigna</div>
-              <div class="hero-marquee__item">Medicare</div>
-              <div class="hero-marquee__item">JCI Accredited</div>
-              <div class="hero-marquee__item">ISO 9001:2015</div>
-              <div class="hero-marquee__item">Blue Cross</div>
-              <div class="hero-marquee__item">Aetna</div>
-              <div class="hero-marquee__item">UnitedHealthcare</div>
-              <div class="hero-marquee__item">Cigna</div>
-              <div class="hero-marquee__item">Medicare</div>
+        <!-- Social proof: infinite marquee, semi-transparent monochrome -->
+        <div class="overflow-hidden border-t border-b border-white/20 py-4" aria-label="Trusted partners and certifications">
+          <div class="flex w-max animate-marquee">
+            <div class="flex shrink-0 items-center">
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">JCI Accredited</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">ISO 9001:2015</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Blue Cross</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Aetna</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">UnitedHealthcare</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Cigna</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Medicare</span>
+            </div>
+            <div class="flex shrink-0 items-center" aria-hidden="true">
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">JCI Accredited</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">ISO 9001:2015</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Blue Cross</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Aetna</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">UnitedHealthcare</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Cigna</span>
+              <span class="mx-8 text-sm font-medium text-white/70 uppercase tracking-wider">Medicare</span>
             </div>
           </div>
         </div>
@@ -139,14 +166,45 @@
     </div>
   </section>
 
-  <!-- Appointment Widget: Premium glassmorphic card -->
-  <section id="appointment-widget" class="appointment-section" aria-labelledby="appointment-heading" data-aos="fade-up">
-      <div class="container">
-      <h2 id="appointment-heading" class="appointment-section__title text-center mb-10 px-4">
+  <!-- Quick Access: Patient Portal & Login -->
+  <section class="py-24 bg-white border-b border-slate-100" aria-labelledby="quick-access-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 id="quick-access-heading" class="sr-only">Quick Access</h2>
+      <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <a href="admin-portal/auth.html" class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50/50 p-6 shadow-sm hover:shadow-xl hover:border-teal-200 hover:bg-teal-50/30 transition-all duration-300" data-aos="fade-up">
+          <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-teal-600 text-white group-hover:scale-105 transition-transform">
+            <i class="fas fa-user-injured text-xl" aria-hidden="true"></i>
+          </span>
+          <div class="text-left">
+            <span class="text-sm font-semibold uppercase tracking-wider text-teal-600">For Patients</span>
+            <p class="mt-1 text-lg font-bold text-slate-900">Patient Portal</p>
+            <p class="mt-0.5 text-sm text-slate-500">View records, book follow-ups, message your care team.</p>
+          </div>
+          <i class="fas fa-arrow-right text-slate-300 group-hover:text-teal-600 ml-auto transition-colors" aria-hidden="true"></i>
+        </a>
+        <a href="admin-portal/auth.html" class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50/50 p-6 shadow-sm hover:shadow-xl hover:border-teal-200 hover:bg-teal-50/30 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+          <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-slate-800 text-white group-hover:scale-105 transition-transform">
+            <i class="fas fa-lock text-xl" aria-hidden="true"></i>
+          </span>
+          <div class="text-left">
+            <span class="text-sm font-semibold uppercase tracking-wider text-slate-500">Staff & Providers</span>
+            <p class="mt-1 text-lg font-bold text-slate-900">Login</p>
+            <p class="mt-0.5 text-sm text-slate-500">Secure access to EMR, scheduling, and clinical tools.</p>
+          </div>
+          <i class="fas fa-arrow-right text-slate-300 group-hover:text-teal-600 ml-auto transition-colors" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Widget: Premium card, max-w-7xl -->
+  <section id="appointment-widget" class="py-24 bg-slate-50" aria-labelledby="appointment-heading" data-aos="fade-up">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 id="appointment-heading" class="text-center text-3xl font-bold tracking-tight text-slate-900 mb-10 px-4">
         Schedule Your Appointment Today
       </h2>
 
-      <div class="appointment-card" id="appointmentCard" data-aos="fade-up" data-aos-delay="100">
+      <div class="appointment-card rounded-2xl border border-slate-200 bg-white shadow-sm p-6 lg:p-8 max-w-2xl mx-auto" id="appointmentCard" data-aos="fade-up" data-aos-delay="100">
         <form id="appointmentForm" novalidate aria-label="Appointment booking form" class="space-y-6">
           <div class="form-group">
             <label for="deptSelect" class="form-label">Select Department</label>
@@ -229,81 +287,95 @@
     </div>
   </section>
 
-  <!-- Featured Departments -->
-  <section class="section-padding bg-white" aria-labelledby="departments-heading">
-    <div class="container">
-      <div class="text-center mb-10 px-4">
-        <span class="badge badge--primary mb-3 inline-block">OUR SPECIALTIES</span>
-        <h2 id="departments-heading" class="section-heading mb-3">World-Class Medical Departments</h2>
-        <p class="text-secondary section-subtitle mx-auto">
+  <!-- Why Choose Us: Trust metrics -->
+  <section class="py-24 bg-slate-900 text-white" aria-labelledby="why-choose-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 id="why-choose-heading" class="text-center text-3xl font-bold tracking-tight mb-4" data-aos="fade-up">Why Choose Us</h2>
+      <p class="text-center text-slate-300 max-w-2xl mx-auto mb-16" data-aos="fade-up">Trusted by patients and families for outcomes that matter.</p>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center" data-aos="fade-up" data-aos-delay="0">
+          <p class="text-4xl lg:text-5xl font-bold tracking-tight text-teal-400">99%</p>
+          <p class="mt-2 text-sm font-semibold uppercase tracking-wider text-slate-300">Success Rate</p>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+          <p class="text-4xl lg:text-5xl font-bold tracking-tight text-teal-400">24/7</p>
+          <p class="mt-2 text-sm font-semibold uppercase tracking-wider text-slate-300">Support & Emergency</p>
+        </div>
+        <div class="text-center col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="200">
+          <p class="text-4xl lg:text-5xl font-bold tracking-tight text-teal-400">500+</p>
+          <p class="mt-2 text-sm font-semibold uppercase tracking-wider text-slate-300">Specialists</p>
+        </div>
+        <div class="text-center col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="300">
+          <p class="text-4xl lg:text-5xl font-bold tracking-tight text-teal-400">JCI</p>
+          <p class="mt-2 text-sm font-semibold uppercase tracking-wider text-slate-300">Accredited</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Departments / Services: white cards, hover shadow & scale -->
+  <section class="py-24 bg-slate-50" aria-labelledby="departments-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 px-4">
+        <span class="inline-block mb-3 text-xs font-semibold uppercase tracking-wider text-teal-600">Our Specialties</span>
+        <h2 id="departments-heading" class="text-3xl font-bold tracking-tight text-slate-900 mb-3" data-aos="fade-up">World-Class Medical Departments</h2>
+        <p class="text-slate-600 max-w-2xl mx-auto" data-aos="fade-up">
           Leading specialists across multiple disciplines delivering exceptional care
         </p>
       </div>
 
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div data-aos="fade-up">
-          <div class="dept-card flex flex-col h-full">
-            <div class="dept-card-icon">
-              <i class="fas fa-heart fa-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="h5 text-secondary-teal mb-2">Cardiology</h3>
-            <p class="text-secondary mb-3 flex-grow">Advanced cardiac care with world-renowned cardiologists specializing in interventional and preventive cardiology.</p>
-            <a href="services/cardiology.html" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+        <div data-aos="fade-up" class="group">
+          <div class="flex flex-col h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-4" aria-hidden="true"><i class="fas fa-heart-pulse text-xl" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Cardiology</h3>
+            <p class="text-slate-600 mb-4 flex-grow text-sm">Advanced cardiac care with world-renowned cardiologists specializing in interventional and preventive cardiology.</p>
+            <a href="services/cardiology.html" class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-700">Learn More <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
           </div>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="100">
-          <div class="dept-card flex flex-col h-full">
-            <div class="dept-card-icon">
-              <i class="fas fa-baby fa-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="h5 text-secondary-teal mb-2">Pediatrics</h3>
-            <p class="text-secondary mb-3 flex-grow">Compassionate care for infants, children, and adolescents with state-of-the-art pediatric facilities.</p>
-            <a href="services.html#pediatrics" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+        <div data-aos="fade-up" data-aos-delay="100" class="group">
+          <div class="flex flex-col h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-4" aria-hidden="true"><i class="fas fa-child text-xl" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Pediatrics</h3>
+            <p class="text-slate-600 mb-4 flex-grow text-sm">Compassionate care for infants, children, and adolescents with state-of-the-art pediatric facilities.</p>
+            <a href="services.html#pediatrics" class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-700">Learn More <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
           </div>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="200">
-          <div class="dept-card flex flex-col h-full">
-            <div class="dept-card-icon">
-              <i class="fas fa-shield-alt fa-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="h5 text-secondary-teal mb-2">Oncology</h3>
-            <p class="text-secondary mb-3 flex-grow">Comprehensive cancer care with multidisciplinary approach using latest immunotherapy and precision medicine.</p>
-            <a href="services.html#oncology" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+        <div data-aos="fade-up" data-aos-delay="200" class="group">
+          <div class="flex flex-col h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-4" aria-hidden="true"><i class="fas fa-dna text-xl" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Oncology</h3>
+            <p class="text-slate-600 mb-4 flex-grow text-sm">Comprehensive cancer care with multidisciplinary approach using latest immunotherapy and precision medicine.</p>
+            <a href="services.html#oncology" class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-700">Learn More <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
           </div>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="100">
-          <div class="dept-card flex flex-col h-full">
-            <div class="dept-card-icon">
-              <i class="fas fa-bone fa-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="h5 text-secondary-teal mb-2">Orthopedics</h3>
-            <p class="text-secondary mb-3 flex-grow">Expert care for bones, joints, and muscles with advanced surgical and rehabilitation services.</p>
-            <a href="services.html#orthopedics" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+        <div data-aos="fade-up" data-aos-delay="100" class="group">
+          <div class="flex flex-col h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-4" aria-hidden="true"><i class="fas fa-bone text-xl" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Orthopedics</h3>
+            <p class="text-slate-600 mb-4 flex-grow text-sm">Expert care for bones, joints, and muscles with advanced surgical and rehabilitation services.</p>
+            <a href="services.html#orthopedics" class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-700">Learn More <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
           </div>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="200">
-          <div class="dept-card flex flex-col h-full">
-            <div class="dept-card-icon">
-              <i class="fas fa-x-ray fa-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="h5 text-secondary-teal mb-2">Radiology</h3>
-            <p class="text-secondary mb-3 flex-grow">State-of-the-art imaging and diagnostic services including MRI, CT, and ultrasound.</p>
-            <a href="services.html#radiology" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+        <div data-aos="fade-up" data-aos-delay="200" class="group">
+          <div class="flex flex-col h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-4" aria-hidden="true"><i class="fas fa-x-ray text-xl" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Radiology</h3>
+            <p class="text-slate-600 mb-4 flex-grow text-sm">State-of-the-art imaging and diagnostic services including MRI, CT, and ultrasound.</p>
+            <a href="services.html#radiology" class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-700">Learn More <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
           </div>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="300">
-          <div class="dept-card flex flex-col h-full">
-            <div class="dept-card-icon">
-              <i class="fas fa-brain fa-xl" aria-hidden="true"></i>
-            </div>
-            <h3 class="h5 text-secondary-teal mb-2">Neurology</h3>
-            <p class="text-secondary mb-3 flex-grow">Specialized care for brain and nervous system disorders with cutting-edge diagnostics.</p>
-            <a href="services.html#neurology" class="dept-card-link">Learn More <i class="fas fa-arrow-right fa-sm" aria-hidden="true"></i></a>
+        <div data-aos="fade-up" data-aos-delay="300" class="group">
+          <div class="flex flex-col h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-4" aria-hidden="true"><i class="fas fa-brain text-xl" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Neurology</h3>
+            <p class="text-slate-600 mb-4 flex-grow text-sm">Specialized care for brain and nervous system disorders with cutting-edge diagnostics.</p>
+            <a href="services.html#neurology" class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-700">Learn More <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
           </div>
         </div>
       </div>
@@ -311,11 +383,11 @@
   </section>
 
   <!-- Patient Testimonials -->
-  <section class="section-padding testimonials-section" aria-labelledby="testimonials-heading">
-    <div class="container">
-      <div class="text-center mb-10 px-4">
-        <span class="badge badge--primary mb-3 inline-block">PATIENT STORIES</span>
-        <h2 id="testimonials-heading" class="section-heading mb-3">What Our Patients Say</h2>
+  <section class="py-24 bg-white" aria-labelledby="testimonials-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 px-4">
+        <span class="inline-block mb-3 text-xs font-semibold uppercase tracking-wider text-teal-600">Patient Stories</span>
+        <h2 id="testimonials-heading" class="text-3xl font-bold tracking-tight text-slate-900 mb-3" data-aos="fade-up">What Our Patients Say</h2>
       </div>
 
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -386,17 +458,17 @@
   </section>
 
   <!-- Emergency Banner -->
-  <section class="emergency-banner mt-12" aria-label="Emergency contact information">
-    <div class="container">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <i class="fas fa-exclamation-circle fa-2x" aria-hidden="true"></i>
+  <section class="py-12 bg-rose-600" aria-label="Emergency contact information">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white" aria-hidden="true"><i class="fas fa-exclamation-circle text-xl" aria-hidden="true"></i></span>
           <div>
-            <h3 class="mb-1 fw-semibold">Medical Emergency?</h3>
-            <p class="mb-0 opacity-90">24/7 Emergency Department Available</p>
+            <h3 class="text-lg font-semibold text-white">Medical Emergency?</h3>
+            <p class="text-white/90 text-sm">24/7 Emergency Department Available</p>
           </div>
         </div>
-        <a href="tel:+15551234567" class="btn-accent" aria-label="Call emergency line">
+        <a href="tel:+15551234567" class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition" aria-label="Call emergency line">
           <i class="fas fa-phone" aria-hidden="true"></i> Call +1 (555) 123-4567
         </a>
       </div>
@@ -404,68 +476,56 @@
   </section>
   </main>
 
-  <!-- Footer: Glassmorphism, 4-column, high-density -->
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a class="footer-brand__logo" href="index.html" aria-label="MediCare Hospital - Home">
-            <i class="fas fa-hospital footer-brand__icon" aria-hidden="true"></i>
-            <span class="footer-brand__text"><span class="footer-brand__medi">Medi</span><span class="footer-brand__care">Care</span></span>
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-300 py-16" role="contentinfo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+        <div class="lg:col-span-1">
+          <a class="inline-flex items-center gap-2 font-bold text-white hover:text-teal-400 transition" href="index.html" aria-label="MediCare Hospital - Home">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-600 text-white"><i class="fas fa-hospital text-sm" aria-hidden="true"></i></span>
+            <span><span class="text-teal-400">Medi</span><span>Care</span></span>
           </a>
-          <p class="footer-brand__mission">Excellence in healthcare, delivered daily. World-class care with cutting-edge technology.</p>
+          <p class="mt-4 text-sm text-slate-400 leading-relaxed">Excellence in healthcare, delivered daily. World-class care with cutting-edge technology.</p>
         </div>
-        <div class="footer-column">
-          <h5>Quick Links</h5>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="admin-portal/emr-patient-dashboard.html">Patient Portal</a></li>
-            <li><a href="admin-portal/admin-dashboard.html">Staff Login</a></li>
+        <div>
+          <h5 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Quick Links</h5>
+          <ul class="space-y-2">
+            <li><a class="text-slate-300 hover:text-white transition" href="index.html">Home</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="about.html">About</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="services.html">Services</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="admin-portal/emr-patient-dashboard.html">Patient Portal</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="admin-portal/admin-dashboard.html">Staff Login</a></li>
           </ul>
         </div>
-        <div class="footer-column">
-          <h5>Our Services</h5>
-          <ul>
-            <li><a href="services/cardiology.html">Cardiology</a></li>
-            <li><a href="services.html#pediatrics">Pediatrics</a></li>
-            <li><a href="services.html#oncology">Oncology</a></li>
-            <li><a href="services.html#orthopedics">Orthopedics</a></li>
-            <li><a href="services.html#radiology">Radiology</a></li>
-            <li><a href="services.html#neurology">Neurology</a></li>
+        <div>
+          <h5 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Our Services</h5>
+          <ul class="space-y-2">
+            <li><a class="text-slate-300 hover:text-white transition" href="services/cardiology.html">Cardiology</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="services.html#pediatrics">Pediatrics</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="services.html#oncology">Oncology</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="services.html#orthopedics">Orthopedics</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="services.html#radiology">Radiology</a></li>
+            <li><a class="text-slate-300 hover:text-white transition" href="services.html#neurology">Neurology</a></li>
           </ul>
         </div>
-        <div class="footer-column footer-contact-newsletter">
-          <h5>Contact</h5>
-          <ul class="footer-contact-list">
-            <li>
-              <a href="tel:+15551234567" class="footer-contact-link">
-                <i class="fas fa-phone footer-contact-icon" aria-hidden="true"></i>
-                <span>+1 (555) 123-4567</span>
-              </a>
-            </li>
-            <li>
-              <a href="mailto:info@medicare.com" class="footer-contact-link">
-                <i class="fas fa-envelope footer-contact-icon" aria-hidden="true"></i>
-                <span>info@medicare.com</span>
-              </a>
-            </li>
+        <div>
+          <h5 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Contact</h5>
+          <ul class="space-y-3">
+            <li><a class="inline-flex items-center gap-2 text-slate-300 hover:text-white transition" href="tel:+15551234567"><i class="fas fa-phone text-slate-500" aria-hidden="true"></i> +1 (555) 123-4567</a></li>
+            <li><a class="inline-flex items-center gap-2 text-slate-300 hover:text-white transition" href="mailto:info@medicare.com"><i class="fas fa-envelope text-slate-500" aria-hidden="true"></i> info@medicare.com</a></li>
           </ul>
-          <div class="footer-newsletter">
-            <form class="footer-newsletter-form" aria-label="Newsletter signup">
-              <input type="email" placeholder="Your email" aria-label="Email address">
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
+          <form class="footer-newsletter-form mt-4 flex gap-2" aria-label="Newsletter signup">
+            <input type="email" placeholder="Your email" aria-label="Email address" class="flex-1 min-w-0 rounded-lg border border-slate-600 bg-slate-800/50 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500">
+            <button type="submit" class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-500 transition">Subscribe</button>
+          </form>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p class="footer-bottom__copy">&copy; 2024 MediCare Hospital. All rights reserved. HIPAA Compliant.</p>
-        <div class="footer-social">
-          <a href="#" class="footer-social__btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
-          <a href="#" class="footer-social__btn" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-          <a href="#" class="footer-social__btn" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-slate-500">&copy; 2024 MediCare Hospital. All rights reserved. HIPAA Compliant.</p>
+        <div class="flex gap-3">
+          <a href="#" class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-teal-600 hover:text-white transition" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="#" class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-teal-600 hover:text-white transition" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          <a href="#" class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-teal-600 hover:text-white transition" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
         </div>
       </div>
     </div>
@@ -478,10 +538,21 @@
 
     (function() {
       var navbar = document.getElementById('mainNavbar');
+      var hamburger = document.getElementById('navbarHamburger');
+      var navMobile = document.getElementById('navbarNavMobile');
       function onScroll() {
-        var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        if (currentScroll > 50) navbar.classList.add('navbar--scrolled');
-        else navbar.classList.remove('navbar--scrolled');
+        var y = window.pageYOffset || document.documentElement.scrollTop;
+        if (navbar) {
+          if (y > 24) navbar.classList.add('shadow-sm');
+          else navbar.classList.remove('shadow-sm');
+        }
+      }
+      if (hamburger && navMobile) {
+        hamburger.addEventListener('click', function() {
+          var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+          hamburger.setAttribute('aria-expanded', !expanded);
+          navMobile.classList.toggle('hidden', expanded);
+        });
       }
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
