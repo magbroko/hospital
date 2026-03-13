@@ -94,7 +94,13 @@
     <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
     <a href="billing.html"><i class="fas fa-receipt"></i> Billing</a>
   </nav>
+    </div>
+  </div>
 
+  <script src="/js/sidebar-universal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('patient'); });
+  </script>
   <script type="module">
     import {
       getPatientSession,
@@ -144,18 +150,6 @@
     }
 
     subscribeToPrescriptions(renderPrescriptions);
-  </script>
-  <script>
-    (function() {
-      const drawer = document.getElementById('emrDrawer');
-      const overlay = document.getElementById('emrOverlay');
-      const toggle = document.getElementById('emrDrawerToggle');
-      function open() { drawer?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
-      function close() { drawer?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
-      toggle?.addEventListener('click', () => drawer?.classList.contains('active') ? close() : open());
-      overlay?.addEventListener('click', close);
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer?.classList.contains('active')) close(); });
-    })();
   </script>
 </body>
 </html>
