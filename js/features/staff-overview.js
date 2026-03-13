@@ -8,6 +8,7 @@ import AppState from '../core/app-state.js';
 import appointmentService from '../services/appointment-service.js';
 import analyticsService from '../services/analytics-service.js';
 import inventoryService from '../services/inventory-service.js';
+import transactionLedgerService from '../services/transaction-ledger-service.js';
 import { renderTable } from '../core/ui-components.js';
 
 const BED_OCCUPANCY_DEFAULT = 84;
@@ -24,10 +25,10 @@ function escapeHtml(str) {
 
 function statusBadgeClass(status) {
   switch (status) {
-    case 'completed': return 'badge-status available';
-    case 'rejected': return 'badge-status pending';
-    case 'in-consultation': return 'badge-status occupied';
-    default: return 'badge-status pending';
+    case 'completed': return 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-700';
+    case 'rejected': return 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-50 text-amber-700';
+    case 'in-consultation': return 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-rose-50 text-rose-700';
+    default: return 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-50 text-amber-700';
   }
 }
 
@@ -58,11 +59,62 @@ class StaffOverview {
     AppState.subscribe('inventory', () => {
       this._renderKPIs();
       this._renderAlertBanner();
+      this._renderInventoryMonitor();
     });
+    AppState.subscribe('transactionLedger', () => {
+      this._renderKPIs();
+      this._renderRevenue();
+    });
+
+    // Cross-tab sync: Pharmacy inventory updates reflect in Admin without refresh
+    if (typeof BroadcastChannel !== 'undefined') {
+      const ch = new BroadcastChannel('medicare_inventory');
+      ch.onmessage = (e) => {
+        const d = e?.data;
+        if (d?.type === 'inventory_update' && Array.isArray(d.inventory)) {
+          AppState.commit('inventory', d.inventory);
+        }
+      };
+    }
 
     this._renderKPIs();
     this._renderRecentPatients();
     this._renderAlertBanner();
+    this._renderRevenue();
+    this._renderInventoryMonitor();
+  }
+
+  _renderInventoryMonitor() {
+    const container = document.getElementById('adminInventoryMonitor');
+    if (!container) return;
+    const items = inventoryService.getAll();
+    const lowStock = inventoryService.getLowStock(10);
+    if (items.length === 0) {
+      container.innerHTML = '<p class="text-sm text-slate-500">No inventory data. Pharmacy will populate stock.</p>';
+      return;
+    }
+    const rows = items.slice(0, 8).map((item) => {
+      const qty = Number(item.qty) || 0;
+      const isLow = qty <= 10;
+      const badge = isLow ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700';
+      return `
+        <div class="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+          <span class="text-sm font-medium text-slate-800">${escapeHtml(item.name || '—')}</span>
+          <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${badge}">${qty} units</span>
+        </div>
+      `;
+    }).join('');
+    const lowAlert = lowStock.length > 0
+      ? `<p class="text-xs text-amber-600 font-medium mb-2"><i class="fas fa-exclamation-triangle mr-1"></i>${lowStock.length} low-stock item(s)</p>`
+      : '';
+    container.innerHTML = lowAlert + rows;
+  }
+
+  _renderRevenue() {
+    const revenueEl = document.getElementById('adminRevenueTotal');
+    if (!revenueEl) return;
+    const revenue = transactionLedgerService.getTotalRevenue();
+    revenueEl.textContent = `$${revenue.toFixed(2)}`;
   }
 
   _renderKPIs() {
@@ -98,12 +150,12 @@ class StaffOverview {
       columns: ['Patient ID', 'Name', 'Department', 'Status', 'Action'],
       data: sorted,
       rowTemplate: (apt) => `
-        <tr>
-          <td><strong>${escapeHtml(apt.patientId || '—')}</strong></td>
-          <td>${escapeHtml(apt.patientName || '—')}</td>
-          <td>${escapeHtml(apt.department || '—')}</td>
-          <td><span class="${statusBadgeClass(apt.status)}">${escapeHtml(statusLabel(apt.status))}</span></td>
-          <td><a href="admin-portal/patient-management.html" class="btn btn-sm btn-secondary">View</a></td>
+        <tr class="hover:bg-slate-50/80 transition-colors duration-200">
+          <td class="px-6 py-4 font-semibold text-slate-900">${escapeHtml(apt.patientId || '—')}</td>
+          <td class="px-6 py-4 text-slate-700">${escapeHtml(apt.patientName || '—')}</td>
+          <td class="px-6 py-4 text-slate-600">${escapeHtml(apt.department || '—')}</td>
+          <td class="px-6 py-4"><span class="${statusBadgeClass(apt.status)}">${escapeHtml(statusLabel(apt.status))}</span></td>
+          <td class="px-6 py-4"><a href="patient-management.html" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 min-h-[44px] active:scale-95">View</a></td>
         </tr>
       `,
     });
@@ -129,11 +181,11 @@ class StaffOverview {
     const message = parts.length ? parts.join(' ') : 'No critical alerts.';
 
     if (count === 0 && parts.length === 0) {
-      banner.classList.add('d-none');
+      banner.style.display = 'none';
       return;
     }
 
-    banner.classList.remove('d-none');
+    banner.style.display = 'flex';
     const dot = banner.querySelector('.pulse-dot');
     if (dot) dot.classList.toggle('pulse-dot--active', count > 0);
 

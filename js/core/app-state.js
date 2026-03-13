@@ -15,6 +15,8 @@ const STATE_KEYS = {
   appointments: 'appointments',
   prescriptions: 'prescriptions',
   billing: 'billing',
+  patientBills: 'patientBills',
+  transactionLedger: 'transactionLedger',
   equipment: 'equipment',
   expenses: 'expenses',
   caseNotes: 'case_notes',
@@ -24,6 +26,8 @@ const STATE_KEYS = {
 /** State key -> storage logical key (for legacy MEDICARE_case_notes etc.) */
 const STATE_TO_STORAGE_KEY = {
   caseNotes: 'case_notes',
+  patientBills: 'patient_bills',
+  transactionLedger: 'transaction_ledger',
 };
 
 /**
@@ -43,6 +47,8 @@ function toStorageKey(stateKey) {
  * @property {Array<Object>} appointments
  * @property {Array<Object>} prescriptions
  * @property {Array<Object>} billing
+ * @property {Array<Object>} patientBills
+ * @property {Array<Object>} transactionLedger
  * @property {Array<Object>} equipment
  * @property {Object.<string, number>} expenses
  * @property {Array<Object>} caseNotes
@@ -91,6 +97,8 @@ class AppStateManager {
       appointments: this._storage.get(toStorageKey(STATE_KEYS.appointments), []),
       prescriptions: this._storage.get(toStorageKey(STATE_KEYS.prescriptions), []),
       billing: this._storage.get(toStorageKey(STATE_KEYS.billing), []),
+      patientBills: this._storage.get(toStorageKey('patientBills'), []),
+      transactionLedger: this._storage.get(toStorageKey('transactionLedger'), []),
       equipment: this._storage.get(toStorageKey(STATE_KEYS.equipment), []),
       expenses: this._storage.get(toStorageKey(STATE_KEYS.expenses), {}),
       caseNotes: this._storage.get(toStorageKey('caseNotes'), []),

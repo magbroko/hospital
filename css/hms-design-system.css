@@ -1,0 +1,127 @@
+/**
+ * HMS Design System - Premium High-End Medical Theme
+ * Slate-50 backgrounds, Teal-600 primary, backdrop-blur-md surfaces
+ * Applied across Admin, Pharmacy, and Patient dashboards
+ */
+
+:root {
+  --hms-bg: #f8fafc;
+  --hms-primary: #0d9488;
+  --hms-primary-hover: #0f766e;
+  --hms-surface: rgba(255, 255, 255, 0.8);
+  --hms-border: rgba(226, 232, 240, 0.8);
+  --hms-drawer: #0f172a;
+  --hms-drawer-text: #f1f5f9;
+  --hms-accent: #2dd4bf;
+}
+
+/* Haptic buttons - premium touch feedback */
+.btn-haptic,
+[class*="active:scale-95"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-haptic:active,
+button:active:not(:disabled),
+a:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Glass surfaces */
+.portal-glass-header,
+.hms-glass-surface {
+  background: var(--hms-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Command drawer - unified sidebar */
+.command-drawer {
+  background: var(--hms-drawer) !important;
+  border-right: 1px solid rgba(51, 65, 85, 0.8);
+}
+
+/* Mobile header - advanced */
+.admin-mobile-header,
+.hms-mobile-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.5rem;
+  padding: 0 1rem;
+  background: var(--hms-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--hms-border);
+}
+@media (min-width: 1024px) {
+  .admin-mobile-header, .hms-mobile-header { display: none; }
+}
+
+/* Premium card surfaces */
+.hms-card,
+.admin-kpi-card {
+  background: white;
+  border: 1px solid var(--hms-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.hms-card:hover,
+.admin-kpi-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Drug inventory table - premium */
+.hms-drug-table {
+  min-width: 100%;
+  font-size: 0.875rem;
+  color: #1e293b;
+}
+.hms-drug-table thead {
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.hms-drug-table th {
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+.hms-drug-table td {
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+}
+.hms-drug-table tbody tr:hover {
+  background: rgba(248, 250, 252, 0.8);
+  transition: background 0.15s;
+}
+.hms-dispense-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 0.5rem;
+  background: #0d9488;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: background 0.2s, transform 0.1s;
+}
+.hms-dispense-btn:hover:not(:disabled) {
+  background: #0f766e;
+}
+.hms-dispense-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.hms-dispense-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

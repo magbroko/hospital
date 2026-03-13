@@ -3,210 +3,275 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Staff Dashboard | MediCare Hospital EMR</title>
+  <title>Staff Dashboard | MediCare Admin Command</title>
   <style>body{visibility:hidden}body.rbac-ready{visibility:visible}</style>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/admin-dashboard.css" rel="stylesheet">
-  <link href="../css/admin-portal.css" rel="stylesheet">
-</head>
-<body data-auth-required="staff">
-
-  <script src="../js/hms-rbac.js"></script>
-  <script src="../js/auth-guard.js"></script>
-  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <i class="fas fa-hospital"></i>
-      <span>MediCare EMR</span>
-    </div>
-    <ul class="sidebar-nav">
-      <li><a href="admin-dashboard.html" class="sidebar-nav-link active"><i class="fas fa-th-large"></i> Dashboard</a></li>
-      <li><a href="hms-dashboard.html" class="sidebar-nav-link"><i class="fas fa-hospital-alt"></i> HMS</a></li>
-      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
-      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
-      <li><a href="lab-orders.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Orders</a></li>
-      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
-      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
-      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
-      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
-    </ul>
-    <div class="sidebar-footer">
-      <a href="auth.html" class="btn btn-secondary w-100 btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-    </div>
-  </aside>
-
-  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Alert Banner (dynamic from AppState: low stock + urgent appointments) -->
-    <div class="alert-banner" id="staffAlertBanner">
-      <div class="d-flex align-items-center gap-2">
-        <span class="pulse-dot"></span>
-        <span class="alert-banner-message"><strong>Alerts</strong> — Loading…</span>
-      </div>
-      <a href="alerts.html" class="btn btn-sm text-white border border-white">View Alerts</a>
-    </div>
-
-    <div class="top-bar">
-      <div>
-        <h1 class="h4 fw-bold mb-0">Staff Dashboard</h1>
-        <p class="small text-secondary mb-0">Welcome, Dr. Sarah Johnson</p>
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <div class="position-relative">
-          <i class="fas fa-bell fa-lg text-secondary"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">7</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
-          <div>
-            <div class="small fw-semibold">Dr. Sarah Johnson</div>
-            <div class="small text-secondary">Staff ID: SJ-2024</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <section data-view="overview">
-    <div class="p-4">
-      <!-- Clinical KPIs (live from AppState) -->
-      <div class="row g-4 mb-4">
-        <div class="col-md-6 col-lg-3">
-          <a href="admin-portal/patient-management.html" class="text-decoration-none">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between align-items-start">
-                <div>
-                  <p class="mb-1 small text-secondary">Total Patients</p>
-                  <h3 class="h4 fw-bold mb-0" id="totalPatientsCount">—</h3>
-                </div>
-                <div class="icon-wrap" style="background: rgba(10, 186, 181, 0.2); color: var(--primary-teal);">
-                  <i class="fas fa-users"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <a href="admin-portal/bed-allocation.html" class="text-decoration-none">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between align-items-start">
-                <div>
-                  <p class="mb-1 small text-secondary">Bed Occupancy Rate</p>
-                  <h3 class="h4 fw-bold mb-0" id="bedOccupancyCount">—</h3>
-                </div>
-                <div class="icon-wrap" style="background: rgba(245, 158, 11, 0.2); color: var(--warning-orange);">
-                  <i class="fas fa-bed"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <a href="admin-portal/lab-orders.html" class="text-decoration-none">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between align-items-start">
-                <div>
-                  <p class="mb-1 small text-secondary">Pending Lab Orders</p>
-                  <h3 class="h4 fw-bold mb-0" id="pendingLabOrdersCount">—</h3>
-                </div>
-                <div class="icon-wrap" style="background: rgba(59, 130, 246, 0.2); color: #3B82F6;">
-                  <i class="fas fa-flask"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <a href="admin-portal/hms-dashboard.html" class="text-decoration-none" title="Hospital Management System - Drug inventory, billing, expenses">
-            <div class="stat-card">
-              <div class="d-flex justify-content-between align-items-start">
-                <div>
-                  <p class="mb-1 small text-secondary">HMS / Pharmacy</p>
-                  <h3 class="h4 fw-bold mb-0" id="hmsCriticalCount">—</h3>
-                </div>
-                <div class="icon-wrap" style="background: rgba(239, 68, 68, 0.2); color: var(--error-red);">
-                  <i class="fas fa-boxes-stacked"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <!-- Patient Lookup -->
-        <div class="col-lg-8">
-          <div class="stat-card">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h2 class="h5 fw-bold mb-0">Recent Patients</h2>
-              <a href="admin-portal/patient-management.html" class="btn btn-primary btn-sm"><i class="fas fa-search me-1"></i> Patient Lookup</a>
-            </div>
-            <div id="recentPatientsTable">
-              <!-- Recent Patients table injected by staff-overview.js -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Bed Allocation -->
-        <div class="col-lg-4">
-          <div class="stat-card">
-            <h2 class="h5 fw-bold mb-4">Bed Allocation</h2>
-            <div class="mb-3 p-3 rounded-3" style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success-green);">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">Ward A</span>
-                <span class="badge-status available">8 Available</span>
-              </div>
-              <small class="text-secondary">12/20 beds occupied</small>
-            </div>
-            <div class="mb-3 p-3 rounded-3" style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning-orange);">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">Ward B</span>
-                <span class="badge-status pending">2 Available</span>
-              </div>
-              <small class="text-secondary">18/20 beds occupied</small>
-            </div>
-            <div class="mb-3 p-3 rounded-3" style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--error-red);">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">ICU</span>
-                <span class="badge-status occupied">Full</span>
-              </div>
-              <small class="text-secondary">10/10 beds occupied</small>
-            </div>
-            <a href="bed-allocation.html" class="btn btn-primary w-100 btn-sm">Manage Beds</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="row g-4 mt-2">
-        <div class="col-12">
-          <div class="stat-card">
-            <h2 class="h5 fw-bold mb-4">Quick Actions</h2>
-            <div class="d-flex flex-wrap gap-3">
-              <button class="btn btn-primary"><i class="fas fa-plus me-2"></i>Add Clinical Note</button>
-              <a href="admin-portal/prescriptions.html" class="btn btn-secondary"><i class="fas fa-prescription-bottle me-2"></i>Issue Prescription</a>
-              <a href="admin-portal/lab-orders.html" class="btn btn-secondary"><i class="fas fa-vial me-2"></i>Order Lab Test</a>
-              <button class="btn btn-secondary"><i class="fas fa-heart-pulse me-2"></i>Update Vitals</button>
-              <button class="btn btn-secondary"><i class="fas fa-calendar me-2"></i>Schedule Appointment</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </section>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script type="module" src="../js/entry/staff-dashboard-app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    if (typeof AOS !== 'undefined') AOS.init();
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: { 'clinical-teal': '#0d9488', 'clinical-slate': '#0f172a' }
+        }
+      }
+    };
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin-dashboard.css" rel="stylesheet">
+  <link href="/css/admin-portal.css" rel="stylesheet">
+  <link href="/css/portal-mobile.css" rel="stylesheet">
+  <link href="/css/hms-design-system.css" rel="stylesheet">
+  <link href="/css/sidebar-universal.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased" data-auth-required="staff">
+
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
+
+  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden"
+       id="adminOverlay" aria-hidden="true"></div>
+
+  <div class="min-h-screen flex">
+    <!-- Universal Master Sidebar (loaded from partial) -->
+    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+      <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
+      <!-- Ultra-premium mobile header: minimalist, Apple-style -->
+      <header class="admin-mobile-header lg:hidden">
+        <span class="admin-header-logo">MediCare</span>
+        <span class="admin-header-title">Admin Console</span>
+        <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
+          <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </header>
+      <!-- Desktop header: full content -->
+      <header class="sticky top-0 z-20 hidden lg:flex bg-white/80 backdrop-blur-md border-b border-slate-200/60 portal-glass-header hms-glass-surface">
+        <div class="flex items-center justify-between px-6 py-4 gap-4 w-full">
+          <div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">Staff Dashboard</h1>
+            <p class="text-sm text-slate-500 mt-0.5" data-user-name>Welcome, Dr. Sarah Johnson</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="relative">
+              <i class="fas fa-bell text-slate-500 text-lg"></i>
+              <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-xs font-semibold text-white">7</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="h-10 w-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-semibold text-sm">SJ</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900" data-user-name>Dr. Sarah Johnson</p>
+                <p class="text-xs text-slate-500" data-user-id>Staff ID: SJ-2024</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Alert Banner (preserves staffAlertBanner id); hidden by default, flex when visible -->
+      <div class="bg-rose-600 text-white px-6 py-3 flex items-center justify-between flex-wrap gap-3" id="staffAlertBanner" style="display: none;">
+        <div class="flex items-center gap-2">
+          <span class="pulse-dot w-2 h-2 rounded-full bg-white animate-pulse"></span>
+          <span class="alert-banner-message text-sm font-medium"><strong>Alerts</strong> — Loading…</span>
+        </div>
+        <a href="alerts.html" class="inline-flex items-center gap-2 rounded-lg border border-white/60 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-all duration-200 min-h-[44px]">
+          View Alerts
+        </a>
+      </div>
+
+      <section data-view="overview" class="flex-1 p-4 md:p-6">
+        <!-- KPI Cards: premium with top-right iconography, target progress -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <a href="patient-management.html" class="admin-kpi-card group rounded-2xl bg-white border border-slate-200/60 shadow-sm p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs font-medium uppercase tracking-wider text-slate-500 mb-1">Total Patients</p>
+                <p class="text-2xl font-bold tracking-tight text-slate-900" id="totalPatientsCount">—</p>
+                <p class="text-xs text-slate-500 mt-2">Target progress</p>
+                <div class="mt-1 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-teal-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-1">0% of monthly target</p>
+              </div>
+              <div class="h-12 w-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center group-hover:bg-teal-100 transition-colors">
+                <i class="fas fa-users text-lg"></i>
+              </div>
+            </div>
+          </a>
+
+          <a href="bed-allocation.html" class="admin-kpi-card group rounded-2xl bg-white border border-slate-200/60 shadow-sm p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs font-medium uppercase tracking-wider text-slate-500 mb-1">Bed Occupancy Rate</p>
+                <p class="text-2xl font-bold tracking-tight text-slate-900" id="bedOccupancyCount">—</p>
+                <p class="text-xs text-slate-500 mt-2">Target progress</p>
+                <div class="mt-1 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-amber-500 rounded-full transition-all duration-300" style="width: 84%"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-1">84% of capacity</p>
+              </div>
+              <div class="h-12 w-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
+                <i class="fas fa-bed text-lg"></i>
+              </div>
+            </div>
+          </a>
+
+          <a href="lab-orders.html" class="admin-kpi-card group rounded-2xl bg-white border border-slate-200/60 shadow-sm p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs font-medium uppercase tracking-wider text-slate-500 mb-1">Pending Lab Orders</p>
+                <p class="text-2xl font-bold tracking-tight text-slate-900" id="pendingLabOrdersCount">—</p>
+                <p class="text-xs text-slate-500 mt-2">Target progress</p>
+                <div class="mt-1 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 20%"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-1">Queue status</p>
+              </div>
+              <div class="h-12 w-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                <i class="fas fa-flask text-lg"></i>
+              </div>
+            </div>
+          </a>
+
+          <div class="admin-kpi-card group rounded-2xl bg-white border border-slate-200/60 shadow-sm p-6">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs font-medium uppercase tracking-wider text-slate-500 mb-1">Revenue</p>
+                <p class="text-2xl font-bold tracking-tight text-slate-900" id="adminRevenueTotal">$0</p>
+                <p class="text-xs text-slate-500 mt-2">Total from ledger</p>
+              </div>
+              <div class="h-12 w-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <i class="fas fa-dollar-sign text-lg"></i>
+              </div>
+            </div>
+          </div>
+          <a href="hms-dashboard.html" class="admin-kpi-card group rounded-2xl bg-white border border-slate-200/60 shadow-sm p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs font-medium uppercase tracking-wider text-slate-500 mb-1">HMS / Pharmacy</p>
+                <p class="text-2xl font-bold tracking-tight text-slate-900" id="hmsCriticalCount">—</p>
+                <p class="text-xs text-slate-500 mt-2">Inventory risk</p>
+                <div class="mt-1 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-rose-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-1">Low stock alerts</p>
+              </div>
+              <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:bg-rose-100 transition-colors">
+                <i class="fas fa-boxes-stacked text-lg"></i>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Recent Patients -->
+          <div class="lg:col-span-2 rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-900">Recent Patients</h2>
+              <a href="patient-management.html" class="inline-flex items-center gap-2 rounded-lg border border-teal-600 bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 min-h-[44px] active:scale-95">
+                <i class="fas fa-search text-sm"></i>
+                Patient Lookup
+              </a>
+            </div>
+            <div id="recentPatientsTable" class="overflow-x-auto">
+              <!-- Injected by staff-overview.js -->
+            </div>
+          </div>
+
+          <!-- Bed Allocation -->
+          <div class="rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-900">Bed Allocation</h2>
+            </div>
+            <div class="p-6 space-y-4">
+              <div class="p-4 rounded-xl bg-emerald-50/80 border-l-4 border-emerald-500">
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-slate-900">Ward A</span>
+                  <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700">8 Available</span>
+                </div>
+                <p class="text-sm text-slate-500 mt-1">12/20 beds occupied</p>
+              </div>
+              <div class="p-4 rounded-xl bg-amber-50/80 border-l-4 border-amber-500">
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-slate-900">Ward B</span>
+                  <span class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">2 Available</span>
+                </div>
+                <p class="text-sm text-slate-500 mt-1">18/20 beds occupied</p>
+              </div>
+              <div class="p-4 rounded-xl bg-rose-50/80 border-l-4 border-rose-500">
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-slate-900">ICU</span>
+                  <span class="inline-flex items-center rounded-full bg-rose-100 px-3 py-1 text-xs font-medium text-rose-700">Full</span>
+                </div>
+                <p class="text-sm text-slate-500 mt-1">10/10 beds occupied</p>
+              </div>
+              <a href="bed-allocation.html" class="block w-full text-center rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 min-h-[44px] active:scale-95">
+                Manage Beds
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inventory Monitor (live from Pharmacy) -->
+        <div class="mt-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-teal-600"><i class="fas fa-boxes-stacked text-sm"></i></span>
+                Inventory Monitor
+              </h2>
+              <p class="text-xs text-slate-500 mt-1">Live stock levels from Pharmacy — updates automatically</p>
+            </div>
+            <a href="pharmacy-inventory.html" class="text-xs font-medium text-teal-600 hover:text-teal-700">View full inventory →</a>
+          </div>
+          <div id="adminInventoryMonitor" class="p-4 max-h-48 overflow-y-auto">
+            <p class="text-sm text-slate-500">Loading…</p>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm p-6">
+          <h2 class="text-lg font-semibold tracking-tight text-slate-900 mb-4">Quick Actions</h2>
+          <div class="flex flex-wrap gap-3">
+            <button class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 min-h-[44px] active:scale-95">
+              <i class="fas fa-plus"></i> Add Clinical Note
+            </button>
+            <button type="button" data-open-prescription-modal class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 min-h-[44px] active:scale-95 btn-haptic">
+              <i class="fas fa-prescription-bottle"></i> Prescribe & Bill
+            </button>
+            <a href="lab-orders.html" class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 min-h-[44px] active:scale-95">
+              <i class="fas fa-vial"></i> Order Lab Test
+            </a>
+            <button class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 min-h-[44px] active:scale-95">
+              <i class="fas fa-heart-pulse"></i> Update Vitals
+            </button>
+            <button class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 min-h-[44px] active:scale-95">
+              <i class="fas fa-calendar"></i> Schedule Appointment
+            </button>
+            <button type="button" class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 min-h-[44px] active:scale-95"
+                    id="btnBackup" title="Export data backup">
+              <span class="btn-backup-text"><i class="fas fa-download"></i> Backup</span>
+              <span class="btn-backup-loading hidden">
+                <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Exporting…
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/sidebar-universal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });
+  </script>
+  <script type="module" src="/js/entry/staff-dashboard-app.js"></script>
 </body>
 </html>

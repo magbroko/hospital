@@ -54,6 +54,7 @@ class NavigationShell {
    */
   _initSidebarToggle() {
     if (typeof document === 'undefined') return;
+    if (document.getElementById('sidebar-container')) return;
 
     const sidebar = document.querySelector('.sidebar');
     const overlay = document.getElementById('adminOverlay');

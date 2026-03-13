@@ -12,8 +12,8 @@ const existingSession = AppState.get('userSession');
 if (!existingSession) {
   AppState.commit('userSession', {
     role: 'Patient',
-    name: 'Jane Doe',
-    patientId: 'P-0001',
+    name: 'Robert Johnson',
+    patientId: 'RJ-20240524',
   });
 }
 

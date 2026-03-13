@@ -6,6 +6,9 @@
 import pharmacyDashboard from '../features/pharmacy-dashboard.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Skip drawer init when using Universal Master Sidebar (loadSidebar injects and handles it).
+  if (document.getElementById('sidebar-container')) return;
+
   // Initialize sidebar drawer for pharmacy shell (mobile/compact).
   const sidebar = document.querySelector('.sidebar');
   const overlay = document.getElementById('adminOverlay');
@@ -17,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.classList.add('active');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.querySelector('.drawer-icon-open')?.classList.add('hidden');
+    toggle?.querySelector('.drawer-icon-close')?.classList.remove('hidden');
   };
 
   const closeDrawer = () => {
@@ -25,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.classList.remove('active');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.querySelector('.drawer-icon-open')?.classList.remove('hidden');
+    toggle?.querySelector('.drawer-icon-close')?.classList.add('hidden');
   };
 
   if (toggle instanceof HTMLElement) {

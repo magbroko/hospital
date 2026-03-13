@@ -1,11 +1,107 @@
 /**
  * @file Patient Dashboard feature controller (EMR shell).
- * Converts legacy emr-dashboard.js into an ES module that wires
- * sidebar drawer, header dropdowns, filters and small UI interactions.
- *
- * This module is intentionally UI-only for now; data still comes from
- * static HTML. It can later be wired to AppState and services.
+ * Wires sidebar, dropdowns, filters, and real-time Active Prescriptions + Unpaid Bills
+ * from AppState (prescriptions, patientBills). Listens for Admin prescription saves.
  */
+
+import AppState from '../core/app-state.js';
+import prescriptionService from '../services/prescription-service.js';
+import patientBillingService from '../services/patient-billing-service.js';
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  const div = document.createElement('div');
+  div.textContent = String(str);
+  return div.innerHTML;
+}
+
+function getPatientId() {
+  const session = AppState.get('userSession');
+  return session?.patientId || 'RJ-20240524';
+}
+
+function renderActivePrescriptions() {
+  const container = document.getElementById('dashActivePrescriptions');
+  if (!container) return;
+  const patientId = getPatientId();
+  const prescriptions = prescriptionService.getByPatient(patientId)
+    .filter((p) => p.status === 'pending' || (p.status === 'dispensed' && isRecent(p.createdAt, 7)))
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5);
+
+  if (prescriptions.length === 0) {
+    container.innerHTML = '<p class="dash-caption text-slate-500">No active prescriptions.</p>';
+    return;
+  }
+
+  container.innerHTML = prescriptions.map((rx) => {
+    const statusClass = rx.status === 'pending' ? 'dash-badge dash-badge--tooltip warning' : 'dash-badge dash-badge--tooltip normal';
+    const statusLabel = rx.status === 'pending' ? 'Pending' : 'Dispensed';
+    const lines = (rx.lines || []).map((l) => `${escapeHtml(l.medication)} × ${l.qty}`).join(', ');
+    const date = rx.createdAt ? new Date(rx.createdAt).toLocaleDateString() : '—';
+    return `
+      <div class="dash-prescription-card dash-med-card mb-3">
+        <div class="dash-med-icon primary">Rx</div>
+        <div class="flex-grow-1">
+          <div class="flex justify-between items-start mb-1">
+            <h4 class="dash-title-3 mb-0">${escapeHtml(lines || 'No medications')}</h4>
+            <span class="${statusClass}">${statusLabel}</span>
+          </div>
+          <p class="dash-meta mb-0">${escapeHtml(date)}${rx.diagnosis ? ` · ${escapeHtml(rx.diagnosis)}` : ''}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function isRecent(isoDate, days) {
+  if (!isoDate) return false;
+  const d = new Date(isoDate);
+  const now = new Date();
+  return (now - d) / (1000 * 60 * 60 * 24) <= days;
+}
+
+function renderUnpaidBills() {
+  const container = document.getElementById('dashUnpaidBills');
+  if (!container) return;
+  const patientId = getPatientId();
+  const bills = patientBillingService.getUnpaidByPatient(patientId)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5);
+
+  if (bills.length === 0) {
+    container.innerHTML = '<p class="dash-caption text-slate-500">No unpaid bills.</p>';
+    return;
+  }
+
+  container.innerHTML = bills.map((bill) => {
+    const { total } = patientBillingService.calcTotals(bill.items);
+    const date = bill.createdAt ? new Date(bill.createdAt).toLocaleDateString() : '—';
+    const desc = (bill.items || []).map((i) => i.desc).join(', ') || 'Prescription';
+    return `
+      <div class="dash-bill-card dash-med-card mb-3">
+        <div class="dash-med-icon accent">$</div>
+        <div class="flex-grow-1">
+          <h4 class="dash-title-3 mb-1">${escapeHtml(desc)}</h4>
+          <p class="dash-meta mb-0">${escapeHtml(date)} · $${total.toFixed(2)}</p>
+        </div>
+        <a href="/emr-portal/billing.html" class="btn btn-primary btn-sm">Pay</a>
+      </div>
+    `;
+  }).join('');
+}
+
+function initPrescriptionsAndBills() {
+  renderActivePrescriptions();
+  renderUnpaidBills();
+
+  AppState.subscribe('prescriptions', () => {
+    renderActivePrescriptions();
+  });
+  AppState.subscribe('patientBills', () => {
+    renderUnpaidBills();
+  });
+}
 
 /**
  * Initialize the patient EMR dashboard interactions.
@@ -25,13 +121,16 @@ export function initPatientDashboard() {
     initTableFilters();
     initClickOutsideToClose();
     initEscapeKey();
+    initPrescriptionsAndBills();
   });
 }
 
 /**
  * Mobile sidebar drawer for patient portal.
+ * Skip when universal sidebar is used (#sidebar-container).
  */
 function initSidebar() {
+  if (document.getElementById('sidebar-container')) return;
   const sidebar = document.getElementById('dashSidebar');
   const overlay = document.getElementById('dashOverlay');
   const toggle = document.getElementById('dashSidebarToggle');
@@ -217,10 +316,10 @@ function initEscapeKey() {
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     closeOtherHeaderDropdown(null);
-    const overlay = document.getElementById('dashOverlay');
-    const sidebar = document.getElementById('dashSidebar');
+    const overlay = document.getElementById('adminOverlay') || document.getElementById('dashOverlay');
+    const sidebar = document.querySelector('.universal-sidebar-wrapper') || document.getElementById('dashSidebar');
     if (overlay?.classList.contains('active')) {
-      sidebar?.classList.remove('dash-mobile-open');
+      sidebar?.classList.remove('active', 'dash-mobile-open');
       overlay.classList.remove('active');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';

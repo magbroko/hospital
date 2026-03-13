@@ -1,0 +1,110 @@
+/**
+ * Universal Master Sidebar - Pharmacy Console aesthetic
+ * Deep navy (#0f172a), teal active states, uniform across Admin/Pharmacy/Patient
+ */
+
+:root {
+  --sidebar-navy: #0f172a;
+  --sidebar-teal: #0d9488;
+  --sidebar-teal-muted: rgba(13, 148, 136, 0.1);
+}
+
+/* Sidebar container - fixed, full height, navy */
+.universal-sidebar-wrapper,
+aside.sidebar.universal-sidebar-wrapper {
+  background-color: var(--sidebar-navy) !important;
+  border-right: 1px solid rgb(30 41 59);
+  width: 18rem; /* w-72 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: rgb(241 245 249);
+}
+
+/* Brand header */
+.universal-sidebar-brand {
+  flex-shrink: 0;
+}
+
+/* Nav links - base state */
+.universal-nav-link {
+  margin: 0 0.5rem;
+  min-height: 44px;
+}
+
+.universal-nav-link:hover {
+  background: rgba(30, 41, 59, 0.8) !important;
+}
+
+/* Active state: vertical teal pill + semi-transparent bg + white text */
+.universal-nav-link.universal-nav-active {
+  background: var(--sidebar-teal-muted) !important;
+  color: white !important;
+}
+
+.universal-nav-link.universal-nav-active .universal-nav-pill {
+  background: var(--sidebar-teal) !important;
+}
+
+.universal-nav-link.universal-nav-active .flex.h-8.w-8 {
+  color: rgb(45 212 191) !important;
+}
+
+/* Pill - left edge indicator */
+.universal-nav-pill {
+  transition: background 0.2s ease;
+}
+
+/* Footer - logout at bottom */
+.universal-sidebar-footer {
+  flex-shrink: 0;
+}
+
+.universal-logout-btn {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.universal-logout-btn:active {
+  transform: scale(0.95);
+}
+
+/* Mobile: slide-out drawer (same as command-drawer) */
+@media (max-width: 1023px) {
+  .universal-sidebar-wrapper,
+  aside.sidebar.universal-sidebar-wrapper {
+    position: fixed;
+    inset: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: none;
+  }
+
+  .universal-sidebar-wrapper.active,
+  aside.sidebar.universal-sidebar-wrapper.active {
+    transform: translateX(0);
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* Overlay for mobile */
+.sidebar-overlay.active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Patient dashboard: override rail margin when using universal sidebar */
+.min-h-screen.flex .dash-main.flex-1 {
+  margin-left: 0;
+}
+@media (min-width: 1024px) {
+  .min-h-screen.flex .dash-main.flex-1 {
+    margin-left: 18rem;
+  }
+}

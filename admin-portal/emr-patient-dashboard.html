@@ -19,99 +19,32 @@
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/patient-portal.css" rel="stylesheet">
-  <link href="../css/dashboard-patient.css" rel="stylesheet">
-  <link href="../css/emr-interactive.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/patient-portal.css" rel="stylesheet">
+  <link href="/css/dashboard-patient.css" rel="stylesheet">
+  <link href="/css/emr-interactive.css" rel="stylesheet">
+  <link href="/css/hms-design-system.css" rel="stylesheet">
+  <link href="/css/sidebar-universal.css" rel="stylesheet">
 </head>
-<body class="portal-body dashboard-patient" data-auth-required="patient">
+<body class="portal-body dashboard-patient bg-slate-50" data-auth-required="patient">
 
-  <script src="../js/auth-guard.js"></script>
-  <!-- Overlay for mobile drawer -->
-  <div class="dash-overlay" id="dashOverlay" aria-hidden="true"></div>
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
+  <div class="admin-overlay fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity lg:hidden" id="adminOverlay" aria-hidden="true"></div>
 
-  <!-- Sidebar - Collapsible rail (desktop) / Off-canvas (mobile) -->
-  <aside class="dash-sidebar" id="dashSidebar" aria-label="Main navigation">
-    <div class="dash-sidebar-header">
-      <i class="fas fa-hospital"></i>
-      <h2>MediCare</h2>
-    </div>
-    <nav>
-      <ul class="dash-sidebar-nav">
-        <li>
-          <a href="#dashboard" class="dash-sidebar-nav-link active">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-chart-line"></i></span>
-            <span class="dash-nav-label">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/medical-history.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-history"></i></span>
-            <span class="dash-nav-label">Medical History</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/lab-results.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-flask"></i></span>
-            <span class="dash-nav-label">Lab Results</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/imaging.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-image"></i></span>
-            <span class="dash-nav-label">Imaging & Scans</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/prescriptions.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-prescription-bottle"></i></span>
-            <span class="dash-nav-label">E-Prescriptions</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/appointments.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-calendar-check"></i></span>
-            <span class="dash-nav-label">Appointments</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/messages.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap">
-              <i class="fas fa-envelope"></i>
-            </span>
-            <span class="dash-nav-label">Messages</span>
-            <span class="dash-nav-badge">3</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/billing.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-receipt"></i></span>
-            <span class="dash-nav-label">Billing</span>
-          </a>
-        </li>
-        <li>
-          <a href="/emr-portal/settings.html" class="dash-sidebar-nav-link">
-            <span class="dash-nav-icon-wrap"><i class="fas fa-cog"></i></span>
-            <span class="dash-nav-label">Settings</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <div class="dash-sidebar-footer">
-      <a href="auth.html" class="btn-logout" id="logoutBtn">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </a>
-    </div>
-  </aside>
-
-  <button class="dash-sidebar-toggle" id="dashSidebarToggle" aria-label="Toggle menu">
-    <i class="fas fa-bars"></i>
-  </button>
+  <div class="min-h-screen flex">
+    <!-- Universal Master Sidebar - Patient Portal (loaded from partial) -->
+    <aside class="sidebar universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+      <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
+    </aside>
 
   <!-- Main Content -->
-  <main class="dash-main">
-    <header class="dash-header flex items-center justify-between gap-3">
+  <main class="dash-main flex-1 lg:ml-72 min-h-screen flex flex-col">
+    <header class="dash-header flex items-center justify-between gap-3 portal-glass-header hms-glass-surface backdrop-blur-md border-b border-slate-200/60">
+      <!-- Mobile: Hamburger toggle for sidebar -->
+      <button class="lg:hidden shrink-0 inline-flex h-12 w-12 min-h-[48px] min-w-[48px] items-center justify-center rounded-lg bg-slate-100/80 border border-slate-200/50 text-slate-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 active:scale-95" id="adminSidebarToggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+      </button>
       <!-- Left: Notification Bell (dropdown trigger) -->
       <div class="dash-header-left flex items-center">
         <div class="dash-notification-wrap">
@@ -391,6 +324,26 @@
         </div>
       </div>
 
+      <!-- Billing & Pharmacy (listens for Admin prescriptions + Pharmacy drug costs) -->
+      <h2 class="dash-title-2 mt-6 mb-3">Billing & Pharmacy</h2>
+      <p class="dash-caption text-slate-500 mb-4">Prescriptions from your doctor and drug costs from the pharmacy appear here in real time.</p>
+      <div class="dash-sections-grid mt-2">
+        <div class="dash-card">
+          <h2 class="dash-title-2 mb-4">Active Prescriptions</h2>
+          <div id="dashActivePrescriptions" class="dash-prescriptions-list">
+            <p class="dash-caption text-slate-500">Loading…</p>
+          </div>
+          <a href="/emr-portal/prescriptions.html" class="btn btn-secondary w-100 mt-2">View All Prescriptions</a>
+        </div>
+        <div class="dash-card">
+          <h2 class="dash-title-2 mb-4">Unpaid Bills</h2>
+          <div id="dashUnpaidBills" class="dash-bills-list">
+            <p class="dash-caption text-slate-500">Loading…</p>
+          </div>
+          <a href="/emr-portal/billing.html" class="btn btn-primary w-100 mt-2">Pay Now</a>
+        </div>
+      </div>
+
       <!-- Appointments & Medications Grid -->
       <div class="dash-sections-grid mt-4">
         <div class="dash-card">
@@ -442,7 +395,12 @@
       </div>
     </div>
   </main>
+  </div>
 
-  <script type="module" src="../js/entry/patient-app.js"></script>
+  <script src="/js/sidebar-universal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('patient'); });
+  </script>
+  <script type="module" src="/js/entry/patient-app.js"></script>
 </body>
 </html>

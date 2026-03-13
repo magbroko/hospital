@@ -22,37 +22,34 @@
   <link href="../css/styles.css" rel="stylesheet">
   <link href="../css/admin-dashboard.css" rel="stylesheet">
   <link href="../css/admin-portal.css" rel="stylesheet">
+  <link href="../css/portal-mobile.css" rel="stylesheet">
+  <link href="/css/sidebar-universal.css" rel="stylesheet">
 </head>
-<body data-auth-required="staff">
+<body data-auth-required="staff" class="bg-slate-50 font-sans text-slate-900">
 
   <script src="../js/hms-rbac.js"></script>
   <script src="../js/auth-guard.js"></script>
-  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
 
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <i class="fas fa-hospital"></i>
-      <span>MediCare EMR</span>
-    </div>
-    <ul class="sidebar-nav">
-      <li><a href="admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
-      <li><a href="patient-management.html" class="sidebar-nav-link"><i class="fas fa-users"></i> Patient Management</a></li>
-      <li><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> Prescriptions</a></li>
-      <li><a href="lab-orders.html" class="sidebar-nav-link active"><i class="fas fa-flask"></i> Lab Orders</a></li>
-      <li><a href="bed-allocation.html" class="sidebar-nav-link"><i class="fas fa-bed"></i> Bed Allocation</a></li>
-      <li><a href="shift-management.html" class="sidebar-nav-link"><i class="fas fa-clock"></i> Shift Management</a></li>
-      <li><a href="inventory.html" class="sidebar-nav-link"><i class="fas fa-boxes"></i> Inventory</a></li>
-      <li><a href="alerts.html" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
-    </ul>
-    <div class="sidebar-footer">
-      <a href="auth.html" class="btn btn-secondary w-100 btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-    </div>
-  </aside>
+  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden"
+       id="adminOverlay" aria-hidden="true"></div>
 
-  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+  <div class="min-h-screen flex">
+    <!-- Universal Master Sidebar - Admin Console (loaded from partial) -->
+    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+      <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
+    </aside>
 
-  <main class="main-content">
-    <div class="top-bar">
+    <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
+    <header class="admin-mobile-header lg:hidden">
+      <span class="admin-header-logo">MediCare</span>
+      <span class="admin-header-title">Lab Orders</span>
+      <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
+        <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </header>
+    <div class="top-bar hidden lg:block">
       <div>
         <h1 class="text-lg font-semibold mb-0">Lab Orders</h1>
         <p class="text-xs text-gray-500 mb-0">Authorize and track laboratory orders</p>
@@ -144,18 +141,11 @@
       </div>
     </div>
   </main>
+  </div>
 
+  <script src="/js/sidebar-universal.js"></script>
   <script>
-    (function() {
-      var sidebar = document.querySelector('.sidebar');
-      var overlay = document.getElementById('adminOverlay');
-      var toggle = document.getElementById('adminSidebarToggle');
-      function openDrawer() { sidebar?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
-      function closeDrawer() { sidebar?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
-      toggle?.addEventListener('click', function() { sidebar?.classList.contains('active') ? closeDrawer() : openDrawer(); });
-      overlay?.addEventListener('click', closeDrawer);
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebar?.classList.contains('active')) closeDrawer(); });
-    })();
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });
   </script>
 </body>
 </html>

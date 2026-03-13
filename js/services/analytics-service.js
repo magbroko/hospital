@@ -3,21 +3,22 @@
  */
 
 import AppState from '../core/app-state.js';
+import transactionLedgerService from './transaction-ledger-service.js';
 
 /**
- * Sum total revenue from billing items (qty * price).
+ * Sum total revenue from billing items + transaction ledger (prescriptions, drug sales, payments).
  * @returns {{ totalRevenue: number, itemCount: number }}
  */
 export function getRevenueSummary() {
   const billing = AppState.get('billing');
-  if (!Array.isArray(billing)) return { totalRevenue: 0, itemCount: 0 };
-  const itemCount = billing.length;
-  const totalRevenue = billing.reduce((sum, item) => {
-    const qty = Number(item.qty) || 0;
-    const price = Number(item.price) || 0;
-    return sum + qty * price;
-  }, 0);
-  return { totalRevenue, itemCount };
+  const billingRevenue = Array.isArray(billing)
+    ? billing.reduce((sum, item) => sum + (Number(item.qty) || 0) * (Number(item.price) || 0), 0)
+    : 0;
+  const ledgerRevenue = transactionLedgerService.getTotalRevenue();
+  return {
+    totalRevenue: billingRevenue + ledgerRevenue,
+    itemCount: Array.isArray(billing) ? billing.length : 0,
+  };
 }
 
 /**

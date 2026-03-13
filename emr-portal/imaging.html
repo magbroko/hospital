@@ -3,160 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imaging & Scans | MediCare Patient Portal</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Imaging & Scans | Elite EMR Patient Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: { 'emr-teal': '#0d9488' }
+        }
+      }
+    };
+  </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/patient-portal.css" rel="stylesheet">
-  <link href="../css/portal-mobile.css" rel="stylesheet">
+  <link href="../css/emr-portal.css" rel="stylesheet">
+  <link href="/css/sidebar-universal.css" rel="stylesheet">
 </head>
-<body class="portal-body">
-  <div class="portal-overlay" id="portalOverlay" aria-hidden="true"></div>
-  <button class="portal-hamburger" id="portalHamburger" aria-label="Toggle menu" style="display:none;"><i class="fas fa-bars"></i></button>
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <i class="fas fa-hospital"></i>
-      <h2>MediCare</h2>
+<body class="emr-portal bg-slate-50 min-h-screen">
+  <div class="admin-overlay fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity lg:hidden" id="adminOverlay" aria-hidden="true"></div>
+  <div class="min-h-screen flex">
+    <aside class="sidebar universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+      <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
+    </aside>
+    <div class="flex-1 min-w-0 flex flex-col lg:ml-72">
+  <header class="emr-header flex items-center justify-between gap-3 h-14 px-4 md:px-6">
+    <button class="emr-drawer-toggle flex lg:hidden w-12 h-12 min-w-[48px] min-h-[44px] rounded-xl bg-slate-100 border border-slate-200 items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition shrink-0" id="emrDrawerToggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    <div class="flex-1 min-w-0 relative max-w-md">
+      <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+      <input type="search" placeholder="Search scans..." class="w-full py-2.5 pl-9 pr-4 rounded-xl border border-slate-200 bg-white/80 text-sm focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 outline-none" aria-label="Search">
     </div>
-    <nav>
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-item"><a href="../emr-patient-dashboard.html" class="sidebar-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-        <li class="sidebar-nav-item"><a href="medical-history.html" class="sidebar-nav-link"><i class="fas fa-history"></i> Medical History</a></li>
-        <li class="sidebar-nav-item"><a href="lab-results.html" class="sidebar-nav-link"><i class="fas fa-flask"></i> Lab Results</a></li>
-        <li class="sidebar-nav-item"><a href="imaging.html" class="sidebar-nav-link active"><i class="fas fa-image"></i> Imaging & Scans</a></li>
-        <li class="sidebar-nav-item"><a href="prescriptions.html" class="sidebar-nav-link"><i class="fas fa-prescription-bottle"></i> E-Prescriptions</a></li>
-        <li class="sidebar-nav-item"><a href="appointments.html" class="sidebar-nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
-        <li class="sidebar-nav-item"><a href="messages.html" class="sidebar-nav-link"><i class="fas fa-envelope"></i> Messages <span class="badge bg-danger ms-auto">3</span></a></li>
-        <li class="sidebar-nav-item"><a href="billing.html" class="sidebar-nav-link"><i class="fas fa-receipt"></i> Billing</a></li>
-        <li class="sidebar-nav-item"><a href="settings.html" class="sidebar-nav-link"><i class="fas fa-cog"></i> Settings</a></li>
-      </ul>
-    </nav>
-    <div class="sidebar-footer">
-      <a href="../index.html" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+    <div class="hidden md:flex items-center gap-3 ml-4">
+      <div class="w-10 h-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-semibold text-sm">RJ</div>
+      <div><p class="text-sm font-semibold text-slate-900">Robert Johnson</p><p class="text-xs text-slate-500">Patient ID: RJ-20240524</p></div>
     </div>
-  </aside>
+  </header>
 
-  <main class="main-content" style="margin-left: 280px; min-height: 100vh; background: var(--soft-white, #F3FDFC);">
-    <div class="top-header" style="background: white; padding: 16px 32px; border-bottom: 1px solid #E0E0E0;">
-      <div class="header-search"><i class="fas fa-search"></i><input type="text" placeholder="Search records, tests, doctors..."></div>
-      <div class="d-flex align-items-center gap-2">
-        <div class="user-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0ABAB5, #026873); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">RJ</div>
-        <div><h4 class="mb-0 small fw-semibold">Robert Johnson</h4><p class="mb-0 small text-secondary">Patient ID: RJ-20240524</p></div>
-      </div>
-    </div>
-
-    <div class="p-4">
-      <div class="page-header">
-        <h1>Imaging & Scans</h1>
-        <p class="breadcrumb">Patient Portal / Imaging & Scans</p>
-      </div>
-      <div class="portal-card">
-        <div class="d-flex gap-2 mb-4 flex-wrap">
-          <select class="form-select" style="max-width: 180px;">
+  <main class="pb-24 md:pb-8">
+    <div class="px-4 md:px-6 py-6 max-w-5xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Imaging & Scans</h1>
+          <p class="text-sm text-slate-500 mt-0.5">X-rays, MRI, CT — view in high resolution</p>
+        </div>
+        <div class="flex gap-2">
+          <select class="py-2.5 px-4 rounded-xl border border-slate-200 bg-white text-sm focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 outline-none min-h-[44px]">
             <option>All Scan Types</option>
             <option>X-Ray</option>
             <option>MRI</option>
             <option>CT Scan</option>
-            <option>Ultrasound</option>
           </select>
-          <select class="form-select" style="max-width: 180px;">
-            <option>Sort by Date (Newest)</option>
-            <option>Sort by Date (Oldest)</option>
+          <select class="py-2.5 px-4 rounded-xl border border-slate-200 bg-white text-sm focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 outline-none min-h-[44px]">
+            <option>Newest First</option>
+            <option>Oldest First</option>
           </select>
         </div>
-        <div class="imaging-grid">
-          <div class="imaging-card urgent">
-            <div class="imaging-thumb"><i class="fas fa-x-ray"></i></div>
-            <div class="imaging-card-body">
-              <div class="portal-record-card-header mb-2">
-                <span class="portal-record-card-status"><span class="status-badge badge-red">Recent</span></span>
-                <span class="portal-record-card-date">Jan 15, 2025</span>
-              </div>
-              <span class="scan-badge">X-Ray</span>
-              <h4 class="h6 fw-bold mb-1">Chest X-Ray</h4>
-              <p class="portal-record-card-meta mb-2">Dr. Lisa Park • Radiology</p>
-              <button class="btn-portal-outline w-100" data-open-imaging-modal style="min-height:44px;">View Scan</button>
-            </div>
+      </div>
+
+      <!-- Digital gallery -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="imagingGallery">
+        <div class="emr-card overflow-hidden group cursor-pointer hover:shadow-lg transition min-h-[44px] active:scale-[0.99]" data-open-lightbox="chest-xray">
+          <div class="h-36 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center text-slate-500 group-hover:from-teal-100 group-hover:to-teal-200 group-hover:text-teal-600 transition">
+            <i class="fas fa-x-ray text-5xl"></i>
           </div>
-          <div class="imaging-card">
-            <div class="imaging-thumb"><i class="fas fa-magnet"></i></div>
-            <div class="imaging-card-body">
-              <div class="portal-record-card-header mb-2">
-                <span class="portal-record-card-status"><span class="status-badge badge-teal">Complete</span></span>
-                <span class="portal-record-card-date">Aug 22, 2023</span>
-              </div>
-              <span class="scan-badge">MRI</span>
-              <h4 class="h6 fw-bold mb-1">Knee MRI</h4>
-              <p class="portal-record-card-meta mb-2">Dr. Michael Williams • Orthopedics</p>
-              <button class="btn-portal-outline w-100" data-open-imaging-modal style="min-height:44px;">View Scan</button>
+          <div class="p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="emr-badge emr-badge--verified"><i class="fas fa-shield-check text-[10px]"></i> Verified</span>
+              <span class="text-xs font-medium text-rose-600">Recent</span>
             </div>
+            <span class="inline-block px-2 py-0.5 rounded bg-teal-500/15 text-teal-700 text-xs font-semibold mb-2">X-Ray</span>
+            <h3 class="font-semibold text-slate-900">Chest X-Ray</h3>
+            <p class="text-sm text-slate-500">Jan 15, 2025 • Dr. Lisa Park</p>
+            <button class="emr-btn-outline w-full mt-3 min-h-[44px] active:scale-95">View Scan</button>
           </div>
-          <div class="imaging-card">
-            <div class="imaging-thumb"><i class="fas fa-tv"></i></div>
-            <div class="imaging-card-body">
-              <div class="portal-record-card-header mb-2">
-                <span class="portal-record-card-status"><span class="status-badge badge-teal">Complete</span></span>
-                <span class="portal-record-card-date">Mar 5, 2023</span>
-              </div>
-              <span class="scan-badge">CT Scan</span>
-              <h4 class="h6 fw-bold mb-1">Abdominal CT</h4>
-              <p class="portal-record-card-meta mb-2">Dr. James Smith • Internal Medicine</p>
-              <button class="btn-portal-outline w-100" data-open-imaging-modal style="min-height:44px;">View Scan</button>
-            </div>
+        </div>
+        <div class="emr-card overflow-hidden group cursor-pointer hover:shadow-lg transition min-h-[44px] active:scale-[0.99]" data-open-lightbox="knee-mri">
+          <div class="h-36 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center text-slate-500 group-hover:from-teal-100 group-hover:to-teal-200 group-hover:text-teal-600 transition">
+            <i class="fas fa-magnet text-5xl"></i>
           </div>
-          <div class="imaging-card">
-            <div class="imaging-thumb"><i class="fas fa-wave-square"></i></div>
-            <div class="imaging-card-body">
-              <div class="portal-record-card-header mb-2">
-                <span class="portal-record-card-status"><span class="status-badge badge-teal">Complete</span></span>
-                <span class="portal-record-card-date">Jan 8, 2023</span>
-              </div>
-              <span class="scan-badge">Ultrasound</span>
-              <h4 class="h6 fw-bold mb-1">Abdominal Ultrasound</h4>
-              <p class="portal-record-card-meta mb-2">Dr. Sarah Chen • Radiology</p>
-              <button class="btn-portal-outline w-100" data-open-imaging-modal style="min-height:44px;">View Scan</button>
+          <div class="p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="emr-badge emr-badge--verified"><i class="fas fa-shield-check text-[10px]"></i> Verified</span>
             </div>
+            <span class="inline-block px-2 py-0.5 rounded bg-teal-500/15 text-teal-700 text-xs font-semibold mb-2">MRI</span>
+            <h3 class="font-semibold text-slate-900">Knee MRI</h3>
+            <p class="text-sm text-slate-500">Aug 22, 2023 • Dr. Michael Williams</p>
+            <button class="emr-btn-outline w-full mt-3 min-h-[44px] active:scale-95">View Scan</button>
+          </div>
+        </div>
+        <div class="emr-card overflow-hidden group cursor-pointer hover:shadow-lg transition min-h-[44px] active:scale-[0.99]" data-open-lightbox="abdominal-ct">
+          <div class="h-36 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center text-slate-500 group-hover:from-teal-100 group-hover:to-teal-200 group-hover:text-teal-600 transition">
+            <i class="fas fa-tv text-5xl"></i>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="emr-badge emr-badge--verified"><i class="fas fa-shield-check text-[10px]"></i> Verified</span>
+            </div>
+            <span class="inline-block px-2 py-0.5 rounded bg-teal-500/15 text-teal-700 text-xs font-semibold mb-2">CT Scan</span>
+            <h3 class="font-semibold text-slate-900">Abdominal CT</h3>
+            <p class="text-sm text-slate-500">Mar 5, 2023 • Dr. James Smith</p>
+            <button class="emr-btn-outline w-full mt-3 min-h-[44px] active:scale-95">View Scan</button>
           </div>
         </div>
       </div>
     </div>
   </main>
 
-  <div class="portal-modal" id="imagingModal" onclick="if(event.target===this) this.classList.remove('active')">
-    <div class="portal-modal-content">
-      <div class="portal-modal-header">
-        <h3>Chest X-Ray - Jan 15, 2025</h3>
-        <button class="portal-modal-close" onclick="document.getElementById('imagingModal').classList.remove('active')">&times;</button>
-      </div>
-      <div class="portal-modal-body">
-        <div class="mb-3 p-3 rounded" style="background: #E5E7EB; height: 180px; display: flex; align-items: center; justify-content: center; color: #9CA3AF;">
-          <i class="fas fa-x-ray fa-4x"></i>
-        </div>
-        <table class="portal-table">
-          <tr><td><strong>Scan Type</strong></td><td>X-Ray</td></tr>
-          <tr><td><strong>Body Part</strong></td><td>Chest</td></tr>
-          <tr><td><strong>Date Taken</strong></td><td>Jan 15, 2025</td></tr>
-          <tr><td><strong>Requesting Doctor</strong></td><td>Dr. Lisa Park</td></tr>
-          <tr><td><strong>Facility</strong></td><td>MediCare Radiology</td></tr>
-        </table>
-        <div class="mt-3">
-          <strong>Radiologist Notes</strong>
-          <p class="small text-secondary mt-1 mb-0">No acute cardiopulmonary process. Heart size normal. Lungs clear. No pleural effusion or pneumothorax.</p>
+  <!-- Digital Lightbox with zoom -->
+  <div class="emr-lightbox fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4" id="imagingLightbox">
+    <button class="emr-lightbox-close fixed top-4 right-4 z-10 w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/10 text-white flex items-center justify-center text-2xl hover:bg-white/20 active:scale-95" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <div class="flex items-center justify-center w-full h-full overflow-auto" id="lightboxContent">
+      <!-- Placeholder for X-ray/scan - in production would be actual DICOM or image -->
+      <div class="bg-slate-800 rounded-lg flex items-center justify-center text-slate-400 cursor-zoom-in select-none transition-transform duration-200 origin-center" id="lightboxImage" style="min-width: 400px; min-height: 400px; max-width: 90vw; max-height: 85vh;" onclick="toggleZoom()">
+        <div class="text-center p-8">
+          <i class="fas fa-x-ray text-8xl mb-4 opacity-50"></i>
+          <p class="text-sm">Chest X-Ray - Jan 15, 2025</p>
+          <p class="text-xs text-slate-500 mt-2">Click to zoom • Scroll to pan when zoomed</p>
         </div>
       </div>
-      <div class="portal-modal-footer">
-        <button class="btn-portal-outline" onclick="document.getElementById('imagingModal').classList.remove('active')">Close</button>
-        <button class="btn-portal-primary"><i class="fas fa-download me-2"></i>Download</button>
-      </div>
+    </div>
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+      <button class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 active:scale-95" onclick="zoomOut()" aria-label="Zoom out"><i class="fas fa-search-minus"></i></button>
+      <span class="flex items-center px-4 text-white text-sm font-medium" id="zoomLevel">100%</span>
+      <button class="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 active:scale-95" onclick="zoomIn()" aria-label="Zoom in"><i class="fas fa-search-plus"></i></button>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="portal-mobile-init.js"></script>
+  <nav class="emr-bottom-nav md:hidden">
+    <a href="../admin-portal/emr-patient-dashboard.html"><i class="fas fa-home"></i> Home</a>
+    <a href="prescriptions.html"><i class="fas fa-prescription-bottle"></i> Rx</a>
+    <a href="appointments.html"><i class="fas fa-calendar-check"></i> Appts</a>
+    <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
+    <a href="billing.html"><i class="fas fa-receipt"></i> Billing</a>
+  </nav>
+    </div>
+  </div>
+
+  <script src="/js/sidebar-universal.js"></script>
   <script>
-    document.querySelectorAll('[data-open-imaging-modal]').forEach(function(btn) {
-      btn.addEventListener('click', function() { document.getElementById('imagingModal').classList.add('active'); });
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('patient'); });
+  </script>
+  <script>
+    let zoom = 1;
+    const lightbox = document.getElementById('imagingLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const zoomLevel = document.getElementById('zoomLevel');
+
+    function openLightbox() {
+      lightbox?.classList.add('active');
+      zoom = 1;
+      updateZoom();
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox?.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function zoomIn() { zoom = Math.min(3, zoom + 0.25); updateZoom(); }
+    function zoomOut() { zoom = Math.max(0.5, zoom - 0.25); updateZoom(); }
+    function toggleZoom() { zoom = zoom >= 1.5 ? 1 : 2; updateZoom(); }
+    function updateZoom() {
+      if (lightboxImage) lightboxImage.style.transform = `scale(${zoom})`;
+      if (zoomLevel) zoomLevel.textContent = Math.round(zoom * 100) + '%';
+    }
+
+    document.querySelectorAll('[data-open-lightbox]').forEach((el) => {
+      el.addEventListener('click', openLightbox);
     });
+    lightbox?.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+  <script>
+    (function() {
+      const drawer = document.getElementById('emrDrawer');
+      const overlay = document.getElementById('emrOverlay');
+      const toggle = document.getElementById('emrDrawerToggle');
+      function open() { drawer?.classList.add('active'); overlay?.classList.add('active'); overlay?.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+      function close() { drawer?.classList.remove('active'); overlay?.classList.remove('active'); overlay?.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+      toggle?.addEventListener('click', () => drawer?.classList.contains('active') ? close() : open());
+      overlay?.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer?.classList.contains('active')) close(); });
+    })();
   </script>
 </body>
 </html>

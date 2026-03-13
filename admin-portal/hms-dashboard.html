@@ -22,58 +22,41 @@
   <link href="../css/styles.css" rel="stylesheet">
   <link href="../css/admin-dashboard.css" rel="stylesheet">
   <link href="../css/admin-portal.css" rel="stylesheet">
+  <link href="../css/portal-mobile.css" rel="stylesheet">
   <link href="../css/hms.css" rel="stylesheet">
+  <link href="/css/sidebar-universal.css" rel="stylesheet">
 </head>
-<body data-auth-required="staff">
+<body data-auth-required="staff" data-allowed-roles="admin,doctor,staff" class="bg-slate-50 font-sans text-slate-900">
 
-  <script src="/js/hms-rbac.js"></script>
-  <script src="/js/auth-guard.js"></script>
-  <div class="admin-overlay" id="adminOverlay" aria-hidden="true"></div>
+  <script src="../js/hms-rbac.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/auth-role-guard.js"></script>
 
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <i class="fas fa-hospital"></i>
-      <span>MediCare HMS</span>
-    </div>
-    <ul class="sidebar-nav">
-      <li><a href="admin-dashboard.html" class="sidebar-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></li>
-      <li><a href="#/overview" class="sidebar-nav-link active" data-route="overview"><i class="fas fa-hospital-alt"></i> HMS Overview</a></li>
-      <li><a href="#/inventory" class="sidebar-nav-link" data-route="inventory"><i class="fas fa-boxes"></i> Inventory</a></li>
-      <li><a href="#/billing" class="sidebar-nav-link" data-route="billing"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
-      <li><a href="#/alerts" class="sidebar-nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
-    </ul>
-    <div class="sidebar-footer">
-      <a href="auth.html" class="btn btn-secondary w-100 btn-sm btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
-    </div>
-  </aside>
+  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden"
+       id="adminOverlay" aria-hidden="true"></div>
 
-  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+  <div class="min-h-screen flex">
+    <!-- Universal Master Sidebar - Admin Console (loaded from partial) -->
+    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+      <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
+    </aside>
 
-  <main class="main-content">
-    <div class="top-bar">
+    <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
+    <header class="admin-mobile-header lg:hidden">
+      <span class="admin-header-logo">MediCare</span>
+      <span class="admin-header-title">HMS</span>
+      <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
+        <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </header>
+    <div class="top-bar hidden lg:flex">
       <div>
         <h1 class="text-lg font-semibold mb-0">Hospital Management System</h1>
         <p class="text-xs text-gray-500 mb-0">Pharmacy, Billing, Expenses &amp; Case Notes</p>
       </div>
       <div class="flex items-center gap-3 flex-wrap">
-        <div class="role-switcher-wrap">
-          <label for="roleSwitcher">Role:</label>
-          <select id="roleSwitcher" aria-label="Switch user role">
-            <option value="admin">Admin</option>
-            <option value="doctor">Doctor</option>
-            <option value="pharmacist">Pharmacist</option>
-          </select>
-        </div>
-        <div class="hms-actions no-print">
-          <button
-            type="button"
-            class="btn-secondary btn-sm"
-            id="btnBackup"
-            title="Export data backup"
-          >
-            <i class="fas fa-download mr-1"></i> Backup
-          </button>
-        </div>
         <div class="flex items-center gap-2">
           <div class="rounded-full flex items-center justify-center text-white font-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
           <div>
@@ -224,7 +207,12 @@
       </section>
     </div>
   </main>
+  </div>
 
+  <script src="/js/sidebar-universal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });
+  </script>
   <script type="module" src="../js/entry/admin-app.js"></script>
 </body>
 </html>

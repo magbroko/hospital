@@ -10,6 +10,7 @@ import AppState from '../core/app-state.js';
  * @property {string} id - Unique identifier for the medication item.
  * @property {string} name - Human-readable medication name.
  * @property {number} qty - Current quantity in stock.
+ * @property {number} [unitPrice] - Price per unit for billing.
  * @property {string} [expiryDate] - ISO date string (YYYY-MM-DD) for expiry.
  * @property {string} [category] - Optional category (e.g. "Antibiotics").
  * @property {string} [supplier] - Optional supplier name.
@@ -63,13 +64,14 @@ class InventoryService {
       id,
       name: String(data.name ?? '').trim(),
       qty: Number.isFinite(qty) && qty >= 0 ? qty : 0,
+      unitPrice: Number.isFinite(data.unitPrice) ? data.unitPrice : 0,
       expiryDate: data.expiryDate,
       category: data.category,
       supplier: data.supplier,
     };
 
     const next = current.concat(newItem);
-    AppState.commit('inventory', next);
+    this._commitAndBroadcast(next);
     return newItem;
   }
 
@@ -93,8 +95,85 @@ class InventoryService {
       return updated;
     });
 
-    AppState.commit('inventory', next);
+    this._commitAndBroadcast(next);
     return updatedItem;
+  }
+
+  /**
+   * Update a medication's full details (name, category, qty, expiryDate).
+   *
+   * @param {string} id - ID of the inventory item to update.
+   * @param {Partial<InventoryItem>} data - Fields to update.
+   * @returns {InventoryItem | null} Updated item if found, otherwise null.
+   */
+  updateMedication(id, data) {
+    const items = this.getAll();
+    const qty = Number(data.qty ?? 0);
+
+    let updatedItem = null;
+
+    const next = items.map((item) => {
+      if (item.id !== id) return item;
+      const updated = {
+        ...item,
+        name: data.name !== undefined ? String(data.name).trim() : item.name,
+        category: data.category !== undefined ? (data.category || '') : item.category,
+        qty: Number.isFinite(qty) && qty >= 0 ? qty : item.qty,
+        unitPrice: data.unitPrice !== undefined ? (Number(data.unitPrice) || 0) : item.unitPrice,
+        expiryDate: data.expiryDate !== undefined ? data.expiryDate : item.expiryDate,
+      };
+      updatedItem = updated;
+      return updated;
+    });
+
+    this._commitAndBroadcast(next);
+    return updatedItem;
+  }
+
+  /**
+   * Commit inventory and broadcast global_inventory_update for Admin/Pharmacy sync.
+   * @param {InventoryItem[]} next
+   * @private
+   */
+  _commitAndBroadcast(next) {
+    AppState.commit('inventory', next);
+    if (typeof window !== 'undefined') {
+      if (window.dispatchEvent) {
+        window.dispatchEvent(new CustomEvent('global_inventory_update', { detail: { inventory: next } }));
+      }
+      try {
+        const channel = new BroadcastChannel('medicare_inventory');
+        channel.postMessage({ type: 'inventory_update', inventory: next });
+        channel.close();
+      } catch (_) {}
+    }
+  }
+
+  /**
+   * Get inventory summary for Pharmacy/Admin dashboards.
+   * @param {Object} [opts]
+   * @param {number} [opts.lowStockThreshold=10]
+   * @param {number} [opts.expirySoonDays=30]
+   * @returns {{ totalItems: number; lowStockCount: number; lowStockItems: InventoryItem[] }}
+   */
+  getSummary(opts = {}) {
+    const items = this.getAll();
+    const threshold = Number.isFinite(opts.lowStockThreshold) ? opts.lowStockThreshold : 10;
+    const lowStockItems = items.filter((i) => (Number(i.qty) || 0) <= threshold);
+    return {
+      totalItems: items.length,
+      lowStockCount: lowStockItems.length,
+      lowStockItems,
+    };
+  }
+
+  /**
+   * Subscribe to inventory changes (via AppState).
+   * @param {(items: InventoryItem[]) => void} callback
+   * @returns {() => void} Unsubscribe function
+   */
+  subscribe(callback) {
+    return AppState.subscribe('inventory', callback);
   }
 }
 
