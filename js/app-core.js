@@ -13,6 +13,7 @@ import patientBillingService from './services/patient-billing-service.js';
 import transactionLedgerService from './services/transaction-ledger-service.js';
 
 export { AppState, inventoryService, prescriptionService, patientBillingService, transactionLedgerService };
+export { default as receiptService } from './services/receipt-service.js';
 export { default as billingService } from './services/billing-service.js';
 export { default as appointmentService } from './services/appointment-service.js';
 export { default as analyticsService } from './services/analytics-service.js';

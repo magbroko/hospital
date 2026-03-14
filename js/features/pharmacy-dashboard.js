@@ -10,6 +10,7 @@
 import AppState from '../core/app-state.js';
 import inventoryService from '../services/inventory-service.js';
 import prescriptionService from '../services/prescription-service.js';
+import { PrescriptionManager } from '../app-core.js';
 import { renderTable, showToast } from '../core/ui-components.js';
 
 /**
@@ -94,8 +95,10 @@ class PharmacyDashboard {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-rx-id');
         if (id) {
-          prescriptionService.markDispensed(id);
-          showToast({ message: 'Prescription dispensed.', type: 'success' });
+          const { prescription } = PrescriptionManager.dispense(id);
+          if (prescription) {
+            showToast({ message: 'Prescription dispensed.', type: 'success' });
+          }
         }
       });
     });
@@ -479,6 +482,8 @@ class PharmacyDashboard {
   _clearAddMedicationValidation(modalEl) {
     modalEl.querySelectorAll('.pharmacy-input-invalid').forEach((el) => el.classList.remove('pharmacy-input-invalid'));
     modalEl.querySelectorAll('.pharmacy-input-valid').forEach((el) => el.classList.remove('pharmacy-input-valid'));
+    modalEl.querySelectorAll('.border-rose-500').forEach((el) => el.classList.remove('border-rose-500'));
+    modalEl.querySelectorAll('.border-emerald-500').forEach((el) => el.classList.remove('border-emerald-500'));
     modalEl.querySelectorAll('.pharmacy-form-group.pharmacy-has-value').forEach((el) => el.classList.remove('pharmacy-has-value'));
   }
 
@@ -547,7 +552,7 @@ class PharmacyDashboard {
           </div>
           <div class="pharmacy-modal-footer">
             <button type="button" class="pharmacy-btn-ghost pharmacy-modal-cancel">Cancel</button>
-            <button type="submit" class="pharmacy-btn-save" id="pharmacySaveMedicationBtn">
+            <button type="submit" class="pharmacy-btn-save" id="saveMedicationBtn">
               <span class="pharmacy-btn-save-text">
                 <i class="fas fa-check mr-2"></i> Save Medication
               </span>
@@ -604,6 +609,28 @@ class PharmacyDashboard {
     });
 
     this._wireAddMedicationValidation(modalEl);
+    this._wireModalInputScrollIntoView(modalEl);
+  }
+
+  /**
+   * On mobile, scroll focused input into view when keyboard opens.
+   *
+   * @private
+   * @param {HTMLElement} modalEl
+   * @returns {void}
+   */
+  _wireModalInputScrollIntoView(modalEl) {
+    const body = modalEl.querySelector('.pharmacy-modal-body');
+    if (!body) return;
+
+    modalEl.addEventListener('focusin', (e) => {
+      const target = e.target;
+      if (target && body.contains(target) && (target.matches('input') || target.matches('select'))) {
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+    });
   }
 
   /**
@@ -620,19 +647,23 @@ class PharmacyDashboard {
 
     const validateName = () => {
       if (!(nameInput instanceof HTMLInputElement)) return;
-      const val = nameInput.value.trim();
+      const val = this._sanitizeDrugName(nameInput.value);
       const isValid = val.length > 0;
       nameInput.classList.toggle('pharmacy-input-invalid', !isValid);
       nameInput.classList.toggle('pharmacy-input-valid', isValid);
+      nameInput.classList.toggle('border-rose-500', !isValid);
+      nameInput.classList.toggle('border-emerald-500', isValid);
       modalEl.querySelector(`[data-for="addDrugName"]`)?.classList.toggle('hidden', isValid);
     };
 
     const validateQty = () => {
       if (!(qtyInput instanceof HTMLInputElement)) return;
-      const val = Number(qtyInput.value || '0');
+      const val = this._sanitizeQuantity(qtyInput.value);
       const isValid = Number.isFinite(val) && val >= 0;
       qtyInput.classList.toggle('pharmacy-input-invalid', !isValid);
       qtyInput.classList.toggle('pharmacy-input-valid', isValid);
+      qtyInput.classList.toggle('border-rose-500', !isValid);
+      qtyInput.classList.toggle('border-emerald-500', isValid);
       modalEl.querySelector(`[data-for="addDrugQty"]`)?.classList.toggle('hidden', isValid);
     };
 
@@ -640,7 +671,7 @@ class PharmacyDashboard {
       if (!(expiryInput instanceof HTMLInputElement)) return;
       const val = expiryInput.value;
       if (!val) {
-        expiryInput.classList.remove('pharmacy-input-invalid', 'pharmacy-input-valid');
+        expiryInput.classList.remove('pharmacy-input-invalid', 'pharmacy-input-valid', 'border-rose-500', 'border-emerald-500');
         modalEl.querySelector(`[data-for="addDrugExpiry"]`)?.classList.add('hidden');
         return;
       }
@@ -650,6 +681,8 @@ class PharmacyDashboard {
       const isValid = expiryDate >= today;
       expiryInput.classList.toggle('pharmacy-input-invalid', !isValid);
       expiryInput.classList.toggle('pharmacy-input-valid', isValid);
+      expiryInput.classList.toggle('border-rose-500', !isValid);
+      expiryInput.classList.toggle('border-emerald-500', isValid);
       modalEl.querySelector(`[data-for="addDrugExpiry"]`)?.classList.toggle('hidden', isValid);
     };
 
@@ -684,17 +717,19 @@ class PharmacyDashboard {
     const qtyInput = /** @type {HTMLInputElement | null} */ (form.querySelector('#addDrugQty'));
     const unitPriceInput = /** @type {HTMLInputElement | null} */ (form.querySelector('#addDrugUnitPrice'));
     const expiryInput = /** @type {HTMLInputElement | null} */ (form.querySelector('#addDrugExpiry'));
-    const saveBtn = modalEl.querySelector('#pharmacySaveMedicationBtn');
+    const saveBtn = modalEl.querySelector('#saveMedicationBtn');
     const saveText = modalEl.querySelector('.pharmacy-btn-save-text');
     const saveLoading = modalEl.querySelector('.pharmacy-btn-save-loading');
 
     if (!nameInput || !qtyInput) return;
 
-    const name = nameInput.value.trim();
-    const category = categoryInput?.value?.trim() || '';
-    const qty = Number(qtyInput.value || '0');
+    // Input sanitization: clean before validation and persistence
+    const rawName = (nameInput.value || '').trim();
+    const name = this._sanitizeDrugName(rawName);
+    const category = (categoryInput?.value || '').trim();
+    const qty = this._sanitizeQuantity(qtyInput.value);
     const unitPrice = Number(unitPriceInput?.value || '0') || 0;
-    const expiry = expiryInput?.value || undefined;
+    const expiry = this._sanitizeExpiryDate(expiryInput?.value);
 
     let isValid = true;
 
@@ -755,13 +790,17 @@ class PharmacyDashboard {
       });
 
       this._closeAddMedicationModal(modalEl);
+      if (form instanceof HTMLFormElement) form.reset();
+      this._clearAddMedicationValidation(modalEl);
       this._renderInventoryTable();
       if (updatedItem) {
         this._highlightNewRow(updatedItem.id);
       }
       showToast({ message: 'Inventory updated successfully.', type: 'success' });
     } else {
+      const uniqueId = String(Date.now());
       const newItem = inventoryService.addMedication({
+        id: uniqueId,
         name,
         category,
         qty,
@@ -770,6 +809,8 @@ class PharmacyDashboard {
       });
 
       this._closeAddMedicationModal(modalEl);
+      if (form instanceof HTMLFormElement) form.reset();
+      this._clearAddMedicationValidation(modalEl);
       this._renderInventoryTable();
       this._highlightNewRow(newItem.id);
       showToast({ message: 'Medication added to inventory.', type: 'success' });
@@ -873,6 +914,49 @@ class PharmacyDashboard {
     if (!dateStr) return '';
     const d = new Date(dateStr);
     if (Number.isNaN(d.getTime())) return '';
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  /**
+   * Sanitize drug name: allow alphanumeric, spaces, hyphens, apostrophes.
+   * Strip control chars and excessive whitespace.
+   * @param {string} raw
+   * @returns {string}
+   */
+  _sanitizeDrugName(raw) {
+    if (typeof raw !== 'string') return '';
+    return raw
+      .replace(/[\x00-\x1F\x7F]/g, '')
+      .replace(/[^\w\s\-'.()]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  /**
+   * Sanitize quantity: extract numeric value, default 0.
+   * @param {string} raw
+   * @returns {number}
+   */
+  _sanitizeQuantity(raw) {
+    if (raw == null || raw === '') return 0;
+    const parsed = parseFloat(String(raw).replace(/[^\d.-]/g, ''));
+    return Number.isFinite(parsed) && parsed >= 0 ? Math.floor(parsed) : 0;
+  }
+
+  /**
+   * Sanitize expiry date: return YYYY-MM-DD or undefined.
+   * @param {string} raw
+   * @returns {string | undefined}
+   */
+  _sanitizeExpiryDate(raw) {
+    if (!raw || typeof raw !== 'string') return undefined;
+    const trimmed = raw.trim();
+    if (!trimmed) return undefined;
+    const d = new Date(trimmed);
+    if (Number.isNaN(d.getTime())) return undefined;
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');

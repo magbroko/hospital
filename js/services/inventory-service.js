@@ -57,12 +57,13 @@ class InventoryService {
     const current = this.getAll();
 
     const id = data.id || String(Date.now());
-    const qty = Number(data.qty ?? 0);
+    const qty = this._sanitizeQuantity(data.qty);
+    const name = this._sanitizeDrugName(data.name);
 
     /** @type {InventoryItem} */
     const newItem = {
       id,
-      name: String(data.name ?? '').trim(),
+      name: name,
       qty: Number.isFinite(qty) && qty >= 0 ? qty : 0,
       unitPrice: Number.isFinite(data.unitPrice) ? data.unitPrice : 0,
       expiryDate: data.expiryDate,
@@ -128,6 +129,30 @@ class InventoryService {
 
     this._commitAndBroadcast(next);
     return updatedItem;
+  }
+
+  /**
+   * Sanitize drug name for storage: strip control chars and disallow unsafe chars.
+   * @param {unknown} raw
+   * @returns {string}
+   * @private
+   */
+  _sanitizeDrugName(raw) {
+    if (raw == null) return '';
+    const s = String(raw).replace(/[\x00-\x1F\x7F]/g, '').replace(/[^\w\s\-'.()]/g, '').replace(/\s+/g, ' ').trim();
+    return s;
+  }
+
+  /**
+   * Sanitize quantity: extract numeric value.
+   * @param {unknown} raw
+   * @returns {number}
+   * @private
+   */
+  _sanitizeQuantity(raw) {
+    if (raw == null || raw === '') return 0;
+    const parsed = parseFloat(String(raw).replace(/[^\d.-]/g, ''));
+    return Number.isFinite(parsed) && parsed >= 0 ? Math.floor(parsed) : 0;
   }
 
   /**

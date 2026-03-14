@@ -7,6 +7,7 @@
 import AppState from '../core/app-state.js';
 import prescriptionService from '../services/prescription-service.js';
 import patientBillingService from '../services/patient-billing-service.js';
+import receiptService from '../services/receipt-service.js';
 
 function escapeHtml(str) {
   if (str == null) return '';
@@ -91,15 +92,47 @@ function renderUnpaidBills() {
   }).join('');
 }
 
+function renderDrugReceipts() {
+  const container = document.getElementById('dashDrugReceipts');
+  if (!container) return;
+  const patientId = getPatientId();
+  const receipts = receiptService.getByPatient(patientId)
+    .sort((a, b) => new Date(b.dispensedAt) - new Date(a.dispensedAt))
+    .slice(0, 5);
+
+  if (receipts.length === 0) {
+    container.innerHTML = '<p class="dash-caption text-slate-500">No drug sale receipts yet.</p>';
+    return;
+  }
+
+  container.innerHTML = receipts.map((r) => {
+    const date = r.dispensedAt ? new Date(r.dispensedAt).toLocaleDateString() : '—';
+    const meds = (r.lines || []).map((l) => `${escapeHtml(l.medication)} × ${l.qty}`).join(', ');
+    return `
+      <div class="dash-receipt-card dash-med-card mb-3">
+        <div class="dash-med-icon accent"><i class="fas fa-receipt"></i></div>
+        <div class="flex-grow-1">
+          <h4 class="dash-title-3 mb-1">${escapeHtml(meds || 'Prescription')}</h4>
+          <p class="dash-meta mb-0">${escapeHtml(date)} · $${(Number(r.total) || 0).toFixed(2)}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
 function initPrescriptionsAndBills() {
   renderActivePrescriptions();
   renderUnpaidBills();
+  renderDrugReceipts();
 
   AppState.subscribe('prescriptions', () => {
     renderActivePrescriptions();
   });
   AppState.subscribe('patientBills', () => {
     renderUnpaidBills();
+  });
+  AppState.subscribe('dispensedReceipts', () => {
+    renderDrugReceipts();
   });
 }
 

@@ -133,7 +133,7 @@ class PrescriptionService {
     }
     AppState.commit('prescriptions', list);
 
-    // Transaction ledger: drug sale for Admin Revenue & Recent Dispositions
+    // Drug Sale Receipt for patient
     const receipt = {
       id: `receipt-${Date.now()}`,
       prescriptionId: rx.id,
@@ -147,6 +147,10 @@ class PrescriptionService {
       total: totalAmount,
       dispensedAt: new Date().toISOString(),
     };
+    const receipts = (AppState.get('dispensedReceipts') || []).slice();
+    receipts.push(receipt);
+    AppState.commit('dispensedReceipts', receipts);
+
     if (totalAmount > 0) {
       transactionLedgerService.add({
         type: 'drug_bill',

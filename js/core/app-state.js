@@ -17,6 +17,7 @@ const STATE_KEYS = {
   billing: 'billing',
   patientBills: 'patientBills',
   transactionLedger: 'transactionLedger',
+  dispensedReceipts: 'dispensedReceipts',
   equipment: 'equipment',
   expenses: 'expenses',
   caseNotes: 'case_notes',
@@ -28,6 +29,7 @@ const STATE_TO_STORAGE_KEY = {
   caseNotes: 'case_notes',
   patientBills: 'patient_bills',
   transactionLedger: 'transaction_ledger',
+  dispensedReceipts: 'dispensed_receipts',
 };
 
 /**
@@ -49,6 +51,7 @@ function toStorageKey(stateKey) {
  * @property {Array<Object>} billing
  * @property {Array<Object>} patientBills
  * @property {Array<Object>} transactionLedger
+ * @property {Array<Object>} dispensedReceipts
  * @property {Array<Object>} equipment
  * @property {Object.<string, number>} expenses
  * @property {Array<Object>} caseNotes
@@ -99,6 +102,7 @@ class AppStateManager {
       billing: this._storage.get(toStorageKey(STATE_KEYS.billing), []),
       patientBills: this._storage.get(toStorageKey('patientBills'), []),
       transactionLedger: this._storage.get(toStorageKey('transactionLedger'), []),
+      dispensedReceipts: this._storage.get(toStorageKey('dispensedReceipts'), []),
       equipment: this._storage.get(toStorageKey(STATE_KEYS.equipment), []),
       expenses: this._storage.get(toStorageKey(STATE_KEYS.expenses), {}),
       caseNotes: this._storage.get(toStorageKey('caseNotes'), []),

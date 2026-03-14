@@ -6,6 +6,7 @@
 
 import AppState from '../core/app-state.js';
 import prescriptionService from '../services/prescription-service.js';
+import { PrescriptionManager } from '../app-core.js';
 import { showToast } from '../core/ui-components.js';
 
 function getRole() {
@@ -122,7 +123,7 @@ export function initPrescriptionsPage() {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
         if (!id) return;
-        const { prescription } = prescriptionService.markDispensed(id);
+        const { prescription } = PrescriptionManager.dispense(id);
         if (prescription) {
           showToast({ message: `Dispensed for ${prescription.patientName}.`, type: 'success' });
           render();

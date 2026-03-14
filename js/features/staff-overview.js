@@ -64,6 +64,7 @@ class StaffOverview {
     AppState.subscribe('transactionLedger', () => {
       this._renderKPIs();
       this._renderRevenue();
+      this._renderRecentDispositions();
     });
 
     // Cross-tab sync: Pharmacy inventory updates reflect in Admin without refresh
@@ -77,11 +78,44 @@ class StaffOverview {
       };
     }
 
+    // Same-tab / global event: Pharmacy inventory modal or dispense triggers this
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('global_inventory_update', (e) => {
+        const inv = e?.detail?.inventory;
+        if (Array.isArray(inv)) {
+          AppState.commit('inventory', inv);
+        }
+      });
+    }
+
     this._renderKPIs();
     this._renderRecentPatients();
     this._renderAlertBanner();
     this._renderRevenue();
     this._renderInventoryMonitor();
+    this._renderRecentDispositions();
+  }
+
+  _renderRecentDispositions() {
+    const container = document.getElementById('adminRecentDispositions');
+    if (!container) return;
+    const list = transactionLedgerService.getRecentDispositions(8);
+    if (list.length === 0) {
+      container.innerHTML = '<p class="text-sm text-slate-500">No dispositions yet. Drug sales from Pharmacy will appear here.</p>';
+      return;
+    }
+    container.innerHTML = list.map((tx) => {
+      const date = tx.createdAt ? new Date(tx.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+      return `
+        <div class="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+          <div>
+            <span class="text-sm font-medium text-slate-800">${escapeHtml(tx.patientName || 'Unknown')}</span>
+            <span class="text-xs text-slate-500 block">${escapeHtml(tx.description || '')}</span>
+          </div>
+          <span class="text-sm font-semibold text-emerald-700">$${(Number(tx.amount) || 0).toFixed(2)}</span>
+        </div>
+      `;
+    }).join('');
   }
 
   _renderInventoryMonitor() {

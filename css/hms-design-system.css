@@ -125,3 +125,63 @@ a:active {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ===== SaaS Elite UI - Premium Admin Pages ===== */
+.saas-elite-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
+  transition: all 0.2s;
+}
+.saas-elite-btn {
+  transition: all 0.2s;
+}
+.saas-elite-btn:active {
+  transform: scale(0.95);
+}
+.saas-elite-row {
+  transition: all 0.2s;
+}
+.saas-elite-row:hover {
+  background: rgb(248 250 252);
+  transform: scale(1.01);
+}
+.saas-elite-icon-wrap {
+  border-radius: 0.75rem;
+  padding: 0.625rem;
+  background: rgba(13, 148, 136, 0.1);
+  color: #0d9488;
+}
+.saas-elite-status-orb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.saas-elite-status-orb.active {
+  animation: saas-pulse 2s ease-in-out infinite;
+}
+@keyframes saas-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
+  50% { opacity: 0.9; box-shadow: 0 0 0 6px rgba(13, 148, 136, 0); }
+}
+.bed-heat-available {
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.2);
+  background: linear-gradient(135deg, rgba(204, 251, 241, 0.9), rgba(240, 253, 250, 0.95));
+}
+.bed-heat-occupied {
+  background: linear-gradient(135deg, rgba(241, 245, 249, 0.95), rgba(248, 250, 252, 0.9));
+}
+.skeleton-line {
+  height: 1rem;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 0.25rem;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

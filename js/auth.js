@@ -1,48 +1,68 @@
 /**
  * MediCare – Auth Page JavaScript
- * Login / Register tabs, role selection, password toggle, form validation
+ * Role-based login (Patient: First Name + Phone | Staff: Staff ID + Password)
+ * Tab switching, password toggle, validation, haptic shake on failure
  */
 (function () {
   'use strict';
 
   const STORAGE_KEY = 'medicare_user';
   const ROLE_STORAGE_KEY = 'medicare_userRole';
-  // Use root-relative paths so redirects work from both "/" and "/admin-portal/".
   const PATIENT_DASHBOARD = 'emr-patient-dashboard.html';
   const ADMIN_DASHBOARD = 'admin-dashboard.html';
-  const STAFF_DASHBOARD = 'admin-dashboard.html'; // staff land on Staff Dashboard shell
   const PHARMACY_DASHBOARD = 'pharmacy-dashboard.html';
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const PHONE_REGEX = /^[\d\s\-\(\)]{10,}$/;
   const MIN_PASSWORD_LENGTH = 6;
+
+  // Demo credentials (Staff)
+  const DEMO_CREDENTIALS = {
+    admin: { staffId: 'STF-ADM-001', password: 'admin123' },
+    pharmacist: { staffId: 'STF-PHM-001', password: 'pharmacy123' }
+  };
+
+  // ---------- Role-based field toggling ----------
+  const patientFields = document.getElementById('patientFields');
+  const staffFields = document.getElementById('staffFields');
+  const roleInputs = document.querySelectorAll('input[name="role"]');
+
+  function updateLoginFieldsByRole() {
+    const role = document.querySelector('input[name="role"]:checked')?.value || 'patient';
+    const isPatient = role === 'patient';
+    if (patientFields) patientFields.classList.toggle('hidden', !isPatient);
+    if (staffFields) staffFields.classList.toggle('hidden', isPatient);
+  }
+
+  roleInputs.forEach((r) => r.addEventListener('change', updateLoginFieldsByRole));
+  updateLoginFieldsByRole();
 
   // ---------- Tab Switching ----------
   const tabs = document.querySelectorAll('.auth-tab');
-  const loginForm = document.getElementById('login-form') || document.getElementById('loginForm');
-  const registerForm = document.getElementById('register-form') || document.getElementById('registerForm');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
 
   function switchToTab(tabName) {
     if (!tabs.length || !loginForm || !registerForm) return;
 
     tabs.forEach((t) => {
       const isActive = t.dataset.tab === tabName;
-      t.classList.toggle('auth-tab--active', isActive);
+      t.classList.toggle('bg-teal-600', isActive);
+      t.classList.toggle('text-white', isActive);
+      t.classList.toggle('text-slate-500', !isActive);
+      t.classList.toggle('shadow-sm', isActive);
       t.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
     if (tabName === 'login') {
-      loginForm.classList.add('auth-form--active');
-      loginForm.removeAttribute('hidden');
-      registerForm.classList.remove('auth-form--active');
-      registerForm.setAttribute('hidden', '');
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
       const footerText = document.getElementById('authFooterText');
       const switchLink = document.getElementById('authSwitchLink');
       if (footerText) footerText.textContent = "Don't have an account?";
       if (switchLink) { switchLink.textContent = 'Register'; switchLink.dataset.switchTo = 'register'; }
     } else {
-      registerForm.classList.add('auth-form--active');
-      registerForm.removeAttribute('hidden');
-      loginForm.classList.remove('auth-form--active');
-      loginForm.setAttribute('hidden', '');
+      registerForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
       const footerText = document.getElementById('authFooterText');
       const switchLink = document.getElementById('authSwitchLink');
       if (footerText) footerText.textContent = 'Already have an account?';
@@ -61,7 +81,7 @@
     if (to) switchToTab(to);
   });
 
-  // ---------- Password Toggle (Font Awesome) ----------
+  // ---------- Password Toggle ----------
   function initPasswordToggle(toggleId, inputId) {
     const toggle = document.getElementById(toggleId);
     const input = document.getElementById(inputId);
@@ -71,7 +91,7 @@
       const icon = toggle.querySelector('i');
       const isPassword = input.type === 'password';
       input.type = isPassword ? 'text' : 'password';
-      icon.className = input.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+      icon.className = input.type === 'password' ? 'fas fa-eye text-sm' : 'fas fa-eye-slash text-sm';
     });
   }
 
@@ -86,6 +106,8 @@
     passwordInput.addEventListener('input', () => {
       const pwd = passwordInput.value;
       let strength = 'none';
+      let width = '0%';
+      let bg = 'bg-slate-200';
       if (pwd.length >= 6) {
         const hasLower = /[a-z]/.test(pwd);
         const hasUpper = /[A-Z]/.test(pwd);
@@ -93,12 +115,16 @@
         const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pwd);
         const score = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length;
         strength = score <= 2 ? 'weak' : score === 3 ? 'medium' : 'strong';
+        width = strength === 'weak' ? '33%' : strength === 'medium' ? '66%' : '100%';
+        bg = strength === 'weak' ? 'bg-rose-500' : strength === 'medium' ? 'bg-amber-500' : 'bg-emerald-500';
       }
       strengthBar.setAttribute('data-strength', strength);
+      strengthBar.style.width = width;
+      strengthBar.className = 'h-full rounded-full transition-all duration-300 ' + bg;
     });
   }
 
-  // ---------- Validation ----------
+  // ---------- Validation helpers ----------
   function showError(elementId, message) {
     const el = document.getElementById(elementId);
     if (el) el.textContent = message;
@@ -114,12 +140,12 @@
   }
 
   function clearAllErrors() {
-    document.querySelectorAll('.auth-error').forEach((el) => (el.textContent = ''));
-    document.querySelectorAll('.auth-input').forEach((el) => el.classList.remove('auth-input--error'));
+    document.querySelectorAll('[id$="Error"]').forEach((el) => { if (el) el.textContent = ''; });
+    document.querySelectorAll('.auth-input-elite').forEach((el) => el.classList.remove('auth-input--error'));
   }
 
-  function validateEmail(email) {
-    return EMAIL_REGEX.test((email || '').trim());
+  function validatePhone(phone) {
+    return PHONE_REGEX.test((phone || '').replace(/\s/g, ''));
   }
 
   function validatePassword(password) {
@@ -139,7 +165,17 @@
     if (role === 'patient') return PATIENT_DASHBOARD;
     if (role === 'admin') return ADMIN_DASHBOARD;
     if (role === 'pharmacist') return PHARMACY_DASHBOARD;
-    return STAFF_DASHBOARD;
+    return ADMIN_DASHBOARD;
+  }
+
+  // ---------- Haptic Shake ----------
+  function triggerHapticShake(element) {
+    const el = element || document.getElementById('loginForm');
+    if (!el) return;
+    el.classList.remove('animate-haptic-shake');
+    void el.offsetWidth;
+    el.classList.add('animate-haptic-shake');
+    setTimeout(() => el.classList.remove('animate-haptic-shake'), 500);
   }
 
   // ---------- Login Form ----------
@@ -148,32 +184,71 @@
     loginFormEl.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const emailInput = document.getElementById('loginEmail');
-      const passwordInput = document.getElementById('loginPassword');
+      const role = document.querySelector('input[name="role"]:checked')?.value || 'patient';
+      const isPatient = role === 'patient';
 
-      clearError('loginEmailError');
+      // Clear errors
+      clearError('loginFirstNameError');
+      clearError('loginPhoneError');
+      clearError('loginStaffIdError');
       clearError('loginPasswordError');
-      setInputError(emailInput, false);
-      setInputError(passwordInput, false);
+      setInputError(document.getElementById('loginFirstName'), false);
+      setInputError(document.getElementById('loginPhone'), false);
+      setInputError(document.getElementById('loginStaffId'), false);
+      setInputError(document.getElementById('loginPassword'), false);
 
       let isValid = true;
 
-      if (!validateEmail(emailInput.value)) {
-        showError('loginEmailError', 'Please enter a valid email address.');
-        setInputError(emailInput, true);
-        isValid = false;
+      if (isPatient) {
+        const firstName = document.getElementById('loginFirstName')?.value?.trim();
+        const phone = document.getElementById('loginPhone')?.value?.trim();
+
+        if (!firstName) {
+          showError('loginFirstNameError', 'Please enter your first name.');
+          setInputError(document.getElementById('loginFirstName'), true);
+          isValid = false;
+        }
+        if (!validatePhone(phone)) {
+          showError('loginPhoneError', 'Please enter a valid phone number (at least 10 digits).');
+          setInputError(document.getElementById('loginPhone'), true);
+          isValid = false;
+        }
+
+        if (isValid) {
+          saveUserSession('patient');
+          window.location.href = getRedirectUrl('patient');
+        }
+      } else {
+        const staffId = document.getElementById('loginStaffId')?.value?.trim();
+        const password = document.getElementById('loginPassword')?.value;
+
+        if (!staffId) {
+          showError('loginStaffIdError', 'Please enter your Staff ID.');
+          setInputError(document.getElementById('loginStaffId'), true);
+          isValid = false;
+        }
+        if (!validatePassword(password)) {
+          showError('loginPasswordError', 'Password must be at least ' + MIN_PASSWORD_LENGTH + ' characters.');
+          setInputError(document.getElementById('loginPassword'), true);
+          isValid = false;
+        }
+
+        if (isValid) {
+          const creds = DEMO_CREDENTIALS[role];
+          if (creds && staffId === creds.staffId && password === creds.password) {
+            saveUserSession(role);
+            window.location.href = getRedirectUrl(role);
+          } else {
+            triggerHapticShake(loginFormEl);
+            showError('loginPasswordError', 'Invalid Staff ID or password. Try Admin: STF-ADM-001 / admin123 or Pharmacist: STF-PHM-001 / pharmacy123');
+            setInputError(document.getElementById('loginStaffId'), true);
+            setInputError(document.getElementById('loginPassword'), true);
+          }
+        }
       }
 
-      if (!validatePassword(passwordInput.value)) {
-        showError('loginPasswordError', 'Password must be at least ' + MIN_PASSWORD_LENGTH + ' characters.');
-        setInputError(passwordInput, true);
-        isValid = false;
-      }
-
-      if (isValid) {
-        const role = document.querySelector('input[name="role"]:checked')?.value || 'patient';
-        saveUserSession(role);
-        window.location.href = getRedirectUrl(role);
+      if (!isValid) {
+        triggerHapticShake(loginFormEl);
       }
     });
   }
@@ -206,7 +281,7 @@
         isValid = false;
       }
 
-      if (!validateEmail(emailInput.value)) {
+      if (!EMAIL_REGEX.test(emailInput.value)) {
         showError('registerEmailError', 'Please enter a valid email address.');
         setInputError(emailInput, true);
         isValid = false;
@@ -228,32 +303,9 @@
         const role = document.querySelector('input[name="roleRegister"]:checked')?.value || 'patient';
         saveUserSession(role);
         window.location.href = getRedirectUrl(role);
-      }
-    });
-  }
-
-  // ---------- Blur validation ----------
-  function addBlurValidation(inputId, errorId, validator, errorMsg) {
-    const input = document.getElementById(inputId);
-    if (!input) return;
-    input.addEventListener('blur', () => {
-      if (input.value.trim() === '') {
-        clearError(errorId);
-        setInputError(input, false);
-        return;
-      }
-      if (!validator(input.value)) {
-        showError(errorId, errorMsg);
-        setInputError(input, true);
       } else {
-        clearError(errorId);
-        setInputError(input, false);
+        triggerHapticShake(registerFormEl);
       }
     });
   }
-
-  addBlurValidation('loginEmail', 'loginEmailError', validateEmail, 'Please enter a valid email address.');
-  addBlurValidation('loginPassword', 'loginPasswordError', validatePassword, 'Password must be at least ' + MIN_PASSWORD_LENGTH + ' characters.');
-  addBlurValidation('registerEmail', 'registerEmailError', validateEmail, 'Please enter a valid email address.');
-  addBlurValidation('registerPassword', 'registerPasswordError', validatePassword, 'Password must be at least ' + MIN_PASSWORD_LENGTH + ' characters.');
 })();

@@ -218,20 +218,38 @@
           </div>
         </div>
 
-        <!-- Inventory Monitor (live from Pharmacy) -->
-        <div class="mt-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-            <div>
-              <h2 class="text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
-                <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-teal-600"><i class="fas fa-boxes-stacked text-sm"></i></span>
-                Inventory Monitor
-              </h2>
-              <p class="text-xs text-slate-500 mt-1">Live stock levels from Pharmacy — updates automatically</p>
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Inventory Monitor (live from Pharmacy) -->
+          <div class="rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+                  <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-teal-600"><i class="fas fa-boxes-stacked text-sm"></i></span>
+                  Inventory Monitor
+                </h2>
+                <p class="text-xs text-slate-500 mt-1">Live stock levels from Pharmacy — updates automatically</p>
+              </div>
+              <a href="pharmacy-inventory.html" class="text-xs font-medium text-teal-600 hover:text-teal-700">View full inventory →</a>
             </div>
-            <a href="pharmacy-inventory.html" class="text-xs font-medium text-teal-600 hover:text-teal-700">View full inventory →</a>
+            <div id="adminInventoryMonitor" class="p-4 max-h-48 overflow-y-auto">
+              <p class="text-sm text-slate-500">Loading…</p>
+            </div>
           </div>
-          <div id="adminInventoryMonitor" class="p-4 max-h-48 overflow-y-auto">
-            <p class="text-sm text-slate-500">Loading…</p>
+          <!-- Recent Dispositions (drug sales from Pharmacy) -->
+          <div class="rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+                  <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"><i class="fas fa-prescription-bottle-alt text-sm"></i></span>
+                  Recent Dispositions
+                </h2>
+                <p class="text-xs text-slate-500 mt-1">Drug sales from Pharmacy — syncs with revenue</p>
+              </div>
+              <a href="prescriptions.html" class="text-xs font-medium text-teal-600 hover:text-teal-700">View all →</a>
+            </div>
+            <div id="adminRecentDispositions" class="p-4 max-h-48 overflow-y-auto">
+              <p class="text-sm text-slate-500">Loading…</p>
+            </div>
           </div>
         </div>
 

@@ -5,8 +5,7 @@
  */
 
 import AppState from '../core/app-state.js';
-import prescriptionService from '../services/prescription-service.js';
-import patientBillingService from '../services/patient-billing-service.js';
+import { PrescriptionManager } from '../app-core.js';
 import inventoryService from '../services/inventory-service.js';
 import appointmentService from '../services/appointment-service.js';
 import { showToast } from '../core/ui-components.js';
@@ -242,21 +241,13 @@ class AdminPrescriptionModal {
       return;
     }
 
-    const prescription = prescriptionService.create({
+    PrescriptionManager.prescribe({
       patientId,
       patientName,
       diagnosis,
       clinicalNotes,
       lines,
       doctorId: AppState.get('userSession')?.staffId,
-    });
-
-    patientBillingService.generateBill({
-      patientId,
-      patientName,
-      prescriptionId: prescription.id,
-      lines: prescription.lines,
-      source: 'admin',
     });
 
     showToast({ message: 'Prescription saved and bill generated.', type: 'success' });

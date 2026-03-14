@@ -115,8 +115,8 @@
     const config = opts || {};
     const containerId = config.containerId || 'sidebar-container';
     const basePath = (config.basePath || '').replace(/\/$/, '');
-    const partialPath = '/partials/sidebar-' + type + '.html';
-    const url = basePath ? basePath + partialPath : partialPath;
+    const partialName = 'sidebar-' + type + '.html';
+    const url = basePath ? basePath + '/partials/' + partialName : '../partials/' + partialName;
 
     const container = document.getElementById(containerId);
     if (!container) {
@@ -136,7 +136,7 @@
       })
       .catch(function (err) {
         console.error('sidebar-universal:', err);
-        container.innerHTML = '<p class="p-4 text-slate-400 text-sm">Sidebar failed to load.</p>';
+        container.innerHTML = '<div class="p-4 text-amber-400 text-sm border border-amber-500/30 rounded-lg m-3"><p class="font-medium">Sidebar failed to load.</p><p class="mt-1 text-xs text-slate-400">Serve via HTTP (e.g. <code class="bg-slate-800 px-1 rounded">npx serve .</code>). File protocol blocks fetch.</p></div>';
       });
   }
 

@@ -6,6 +6,9 @@
 import pharmacyDashboard from '../features/pharmacy-dashboard.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize the pharmacist dashboard controller (inventory, Add Medication modal, etc.).
+  pharmacyDashboard.init();
+
   // Skip drawer init when using Universal Master Sidebar (loadSidebar injects and handles it).
   if (document.getElementById('sidebar-container')) return;
 
@@ -52,8 +55,5 @@ document.addEventListener('DOMContentLoaded', () => {
       closeDrawer();
     }
   });
-
-  // Initialize the pharmacist dashboard controller.
-  pharmacyDashboard.init();
 });
 

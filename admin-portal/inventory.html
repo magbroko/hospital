@@ -10,176 +10,212 @@
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-            display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-          }
+          fontFamily: { sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'] }
         }
       }
     };
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/admin-dashboard.css" rel="stylesheet">
-  <link href="../css/admin-portal.css" rel="stylesheet">
-  <link href="../css/portal-mobile.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin-dashboard.css" rel="stylesheet">
+  <link href="/css/admin-portal.css" rel="stylesheet">
+  <link href="/css/portal-mobile.css" rel="stylesheet">
+  <link href="/css/hms-design-system.css" rel="stylesheet">
   <link href="/css/sidebar-universal.css" rel="stylesheet">
 </head>
-<body data-auth-required="staff" class="bg-slate-50 font-sans text-slate-900">
+<body data-auth-required="staff" class="bg-slate-50 font-sans text-slate-900 antialiased">
 
-  <script src="../js/hms-rbac.js"></script>
-  <script src="../js/auth-guard.js"></script>
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
 
-  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden"
-       id="adminOverlay" aria-hidden="true"></div>
+  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden" id="adminOverlay" aria-hidden="true"></div>
 
   <div class="min-h-screen flex">
-    <!-- Universal Master Sidebar - Admin Console (loaded from partial) -->
-    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800/60" style="background-color: #0f172a;">
       <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
     </aside>
 
     <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
-    <header class="admin-mobile-header lg:hidden">
-      <span class="admin-header-logo">MediCare</span>
-      <span class="admin-header-title">Inventory</span>
-      <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
-        <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </header>
-    <div class="top-bar hidden lg:block">
-      <div>
-        <h1 class="text-lg font-semibold mb-0">Medical Supplies Inventory</h1>
-        <p class="text-xs text-gray-500 mb-0">Track stock levels and reorder alerts</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <div class="relative">
-          <i class="fas fa-bell fa-lg text-gray-500"></i>
-          <span class="absolute -top-1 -right-1 inline-flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5">3</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="rounded-full flex items-center justify-center text-white font-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+      <header class="admin-mobile-header lg:hidden sticky top-0 z-20 bg-white/70 backdrop-blur-md border-b border-slate-200/60">
+        <span class="admin-header-logo">MediCare</span>
+        <span class="admin-header-title">Inventory</span>
+        <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
+          <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </header>
+      <header class="sticky top-0 z-20 hidden lg:flex bg-white/70 backdrop-blur-md border-b border-slate-200/60 px-6 py-4">
+        <div class="flex items-center justify-between w-full">
           <div>
-            <div class="text-xs font-semibold">Dr. Sarah Johnson</div>
-            <div class="text-[11px] text-gray-500">Staff ID: SJ-2024</div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">Medical Supplies Inventory</h1>
+            <p class="text-xs font-medium text-slate-500 mt-0.5">Track stock levels and reorder alerts</p>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="p-4">
-      <div class="flex flex-wrap gap-2 mb-4 text-[11px]">
-        <span class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-700 px-2.5 py-1 font-medium">Healthy: &gt;30%</span>
-        <span class="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-2.5 py-1 font-medium">Low: 10–30%</span>
-        <span class="inline-flex items-center rounded-full bg-red-100 text-red-700 px-2.5 py-1 font-medium">Critical: &lt;10%</span>
-      </div>
-
-      <div class="stat-card">
-        <h2 class="text-sm font-semibold mb-4">Supply Levels</h2>
-
-        <div class="inventory-item">
-          <div class="flex items-center justify-center rounded-xl" style="min-width: 48px; height: 48px; background: rgba(10, 186, 181, 0.15); color: var(--primary-teal);">
-            <i class="fas fa-syringe"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1 text-sm">
-              <strong>IV Saline (0.9%)</strong>
-              <span class="text-gray-500 text-xs">120/200 units</span>
+          <div class="flex items-center gap-4">
+            <div class="relative">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100/80 text-slate-500"><i class="fas fa-bell text-sm"></i></span>
+              <span class="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-semibold text-white">3</span>
             </div>
-            <div class="inventory-progress">
-              <div class="inventory-progress-bar healthy" style="width: 60%;"></div>
+            <div class="flex items-center gap-2">
+              <div class="h-10 w-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-semibold text-sm">SJ</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Dr. Sarah Johnson</p>
+                <p class="text-xs font-medium text-slate-500">Staff ID: SJ-2024</p>
+              </div>
             </div>
           </div>
         </div>
+      </header>
 
-        <div class="inventory-item low-stock">
-          <div class="flex items-center justify-center rounded-xl" style="min-width: 48px; height: 48px; background: rgba(245, 158, 11, 0.2); color: var(--warning-orange);">
-            <i class="fas fa-pills"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1 text-sm">
-              <strong>Acetaminophen 500mg</strong>
-              <span class="text-amber-600 text-xs font-semibold">45/200 units — Low Stock</span>
+      <section class="flex-1 p-4 md:p-6">
+        <div class="flex flex-wrap gap-2 mb-6 text-[11px]">
+          <span class="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-1 font-medium border border-emerald-100">Healthy: &gt;30%</span>
+          <span class="inline-flex items-center rounded-full bg-amber-50 text-amber-800 px-2.5 py-1 font-medium border border-amber-100">Low: 10–30%</span>
+          <span class="inline-flex items-center rounded-full bg-rose-50 text-rose-700 px-2.5 py-1 font-medium border border-rose-100">Critical: &lt;10%</span>
+        </div>
+
+        <div class="saas-elite-card p-6 border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <h2 class="text-lg font-bold tracking-tight text-slate-900 mb-6 flex items-center gap-2">
+            <span class="saas-elite-icon-wrap"><i class="fas fa-boxes-stacked text-sm"></i></span>
+            Supply Levels
+          </h2>
+
+          <!-- Desktop: Airy rows with hover -->
+          <div class="hidden md:block divide-y-0 space-y-2">
+            <div class="saas-elite-row flex items-center gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600"><i class="fas fa-syringe text-sm"></i></span>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900">IV Saline (0.9%)</p>
+                <p class="text-xs font-medium text-slate-500">120/200 units</p>
+              </div>
+              <div class="flex-1 max-w-[200px] h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-teal-500 rounded-full" style="width: 60%;"></div>
+              </div>
             </div>
-            <div class="inventory-progress">
-              <div class="inventory-progress-bar warning" style="width: 22.5%;"></div>
+            <div class="saas-elite-row flex items-center gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600"><i class="fas fa-pills text-sm"></i></span>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900">Acetaminophen 500mg</p>
+                <p class="text-xs font-medium text-amber-600 font-semibold">45/200 units — Low Stock</p>
+              </div>
+              <div class="flex-1 max-w-[200px] h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500 rounded-full" style="width: 22.5%;"></div>
+              </div>
+            </div>
+            <div class="saas-elite-row flex items-center gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600"><i class="fas fa-vial text-sm"></i></span>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900">Blood Collection Tubes</p>
+                <p class="text-xs font-medium text-rose-600 font-semibold">8/100 units — Critical</p>
+              </div>
+              <div class="flex-1 max-w-[200px] h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-rose-500 rounded-full" style="width: 8%;"></div>
+              </div>
+            </div>
+            <div class="saas-elite-row flex items-center gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600"><i class="fas fa-mask-face text-sm"></i></span>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900">N95 Masks</p>
+                <p class="text-xs font-medium text-rose-600 font-semibold">5/150 units — Critical</p>
+              </div>
+              <div class="flex-1 max-w-[200px] h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-rose-500 rounded-full" style="width: 3.3%;"></div>
+              </div>
+            </div>
+            <div class="saas-elite-row flex items-center gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600"><i class="fas fa-bandage text-sm"></i></span>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900">Gauze Pads (4x4)</p>
+                <p class="text-xs font-medium text-slate-500">280/300 units</p>
+              </div>
+              <div class="flex-1 max-w-[200px] h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-teal-500 rounded-full" style="width: 93%;"></div>
+              </div>
+            </div>
+            <div class="saas-elite-row flex items-center gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600"><i class="fas fa-prescription-bottle text-sm"></i></span>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-slate-900">Insulin (Regular)</p>
+                <p class="text-xs font-medium text-amber-600 font-semibold">25/100 vials — Low Stock</p>
+              </div>
+              <div class="flex-1 max-w-[200px] h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500 rounded-full" style="width: 25%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile: Record cards -->
+          <div class="md:hidden space-y-3">
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600"><i class="fas fa-syringe text-sm"></i></span>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-slate-900">IV Saline (0.9%)</p>
+                  <p class="text-xs font-medium text-slate-500">120/200 units</p>
+                  <div class="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-teal-500 rounded-full" style="width: 60%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600"><i class="fas fa-pills text-sm"></i></span>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-slate-900">Acetaminophen 500mg</p>
+                  <p class="text-xs font-medium text-amber-600">45/200 — Low Stock</p>
+                  <div class="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width: 22.5%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600"><i class="fas fa-vial text-sm"></i></span>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-slate-900">Blood Collection Tubes</p>
+                  <p class="text-xs font-medium text-rose-600">8/100 — Critical</p>
+                  <div class="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width: 8%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600"><i class="fas fa-mask-face text-sm"></i></span>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-slate-900">N95 Masks</p>
+                  <p class="text-xs font-medium text-rose-600">5/150 — Critical</p>
+                  <div class="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width: 3.3%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600"><i class="fas fa-bandage text-sm"></i></span>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-slate-900">Gauze Pads (4x4)</p>
+                  <p class="text-xs font-medium text-slate-500">280/300 units</p>
+                  <div class="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-teal-500 rounded-full" style="width: 93%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600"><i class="fas fa-prescription-bottle text-sm"></i></span>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-slate-900">Insulin (Regular)</p>
+                  <p class="text-xs font-medium text-amber-600">25/100 — Low Stock</p>
+                  <div class="mt-1.5 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width: 25%;"></div></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="inventory-item critical">
-          <div class="flex items-center justify-center rounded-xl" style="min-width: 48px; height: 48px; background: rgba(239, 68, 68, 0.2); color: var(--error-red);">
-            <i class="fas fa-vial"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1 text-sm">
-              <strong>Blood Collection Tubes</strong>
-              <span class="text-red-600 text-xs font-semibold">8/100 units — Critical</span>
-            </div>
-            <div class="inventory-progress">
-              <div class="inventory-progress-bar critical" style="width: 8%;"></div>
-            </div>
-          </div>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <button class="saas-elite-btn inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-700 transition-all duration-200 active:scale-95"><i class="fas fa-plus mr-2"></i>Request Reorder</button>
+          <button class="saas-elite-btn inline-flex items-center gap-2 rounded-xl border border-slate-200/60 bg-white/70 backdrop-blur-md px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95"><i class="fas fa-file-export mr-2"></i>Export Report</button>
         </div>
-
-        <div class="inventory-item critical">
-          <div class="flex items-center justify-center rounded-xl" style="min-width: 48px; height: 48px; background: rgba(239, 68, 68, 0.2); color: var(--error-red);">
-            <i class="fas fa-mask-face"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1 text-sm">
-              <strong>N95 Masks</strong>
-              <span class="text-red-600 text-xs font-semibold">5/150 units — Critical</span>
-            </div>
-            <div class="inventory-progress">
-              <div class="inventory-progress-bar critical" style="width: 3.3%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="inventory-item">
-          <div class="flex items-center justify-center rounded-xl" style="min-width: 48px; height: 48px; background: rgba(10, 186, 181, 0.15); color: var(--primary-teal);">
-            <i class="fas fa-bandage"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1 text-sm">
-              <strong>Gauze Pads (4x4)</strong>
-              <span class="text-gray-500 text-xs">280/300 units</span>
-            </div>
-            <div class="inventory-progress">
-              <div class="inventory-progress-bar healthy" style="width: 93%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="inventory-item low-stock">
-          <div class="flex items-center justify-center rounded-xl" style="min-width: 48px; height: 48px; background: rgba(245, 158, 11, 0.2); color: var(--warning-orange);">
-            <i class="fas fa-prescription-bottle"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1 text-sm">
-              <strong>Insulin (Regular)</strong>
-              <span class="text-amber-600 text-xs font-semibold">25/100 vials — Low Stock</span>
-            </div>
-            <div class="inventory-progress">
-              <div class="inventory-progress-bar warning" style="width: 25%;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4 flex flex-wrap gap-2">
-        <button class="btn-primary"><i class="fas fa-plus mr-2"></i>Request Reorder</button>
-        <button class="btn-secondary"><i class="fas fa-file-export mr-2"></i>Export Report</button>
-      </div>
-    </div>
-  </main>
+      </section>
+    </main>
+  </div>
 
   <script src="/js/sidebar-universal.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });
-  </script>
+  <script>document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });</script>
 </body>
 </html>

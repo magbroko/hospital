@@ -4,175 +4,249 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | MediCare – Your Health, Our Priority</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'] },
+          boxShadow: {
+            'elite-soft': '0 8px 30px rgb(0 0 0 / 0.04)',
+            'teal-glow': '0 0 20px rgb(20 184 166 / 0.25)',
+            'teal-glow-strong': '0 0 24px rgb(20 184 166 / 0.35)'
+          }
+        }
+      }
+    };
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/auth.css" rel="stylesheet">
+  <style>
+    .auth-input-elite:focus {
+      border-color: rgb(20 184 166);
+      box-shadow: 0 0 0 3px rgb(20 184 166 / 0.2);
+    }
+    .auth-input-elite.auth-input--error {
+      border-color: rgb(239 68 68);
+      box-shadow: 0 0 0 3px rgb(239 68 68 / 0.2);
+    }
+    @keyframes haptic-shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+      20%, 40%, 60%, 80% { transform: translateX(4px); }
+    }
+    .animate-haptic-shake {
+      animation: haptic-shake 0.5s ease-in-out;
+    }
+  </style>
 </head>
-<body class="auth-page">
+<body class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased flex">
 
-  <div class="auth-container">
-    <!-- Left Panel: Branding & Image -->
-    <aside class="auth-panel auth-panel--brand">
-      <div class="auth-panel__bg">
-        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&h=1080&fit=crop" alt="" role="presentation">
+  <!-- Left Pane: Branding & Mission -->
+  <aside class="hidden lg:flex lg:flex-1 lg:min-h-screen relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&h=1080&fit=crop"
+        alt=""
+        role="presentation"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-teal-900/40 via-slate-900/50 to-slate-900/70"></div>
+    <div class="relative z-10 flex flex-col justify-center px-12 xl:px-16 max-w-lg">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 border border-white/20">
+          <i class="fas fa-heartbeat text-2xl text-white" aria-hidden="true"></i>
+        </span>
       </div>
-      <div class="auth-panel__gradient"></div>
-      <div class="auth-panel__content">
-        <div class="auth-brand">
-          <i class="fas fa-heartbeat auth-brand__icon" aria-hidden="true"></i>
-          <h1 class="auth-brand__title">Welcome to MediCare</h1>
-          <p class="auth-brand__tagline">Your Health, Our Priority</p>
+      <h1 class="text-3xl xl:text-4xl font-bold text-white tracking-tight mb-2">Welcome to MediCare</h1>
+      <p class="text-lg text-white/90 font-medium mb-10">Your Health, Our Priority</p>
+      <ul class="space-y-4" aria-hidden="true">
+        <li class="flex items-center gap-3 text-white/90 text-sm">
+          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
+            <i class="fas fa-shield-halved text-white/95"></i>
+          </span>
+          Secure, HIPAA-compliant access
+        </li>
+        <li class="flex items-center gap-3 text-white/90 text-sm">
+          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
+            <i class="fas fa-user-doctor text-white/95"></i>
+          </span>
+          Role-based dashboards
+        </li>
+        <li class="flex items-center gap-3 text-white/90 text-sm">
+          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
+            <i class="fas fa-clock text-white/95"></i>
+          </span>
+          24/7 availability
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Right Pane: Login Card -->
+  <main class="flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12">
+    <div class="w-full max-w-md">
+      <!-- Glassmorphic Login Card -->
+      <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 p-8 sm:p-10">
+        <!-- Tab Switcher -->
+        <div class="flex gap-1 p-1 rounded-xl bg-slate-100/80 mb-8" role="tablist">
+          <button type="button" class="auth-tab flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 active:scale-95 bg-teal-600 text-white shadow-sm" data-tab="login" role="tab" aria-selected="true">Login</button>
+          <button type="button" class="auth-tab flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm text-slate-500 hover:text-slate-700 transition-all duration-200 active:scale-95" data-tab="register" role="tab" aria-selected="false">Register</button>
         </div>
-        <ul class="auth-features" aria-hidden="true">
-          <li><i class="fas fa-shield-halved"></i> Secure, HIPAA-compliant access</li>
-          <li><i class="fas fa-user-doctor"></i> Role-based dashboards</li>
-          <li><i class="fas fa-clock"></i> 24/7 availability</li>
-        </ul>
-      </div>
-    </aside>
 
-    <!-- Right Panel: Form -->
-    <main class="auth-panel auth-panel--form">
-      <div class="auth-form-wrapper">
-        <div class="auth-form-glass">
-          <!-- Tab Switcher -->
-          <div class="auth-tabs" role="tablist">
-            <button type="button" class="auth-tab auth-tab--active" data-tab="login" role="tab" aria-selected="true">Login</button>
-            <button type="button" class="auth-tab" data-tab="register" role="tab" aria-selected="false">Register</button>
-          </div>
-
-          <!-- Login Form -->
-          <form id="loginForm" class="auth-form auth-form--active" data-form="login">
-            <div class="auth-form__inner">
-              <div class="auth-form-group auth-form-group--float">
-                <input type="email" id="loginEmail" class="auth-input" placeholder=" " autocomplete="email" required>
-                <label for="loginEmail" class="auth-label">Email</label>
-                <span id="loginEmailError" class="auth-error" aria-live="polite"></span>
-              </div>
-
-              <div class="auth-form-group auth-form-group--float">
-                <input type="password" id="loginPassword" class="auth-input" placeholder=" " autocomplete="current-password" required>
-                <label for="loginPassword" class="auth-label">Password</label>
-                <button type="button" class="auth-password-toggle" id="loginPasswordToggle" aria-label="Toggle password visibility">
-                  <i class="fas fa-eye" aria-hidden="true"></i>
-                </button>
-                <span id="loginPasswordError" class="auth-error" aria-live="polite"></span>
-              </div>
-
-              <div class="auth-role-section">
-                <span class="auth-role-label">I am a...</span>
-                <div class="auth-role-select">
-                  <label class="auth-role-option">
-                    <input type="radio" name="role" value="patient" class="auth-role-input" checked>
-                    <span class="auth-role-box"><i class="fas fa-user"></i> Patient</span>
-                  </label>
-                  <label class="auth-role-option">
-                    <input type="radio" name="role" value="admin" class="auth-role-input">
-                    <span class="auth-role-box"><i class="fas fa-user-shield"></i> Admin</span>
-                  </label>
-                  <label class="auth-role-option">
-                    <input type="radio" name="role" value="doctor" class="auth-role-input">
-                    <span class="auth-role-box"><i class="fas fa-user-doctor"></i> Doctor</span>
-                  </label>
-                  <label class="auth-role-option">
-                    <input type="radio" name="role" value="pharmacist" class="auth-role-input">
-                    <span class="auth-role-box"><i class="fas fa-pills"></i> Pharmacist</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="auth-form-row">
-                <label class="auth-checkbox">
-                  <input type="checkbox" id="loginRemember" class="auth-checkbox__input">
-                  <span class="auth-checkbox__box"></span>
-                  Remember Me
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form auth-form--active" data-form="login">
+          <div class="space-y-5">
+            <!-- Role Chips: I AM A... -->
+            <div>
+              <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">I am a...</span>
+              <div class="flex gap-2 flex-wrap">
+                <label class="auth-role-chip flex-1 min-w-[90px] cursor-pointer">
+                  <input type="radio" name="role" value="patient" class="sr-only peer" checked>
+                  <span class="auth-role-chip-box flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-500 bg-slate-100/80 border-2 border-transparent peer-checked:bg-teal-600 peer-checked:text-white peer-checked:border-teal-600 transition-all duration-200 active:scale-95 hover:border-teal-300">
+                    <i class="fas fa-user text-sm"></i> Patient
+                  </span>
                 </label>
-                <a href="#" class="auth-link">Forgot Password?</a>
+                <label class="auth-role-chip flex-1 min-w-[90px] cursor-pointer">
+                  <input type="radio" name="role" value="admin" class="sr-only peer">
+                  <span class="auth-role-chip-box flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-500 bg-slate-100/80 border-2 border-transparent peer-checked:bg-teal-600 peer-checked:text-white peer-checked:border-teal-600 transition-all duration-200 active:scale-95 hover:border-teal-300">
+                    <i class="fas fa-user-shield text-sm"></i> Admin
+                  </span>
+                </label>
+                <label class="auth-role-chip flex-1 min-w-[90px] cursor-pointer">
+                  <input type="radio" name="role" value="pharmacist" class="sr-only peer">
+                  <span class="auth-role-chip-box flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-500 bg-slate-100/80 border-2 border-transparent peer-checked:bg-teal-600 peer-checked:text-white peer-checked:border-teal-600 transition-all duration-200 active:scale-95 hover:border-teal-300">
+                    <i class="fas fa-pills text-sm"></i> Pharmacist
+                  </span>
+                </label>
               </div>
-
-              <button type="submit" class="auth-btn auth-btn--primary auth-btn--secure">
-                <i class="fas fa-shield-halved auth-btn__icon"> </i>
-                <span>Login</span>
-              </button>
             </div>
-          </form>
 
-          <!-- Register Form -->
-          <form id="registerForm" class="auth-form" data-form="register" hidden>
-            <div class="auth-form__inner">
-              <div class="auth-form-group auth-form-group--float">
-                <input type="text" id="registerName" class="auth-input" placeholder=" " autocomplete="name" required>
-                <label for="registerName" class="auth-label">Full Name</label>
-                <span id="registerNameError" class="auth-error" aria-live="polite"></span>
+            <!-- Patient Fields -->
+            <div id="patientFields" class="auth-field-group space-y-4">
+              <div>
+                <label for="loginFirstName" class="block text-xs font-medium text-slate-500 mb-1.5">First Name</label>
+                <input type="text" id="loginFirstName" class="auth-input-elite w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-slate-50/50 text-slate-900 placeholder-slate-400 transition-all duration-200 focus:outline-none" placeholder="Enter your first name" autocomplete="given-name">
+                <span id="loginFirstNameError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]" aria-live="polite"></span>
               </div>
-
-              <div class="auth-form-group auth-form-group--float">
-                <input type="email" id="registerEmail" class="auth-input" placeholder=" " autocomplete="email" required>
-                <label for="registerEmail" class="auth-label">Email</label>
-                <span id="registerEmailError" class="auth-error" aria-live="polite"></span>
+              <div>
+                <label for="loginPhone" class="block text-xs font-medium text-slate-500 mb-1.5">Phone Number</label>
+                <input type="tel" id="loginPhone" class="auth-input-elite w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-slate-50/50 text-slate-900 placeholder-slate-400 transition-all duration-200 focus:outline-none" placeholder="e.g. 555-123-4567" autocomplete="tel">
+                <span id="loginPhoneError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]" aria-live="polite"></span>
               </div>
-
-              <div class="auth-form-group auth-form-group--float">
-                <input type="password" id="registerPassword" class="auth-input" placeholder=" " autocomplete="new-password" required>
-                <label for="registerPassword" class="auth-label">Password</label>
-                <button type="button" class="auth-password-toggle" id="registerPasswordToggle" aria-label="Toggle password visibility">
-                  <i class="fas fa-eye" aria-hidden="true"></i>
-                </button>
-                <div class="auth-password-strength">
-                  <div class="auth-password-strength__bar" id="passwordStrengthBar" data-strength="none"></div>
-                </div>
-                <span id="registerPasswordError" class="auth-error" aria-live="polite"></span>
-              </div>
-
-              <div class="auth-form-group auth-form-group--float">
-                <input type="password" id="registerConfirm" class="auth-input" placeholder=" " autocomplete="new-password" required>
-                <label for="registerConfirm" class="auth-label">Confirm Password</label>
-                <button type="button" class="auth-password-toggle" id="registerConfirmToggle" aria-label="Toggle password visibility">
-                  <i class="fas fa-eye" aria-hidden="true"></i>
-                </button>
-                <span id="registerConfirmError" class="auth-error" aria-live="polite"></span>
-              </div>
-
-              <div class="auth-role-section">
-                <span class="auth-role-label">I am a...</span>
-                <div class="auth-role-select">
-                  <label class="auth-role-option">
-                    <input type="radio" name="roleRegister" value="patient" class="auth-role-input" checked>
-                    <span class="auth-role-box"><i class="fas fa-user"></i> Patient</span>
-                  </label>
-                  <label class="auth-role-option">
-                    <input type="radio" name="roleRegister" value="admin" class="auth-role-input">
-                    <span class="auth-role-box"><i class="fas fa-user-shield"></i> Admin</span>
-                  </label>
-                  <label class="auth-role-option">
-                    <input type="radio" name="roleRegister" value="doctor" class="auth-role-input">
-                    <span class="auth-role-box"><i class="fas fa-user-doctor"></i> Doctor</span>
-                  </label>
-                  <label class="auth-role-option">
-                    <input type="radio" name="roleRegister" value="pharmacist" class="auth-role-input">
-                    <span class="auth-role-box"><i class="fas fa-pills"></i> Pharmacist</span>
-                  </label>
-                </div>
-              </div>
-
-              <button type="submit" class="auth-btn auth-btn--primary">
-                <i class="fas fa-user-plus auth-btn__icon"> </i>
-                <span>Create Account</span>
-              </button>
             </div>
-          </form>
 
-          <p class="auth-footer">
-            <span id="authFooterText">Don't have an account?</span>
-            <a href="#" class="auth-link auth-link--muted" id="authSwitchLink">Register</a>
-          </p>
-        </div>
+            <!-- Staff Fields -->
+            <div id="staffFields" class="auth-field-group hidden space-y-4">
+              <div>
+                <label for="loginStaffId" class="block text-xs font-medium text-slate-500 mb-1.5">Staff ID</label>
+                <input type="text" id="loginStaffId" class="auth-input-elite w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-slate-50/50 text-slate-900 placeholder-slate-400 transition-all duration-200 focus:outline-none" placeholder="Admin: STF-ADM-001 / Pharmacist: STF-PHM-001" autocomplete="username">
+                <span id="loginStaffIdError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]" aria-live="polite"></span>
+              </div>
+              <div>
+                <label for="loginPassword" class="block text-xs font-medium text-slate-500 mb-1.5">Password</label>
+                <div class="relative">
+                  <input type="password" id="loginPassword" class="auth-input-elite w-full px-4 py-3 pr-12 rounded-xl border border-slate-200/80 bg-slate-50/50 text-slate-900 placeholder-slate-400 transition-all duration-200 focus:outline-none" placeholder="Admin: admin123 / Pharmacist: pharmacy123" autocomplete="current-password">
+                  <button type="button" id="loginPasswordToggle" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600 transition-colors" aria-label="Toggle password visibility">
+                    <i class="fas fa-eye text-sm"></i>
+                  </button>
+                </div>
+                <span id="loginPasswordError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
+                <input type="checkbox" id="loginRemember" class="rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                Remember Me
+              </label>
+              <a href="#" class="text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">Forgot Password?</a>
+            </div>
+
+            <button type="submit" id="loginSubmitBtn" class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-teal-600 to-emerald-600 shadow-lg shadow-teal-500/25 hover:shadow-teal-500/30 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
+              <i class="fas fa-lock text-sm"></i>
+              <span>Sign In</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="auth-form hidden" data-form="register">
+          <div class="space-y-5">
+            <div>
+              <label for="registerName" class="block text-xs font-medium text-slate-500 mb-1.5">Full Name</label>
+              <input type="text" id="registerName" class="auth-input-elite w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-slate-50/50" placeholder="Enter your full name" autocomplete="name">
+              <span id="registerNameError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]"></span>
+            </div>
+            <div>
+              <label for="registerEmail" class="block text-xs font-medium text-slate-500 mb-1.5">Email</label>
+              <input type="email" id="registerEmail" class="auth-input-elite w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-slate-50/50" placeholder="Enter your email" autocomplete="email">
+              <span id="registerEmailError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]"></span>
+            </div>
+            <div>
+              <label for="registerPassword" class="block text-xs font-medium text-slate-500 mb-1.5">Password</label>
+              <div class="relative">
+                <input type="password" id="registerPassword" class="auth-input-elite w-full px-4 py-3 pr-12 rounded-xl border border-slate-200/80 bg-slate-50/50" placeholder="Min 6 characters" autocomplete="new-password">
+                <button type="button" id="registerPasswordToggle" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+              </div>
+              <div class="h-1 mt-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div id="passwordStrengthBar" class="h-full rounded-full transition-all duration-300 w-0 bg-rose-500" data-strength="none"></div>
+              </div>
+              <span id="registerPasswordError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]"></span>
+            </div>
+            <div>
+              <label for="registerConfirm" class="block text-xs font-medium text-slate-500 mb-1.5">Confirm Password</label>
+              <div class="relative">
+                <input type="password" id="registerConfirm" class="auth-input-elite w-full px-4 py-3 pr-12 rounded-xl border border-slate-200/80 bg-slate-50/50" placeholder="Confirm password" autocomplete="new-password">
+                <button type="button" id="registerConfirmToggle" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+              </div>
+              <span id="registerConfirmError" class="block text-xs text-rose-500 mt-1 min-h-[1rem]"></span>
+            </div>
+            <div>
+              <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">I am a...</span>
+              <div class="flex gap-2 flex-wrap">
+                <label class="flex-1 min-w-[90px] cursor-pointer">
+                  <input type="radio" name="roleRegister" value="patient" class="sr-only peer" checked>
+                  <span class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-500 bg-slate-100/80 border-2 border-transparent peer-checked:bg-teal-600 peer-checked:text-white transition-all duration-200">
+                    <i class="fas fa-user text-sm"></i> Patient
+                  </span>
+                </label>
+                <label class="flex-1 min-w-[90px] cursor-pointer">
+                  <input type="radio" name="roleRegister" value="admin" class="sr-only peer">
+                  <span class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-500 bg-slate-100/80 border-2 border-transparent peer-checked:bg-teal-600 peer-checked:text-white transition-all duration-200">
+                    <i class="fas fa-user-shield text-sm"></i> Admin
+                  </span>
+                </label>
+                <label class="flex-1 min-w-[90px] cursor-pointer">
+                  <input type="radio" name="roleRegister" value="pharmacist" class="sr-only peer">
+                  <span class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium text-slate-500 bg-slate-100/80 border-2 border-transparent peer-checked:bg-teal-600 peer-checked:text-white transition-all duration-200">
+                    <i class="fas fa-pills text-sm"></i> Pharmacist
+                  </span>
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-teal-600 to-emerald-600 shadow-lg shadow-teal-500/25 hover:shadow-teal-500/30 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
+              <i class="fas fa-user-plus text-sm"></i>
+              <span>Create Account</span>
+            </button>
+          </div>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-slate-600">
+          <span id="authFooterText">Don't have an account?</span>
+          <a href="#" class="font-medium text-teal-600 hover:text-teal-700 ml-1 transition-colors" id="authSwitchLink">Register</a>
+        </p>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <script src="../js/auth.js"></script>
 </body>

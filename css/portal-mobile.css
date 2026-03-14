@@ -653,6 +653,7 @@
   pointer-events: none;
 }
 
+/* backdrop-blur-md bg-slate-900/40 */
 .pharmacy-modal-backdrop {
   position: absolute;
   inset: 0;
@@ -662,11 +663,12 @@
   cursor: pointer;
 }
 
+/* Desktop: fixed center, max-w-lg, rounded-2xl, shadow-2xl */
 .pharmacy-modal-panel {
   position: relative;
   width: 100%;
   max-width: 32rem;
-  max-height: calc(100vh - 2rem);
+  max-height: min(calc(100vh - 2rem), calc(100dvh - 2rem));
   background: white;
   border-radius: 1rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -709,11 +711,14 @@
   background: #f1f5f9;
 }
 
+/* Scrollable when keyboard is active on mobile */
 .pharmacy-modal-body {
   padding: 1.5rem;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
   min-height: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pharmacy-form-group {
@@ -755,22 +760,23 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* focus:ring-2 focus:ring-teal-500/20 transition */
 .pharmacy-input:focus {
   outline: none;
-  border-color: #0d9488;
-  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
 }
 
 .pharmacy-input.pharmacy-input-invalid {
-  border-color: #ef4444;
+  border-color: rgb(244 63 94); /* Tailwind rose-500 */
 }
 
 .pharmacy-input.pharmacy-input-invalid:focus {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2);
 }
 
 .pharmacy-input.pharmacy-input-valid {
-  border-color: #10b981;
+  border-color: rgb(16 185 129); /* Tailwind emerald-500 */
 }
 
 .pharmacy-input.pharmacy-input-valid:focus {
@@ -872,7 +878,7 @@
   }
 }
 
-/* Mobile: Bottom Sheet style */
+/* Mobile: Slide-up Bottom Sheet for thumb reach */
 @media (max-width: 767px) {
   .pharmacy-modal {
     align-items: flex-end;
@@ -880,9 +886,14 @@
   }
 
   .pharmacy-modal-panel {
-    max-height: 85vh;
+    max-height: min(85vh, 85dvh);
     border-radius: 1rem 1rem 0 0;
     transform: translateY(100%);
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .pharmacy-modal-body {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
   }
 
   .pharmacy-modal-open .pharmacy-modal-panel {

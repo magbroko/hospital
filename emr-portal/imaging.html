@@ -135,7 +135,13 @@
     <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
     <a href="billing.html"><i class="fas fa-receipt"></i> Billing</a>
   </nav>
+    </div>
+  </div>
 
+  <script src="/js/sidebar-universal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('patient'); });
+  </script>
   <script>
     let zoom = 1;
     const lightbox = document.getElementById('imagingLightbox');

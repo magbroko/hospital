@@ -10,142 +10,167 @@
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-            display: ['Montserrat', 'Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-          }
+          fontFamily: { sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'] }
         }
       }
     };
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/admin-dashboard.css" rel="stylesheet">
-  <link href="../css/admin-portal.css" rel="stylesheet">
-  <link href="../css/portal-mobile.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin-dashboard.css" rel="stylesheet">
+  <link href="/css/admin-portal.css" rel="stylesheet">
+  <link href="/css/portal-mobile.css" rel="stylesheet">
+  <link href="/css/hms-design-system.css" rel="stylesheet">
   <link href="/css/sidebar-universal.css" rel="stylesheet">
 </head>
-<body data-auth-required="staff" class="bg-slate-50 font-sans text-slate-900">
+<body data-auth-required="staff" class="bg-slate-50 font-sans text-slate-900 antialiased">
 
-  <script src="../js/hms-rbac.js"></script>
-  <script src="../js/auth-guard.js"></script>
+  <script src="/js/hms-rbac.js"></script>
+  <script src="/js/auth-guard.js"></script>
 
-  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden"
-       id="adminOverlay" aria-hidden="true"></div>
+  <div class="admin-overlay command-drawer-overlay fixed inset-0 z-30 opacity-0 pointer-events-none transition-opacity lg:hidden" id="adminOverlay" aria-hidden="true"></div>
 
   <div class="min-h-screen flex">
-    <!-- Universal Master Sidebar - Admin Console (loaded from partial) -->
-    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800" style="background-color: #0f172a;">
+    <aside class="sidebar command-drawer universal-sidebar-wrapper fixed inset-y-0 left-0 z-40 w-72 h-screen text-slate-100 flex flex-col border-r border-slate-800/60" style="background-color: #0f172a;">
       <div id="sidebar-container" class="flex flex-col flex-1 min-h-0"></div>
     </aside>
 
     <main class="flex-1 lg:ml-72 min-h-screen flex flex-col">
-    <header class="admin-mobile-header lg:hidden">
-      <span class="admin-header-logo">MediCare</span>
-      <span class="admin-header-title">Lab Orders</span>
-      <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
-        <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </header>
-    <div class="top-bar hidden lg:block">
-      <div>
-        <h1 class="text-lg font-semibold mb-0">Lab Orders</h1>
-        <p class="text-xs text-gray-500 mb-0">Authorize and track laboratory orders</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <div class="relative">
-          <i class="fas fa-bell fa-lg text-gray-500"></i>
-          <span class="absolute -top-1 -right-1 inline-flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5">8</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="rounded-full flex items-center justify-center text-white font-bold" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-teal), var(--secondary-teal));">SJ</div>
+      <header class="admin-mobile-header lg:hidden sticky top-0 z-20 bg-white/70 backdrop-blur-md border-b border-slate-200/60">
+        <span class="admin-header-logo">MediCare</span>
+        <span class="admin-header-title">Lab Orders</span>
+        <button class="admin-sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle menu">
+          <svg class="admin-hamburger-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </header>
+      <header class="sticky top-0 z-20 hidden lg:flex bg-white/70 backdrop-blur-md border-b border-slate-200/60 px-6 py-4">
+        <div class="flex items-center justify-between w-full">
           <div>
-            <div class="text-xs font-semibold">Dr. Sarah Johnson</div>
-            <div class="text-[11px] text-gray-500">Staff ID: SJ-2024</div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">Lab Orders</h1>
+            <p class="text-xs font-medium text-slate-500 mt-0.5">Authorize and track laboratory orders</p>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="p-4">
-      <div class="flex flex-wrap gap-2 mb-4 text-xs">
-        <button class="px-3 py-1.5 rounded-full border border-blue-500 text-blue-600 bg-blue-50 font-semibold">Pending (8)</button>
-        <button class="px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 bg-white font-medium">Approved</button>
-        <button class="px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 bg-white font-medium">Completed</button>
-      </div>
-
-      <div class="stat-card">
-        <h2 class="text-sm font-semibold mb-4">Pending Authorization</h2>
-
-        <div class="workflow-card pending">
-          <div class="flex flex-wrap justify-between items-start gap-3">
-            <div>
-              <h5 class="mb-1 text-sm font-semibold">Complete Blood Count (CBC)</h5>
-              <p class="mb-0 text-xs text-gray-600">Patient: Robert Johnson (RJ-20240524) • Ordered: Dr. James Smith</p>
-              <p class="mb-0 text-xs text-gray-600 mt-1">Priority: Routine • Due: Today</p>
+          <div class="flex items-center gap-4">
+            <div class="relative">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100/80 text-slate-500"><i class="fas fa-bell text-sm"></i></span>
+              <span class="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-semibold text-white">8</span>
             </div>
-            <div class="flex gap-2">
-              <button class="btn-primary btn-sm">Authorize</button>
-              <button class="btn-secondary btn-sm">View Details</button>
+            <div class="flex items-center gap-2">
+              <div class="h-10 w-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-semibold text-sm">SJ</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Dr. Sarah Johnson</p>
+                <p class="text-xs font-medium text-slate-500">Staff ID: SJ-2024</p>
+              </div>
             </div>
           </div>
         </div>
+      </header>
 
-        <div class="workflow-card pending">
-          <div class="flex flex-wrap justify-between items-start gap-3">
-            <div>
-              <h5 class="mb-1 text-sm font-semibold">Lipid Panel</h5>
-              <p class="mb-0 text-xs text-gray-600">Patient: David Chen (DC-20240201) • Ordered: Dr. Sarah Johnson</p>
-              <p class="mb-0 text-xs text-gray-600 mt-1">Priority: Routine • Due: Tomorrow</p>
+      <section class="flex-1 p-4 md:p-6">
+        <div class="flex flex-wrap gap-2 mb-6 text-xs">
+          <button class="saas-elite-btn rounded-full border border-teal-500 bg-teal-50 px-3 py-1.5 font-semibold text-teal-700 transition-all duration-200 active:scale-95">Pending (8)</button>
+          <button class="saas-elite-btn rounded-full border border-slate-200/60 bg-white/70 px-3 py-1.5 font-medium text-slate-600 hover:bg-slate-50 transition-all duration-200 active:scale-95">Approved</button>
+          <button class="saas-elite-btn rounded-full border border-slate-200/60 bg-white/70 px-3 py-1.5 font-medium text-slate-600 hover:bg-slate-50 transition-all duration-200 active:scale-95">Completed</button>
+        </div>
+
+        <div class="saas-elite-card p-6 border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <h2 class="text-lg font-bold tracking-tight text-slate-900 mb-6 flex items-center gap-2">
+            <span class="saas-elite-icon-wrap"><i class="fas fa-flask text-sm"></i></span>
+            Pending Authorization
+          </h2>
+
+          <!-- Desktop: Airy rows -->
+          <div class="hidden md:block divide-y-0 space-y-2">
+            <div class="saas-elite-row flex flex-wrap items-center justify-between gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <div>
+                <h5 class="font-semibold text-slate-900">Complete Blood Count (CBC)</h5>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Patient: Robert Johnson (RJ-20240524) · Ordered: Dr. James Smith</p>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Priority: Routine · Due: Today</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="saas-elite-btn rounded-lg bg-teal-600 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn rounded-lg border border-slate-200/60 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">View Details</button>
+              </div>
             </div>
-            <div class="flex gap-2">
-              <button class="btn-primary btn-sm">Authorize</button>
-              <button class="btn-secondary btn-sm">View Details</button>
+            <div class="saas-elite-row flex flex-wrap items-center justify-between gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <div>
+                <h5 class="font-semibold text-slate-900">Lipid Panel</h5>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Patient: David Chen (DC-20240201) · Ordered: Dr. Sarah Johnson</p>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Priority: Routine · Due: Tomorrow</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="saas-elite-btn rounded-lg bg-teal-600 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn rounded-lg border border-slate-200/60 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">View Details</button>
+              </div>
+            </div>
+            <div class="saas-elite-row flex flex-wrap items-center justify-between gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <div>
+                <h5 class="font-semibold text-slate-900">Hemoglobin A1C</h5>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Patient: Margaret Johnson (MJ-20240115) · Ordered: Dr. Emily Davis</p>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Priority: Stat · Due: Today</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="saas-elite-btn rounded-lg bg-teal-600 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn rounded-lg border border-slate-200/60 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">View Details</button>
+              </div>
+            </div>
+            <div class="saas-elite-row flex flex-wrap items-center justify-between gap-4 py-4 px-4 rounded-xl hover:bg-slate-50 transition-all duration-200">
+              <div>
+                <h5 class="font-semibold text-slate-900">Thyroid Function (TSH, T4)</h5>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Patient: Emily Rodriguez (ER-20240210) · Ordered: Dr. James Smith</p>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Priority: Routine · Due: Mar 1</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="saas-elite-btn rounded-lg bg-teal-600 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn rounded-lg border border-slate-200/60 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">View Details</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile: Record cards -->
+          <div class="md:hidden space-y-3">
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <h5 class="font-semibold text-slate-900">Complete Blood Count (CBC)</h5>
+              <p class="text-xs font-medium text-slate-500 mt-1">Robert Johnson · Dr. James Smith · Routine · Today</p>
+              <div class="mt-3 flex gap-2">
+                <button class="saas-elite-btn flex-1 rounded-lg bg-teal-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn flex-1 rounded-lg border border-slate-200/60 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">Details</button>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <h5 class="font-semibold text-slate-900">Lipid Panel</h5>
+              <p class="text-xs font-medium text-slate-500 mt-1">David Chen · Dr. Sarah Johnson · Routine · Tomorrow</p>
+              <div class="mt-3 flex gap-2">
+                <button class="saas-elite-btn flex-1 rounded-lg bg-teal-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn flex-1 rounded-lg border border-slate-200/60 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">Details</button>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <h5 class="font-semibold text-slate-900">Hemoglobin A1C</h5>
+              <p class="text-xs font-medium text-slate-500 mt-1">Margaret Johnson · Dr. Emily Davis · Stat · Today</p>
+              <div class="mt-3 flex gap-2">
+                <button class="saas-elite-btn flex-1 rounded-lg bg-teal-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn flex-1 rounded-lg border border-slate-200/60 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">Details</button>
+              </div>
+            </div>
+            <div class="saas-elite-card p-4 border border-slate-200/60 rounded-xl">
+              <h5 class="font-semibold text-slate-900">Thyroid Function (TSH, T4)</h5>
+              <p class="text-xs font-medium text-slate-500 mt-1">Emily Rodriguez · Dr. James Smith · Routine · Mar 1</p>
+              <div class="mt-3 flex gap-2">
+                <button class="saas-elite-btn flex-1 rounded-lg bg-teal-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 transition-all duration-200 active:scale-95">Authorize</button>
+                <button class="saas-elite-btn flex-1 rounded-lg border border-slate-200/60 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200 active:scale-95">Details</button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="workflow-card pending">
-          <div class="flex flex-wrap justify-between items-start gap-3">
-            <div>
-              <h5 class="mb-1 text-sm font-semibold">Hemoglobin A1C</h5>
-              <p class="mb-0 text-xs text-gray-600">Patient: Margaret Johnson (MJ-20240115) • Ordered: Dr. Emily Davis</p>
-              <p class="mb-0 text-xs text-gray-600 mt-1">Priority: Stat • Due: Today</p>
-            </div>
-            <div class="flex gap-2">
-              <button class="btn-primary btn-sm">Authorize</button>
-              <button class="btn-secondary btn-sm">View Details</button>
-            </div>
-          </div>
+        <div class="mt-6">
+          <button class="saas-elite-btn inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-700 transition-all duration-200 active:scale-95"><i class="fas fa-plus mr-2"></i>New Lab Order</button>
         </div>
-
-        <div class="workflow-card pending">
-          <div class="flex flex-wrap justify-between items-start gap-3">
-            <div>
-              <h5 class="mb-1 text-sm font-semibold">Thyroid Function (TSH, T4)</h5>
-              <p class="mb-0 text-xs text-gray-600">Patient: Emily Rodriguez (ER-20240210) • Ordered: Dr. James Smith</p>
-              <p class="mb-0 text-xs text-gray-600 mt-1">Priority: Routine • Due: Mar 1</p>
-            </div>
-            <div class="flex gap-2">
-              <button class="btn-primary btn-sm">Authorize</button>
-              <button class="btn-secondary btn-sm">View Details</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <button class="btn-primary"><i class="fas fa-plus mr-2"></i>New Lab Order</button>
-      </div>
-    </div>
-  </main>
+      </section>
+    </main>
   </div>
 
   <script src="/js/sidebar-universal.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });
-  </script>
+  <script>document.addEventListener('DOMContentLoaded', function () { if (window.loadSidebar) loadSidebar('admin'); });</script>
 </body>
 </html>

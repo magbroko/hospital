@@ -63,6 +63,7 @@ function wireBackup() {
           billing: state.billing,
           patientBills: state.patientBills,
           transactionLedger: state.transactionLedger,
+          dispensedReceipts: state.dispensedReceipts,
           expenses: state.expenses,
           caseNotes: state.caseNotes,
           appointments: state.appointments,
